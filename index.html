@@ -385,9 +385,9 @@
           <i class="fa-solid fa-wand-magic-sparkles"></i>
         </button>
 
-        <!-- Discreet Author Login / Lock Trigger -->
-        <button id="author-lock-btn" onclick="authorAuth.openModal()" class="w-9 h-9 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-[var(--ink-muted)] hover:text-[var(--accent)] transition-all text-sm shadow-sm" title="Dành riêng cho tác giả (Ctrl+Shift+A)">
-          <i class="fa-solid fa-key text-xs"></i>
+        <!-- Discreet Author Lock Trigger: Chỉ hiện khi ĐÃ đăng nhập tác giả để khóa lại, mặc định ẩn hoàn toàn với khách -->
+        <button id="author-lock-btn" onclick="authorAuth.lock()" class="hidden w-9 h-9 rounded-full border border-[var(--border-ink)] items-center justify-center text-[var(--accent)] hover:text-red-500 transition-all text-sm shadow-sm" title="Đang mở quyền tác giả (Bấm để khóa lại)">
+          <i class="fa-solid fa-lock-open text-xs"></i>
         </button>
 
         <!-- Theme Picker Popover -->
@@ -499,6 +499,12 @@
       </div>
 
       <div class="flex items-center flex-wrap gap-2.5 text-xs font-sans">
+        <!-- Change Password Button -->
+        <button onclick="authorAuth.openChangePwdModal()" class="px-3 py-2 rounded-2xl border border-[var(--border-ink)] bg-[var(--bg)]/40 hover:border-[var(--accent)] transition-all flex items-center gap-1.5 text-[var(--ink-muted)] hover:text-[var(--ink)]" title="Đổi mật mã tác giả">
+          <i class="fa-solid fa-shield-halved text-[var(--accent)]"></i>
+          <span>Đổi mật mã</span>
+        </button>
+
         <!-- Live Preview Toggle -->
         <button onclick="editorStudio.toggleSplitPreview()" id="btn-split-toggle" class="px-3.5 py-2 rounded-2xl border border-[var(--border-ink)] bg-[var(--bg)]/40 hover:border-[var(--accent)] transition-all flex items-center gap-1.5">
           <i class="fa-solid fa-columns"></i>
@@ -895,13 +901,32 @@
       <p class="font-sans text-xs text-[var(--ink-muted)] mb-5">Nhập mật mã để mở Xưởng Viết và quản lý tác phẩm.</p>
       
       <form onsubmit="authorAuth.verify(event)" class="space-y-3">
-        <input type="password" id="author-pass-input" placeholder="Mật mã tác giả..." class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2.5 text-xs font-sans text-center tracking-widest focus:outline-none focus:border-[var(--accent)]" autocomplete="current-password">
+        <input type="password" id="author-pass-input" placeholder="••••••••" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2.5 text-xs font-sans text-center tracking-widest focus:outline-none focus:border-[var(--accent)]" autocomplete="current-password">
         <div class="flex items-center gap-2 pt-2">
           <button type="button" onclick="authorAuth.closeModal()" class="w-1/2 py-2 rounded-2xl border border-[var(--border-ink)] text-xs font-sans">Đóng</button>
           <button type="submit" class="w-1/2 py-2 rounded-2xl bg-[var(--accent)] text-white text-xs font-sans font-semibold hover:opacity-90">Mở Khóa</button>
         </div>
       </form>
-      <p class="text-[10px] text-[var(--ink-muted)] mt-4 font-mono">Mẹo: Mật khẩu khởi tạo ban đầu là <strong>hienvang</strong></p>
+    </div>
+  </div>
+
+  <!-- MODAL: CHANGE PASSWORD -->
+  <div id="change-pwd-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <h3 class="font-display text-xl font-bold mb-1">Đổi Mật Mã Tác Giả</h3>
+      <p class="font-sans text-xs text-[var(--ink-muted)] mb-4">Mật mã mới sẽ được mã hóa chuẩn SHA-256 an toàn.</p>
+      
+      <form onsubmit="authorAuth.submitChangePassword(event)" class="space-y-3">
+        <input type="password" id="current-pwd-input" placeholder="Mật mã hiện tại..." class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2 text-xs font-sans text-center focus:outline-none focus:border-[var(--accent)]">
+        <input type="password" id="new-pwd-input" placeholder="Mật mã mới..." class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2 text-xs font-sans text-center focus:outline-none focus:border-[var(--accent)]">
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" onclick="authorAuth.closeChangePwdModal()" class="w-1/2 py-2 rounded-2xl border border-[var(--border-ink)] text-xs font-sans">Hủy</button>
+          <button type="submit" class="w-1/2 py-2 rounded-2xl bg-[var(--accent)] text-white text-xs font-sans font-semibold hover:opacity-90">Lưu Mật Mã</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -1062,21 +1087,36 @@
     ];
 
     /**
-     * Author Authentication & Access Control (Headless Protection)
+     * SHA-256 Helper (Web Crypto API)
+     */
+    async function hashString(str) {
+      const buffer = new TextEncoder().encode(str);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    /**
+     * Author Authentication & Access Control (SHA-256 Protected & Headless)
      */
     class AuthorAuth {
       constructor() {
         this.modal = document.getElementById('author-auth-modal');
         this.input = document.getElementById('author-pass-input');
+        this.pwdModal = document.getElementById('change-pwd-modal');
         this.isAuthor = false;
         this.storageKey = 'hienvang_author_session';
-        this.passKey = 'hienvang_secret_pwd';
+        this.hashKey = 'hienvang_pwd_sha256';
+        // SHA-256 hash của mật mã mặc định "hienvang"
+        this.defaultHash = '177bb32997aa7e80a061483ceb98d4513813876e62c4749f99aa1296c14101e6';
+        this.logoClickCount = 0;
+        this.logoClickTimer = null;
         this.init();
       }
 
       init() {
-        if (!localStorage.getItem(this.passKey)) {
-          localStorage.setItem(this.passKey, 'hienvang');
+        if (!localStorage.getItem(this.hashKey)) {
+          localStorage.setItem(this.hashKey, this.defaultHash);
         }
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -1084,8 +1124,9 @@
           this.setAuthorState(true);
         }
 
+        // Secret shortcut: Ctrl + Shift + A (hoặc Cmd + Shift + A trên Mac)
         window.addEventListener('keydown', (e) => {
-          if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+          if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
             e.preventDefault();
             if (this.isAuthor) {
               app.navigateTo('studio');
@@ -1094,6 +1135,26 @@
             }
           }
         });
+
+        // Secret Easter Egg: Click 3 lần liên tiếp vào logo HIÊN VẮNG
+        const logo = document.querySelector('header h1');
+        if (logo) {
+          logo.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.logoClickCount++;
+            clearTimeout(this.logoClickTimer);
+            if (this.logoClickCount >= 3) {
+              this.logoClickCount = 0;
+              if (this.isAuthor) {
+                app.navigateTo('studio');
+              } else {
+                this.openModal();
+              }
+            } else {
+              this.logoClickTimer = setTimeout(() => { this.logoClickCount = 0; }, 600);
+            }
+          });
+        }
       }
 
       openModal() {
@@ -1112,19 +1173,22 @@
         this.input.value = '';
       }
 
-      verify(e) {
+      async verify(e) {
         e.preventDefault();
         const pwd = this.input.value.trim();
-        const storedPwd = localStorage.getItem(this.passKey);
+        if (!pwd) return;
 
-        if (pwd === storedPwd) {
+        const hashedInput = await hashString(pwd);
+        const storedHash = localStorage.getItem(this.hashKey) || this.defaultHash;
+
+        if (hashedInput === storedHash) {
           this.setAuthorState(true);
           sessionStorage.setItem(this.storageKey, 'true');
           this.closeModal();
-          app.showToast("Chào mừng Tác giả! Đã mở quyền Xưởng Viết.");
+          app.showToast("Đã xác thực thành công! Mở quyền tác giả.");
           app.navigateTo('studio');
         } else {
-          app.showToast("Mật mã không đúng. Vui lòng thử lại!");
+          app.showToast("Mật mã không đúng.");
           this.input.value = '';
           this.input.focus();
         }
@@ -1137,20 +1201,57 @@
 
         if (active) {
           studioBtn.classList.remove('hidden');
-          lockBtn.innerHTML = '<i class="fa-solid fa-lock-open text-[var(--accent)]"></i>';
-          lockBtn.title = "Đang mở quyền tác giả (Bấm để vào Xưởng)";
+          lockBtn.classList.remove('hidden');
+          lockBtn.classList.add('flex');
         } else {
           studioBtn.classList.add('hidden');
-          lockBtn.innerHTML = '<i class="fa-solid fa-key text-xs"></i>';
-          lockBtn.title = "Dành riêng cho tác giả (Ctrl+Shift+A)";
+          lockBtn.classList.add('hidden');
+          lockBtn.classList.remove('flex');
         }
       }
 
       lock() {
         this.setAuthorState(false);
         sessionStorage.removeItem(this.storageKey);
-        app.showToast("Đã khóa Xưởng Viết. Quay về chế độ độc giả.");
+        app.showToast("Đã khóa Xưởng Viết. Trở về chế độ độc giả.");
         app.navigateTo('blog');
+      }
+
+      openChangePwdModal() {
+        this.pwdModal.classList.remove('hidden');
+        this.pwdModal.classList.add('flex');
+        document.getElementById('current-pwd-input').value = '';
+        document.getElementById('new-pwd-input').value = '';
+        setTimeout(() => document.getElementById('current-pwd-input').focus(), 100);
+      }
+
+      closeChangePwdModal() {
+        this.pwdModal.classList.add('hidden');
+        this.pwdModal.classList.remove('flex');
+      }
+
+      async submitChangePassword(e) {
+        e.preventDefault();
+        const currentPwd = document.getElementById('current-pwd-input').value.trim();
+        const newPwd = document.getElementById('new-pwd-input').value.trim();
+
+        if (!currentPwd || !newPwd) {
+          app.showToast("Vui lòng điền đầy đủ cả hai trường.");
+          return;
+        }
+
+        const hashedCurrent = await hashString(currentPwd);
+        const storedHash = localStorage.getItem(this.hashKey) || this.defaultHash;
+
+        if (hashedCurrent !== storedHash) {
+          app.showToast("Mật mã hiện tại không chính xác.");
+          return;
+        }
+
+        const hashedNew = await hashString(newPwd);
+        localStorage.setItem(this.hashKey, hashedNew);
+        this.closeChangePwdModal();
+        app.showToast("Đã đổi mật mã tác giả thành công!");
       }
     }
 
