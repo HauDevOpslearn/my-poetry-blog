@@ -504,6 +504,11 @@
           <button type="button" onclick="authorAuth.closeModal()" class="w-1/2 py-2.5 rounded-lg border border-[var(--border)] text-[var(--fg-muted)] hover:border-[var(--fg)]">ĐÓNG</button>
           <button type="submit" class="w-1/2 py-2.5 rounded-lg bg-[var(--fg)] text-[var(--bg)] font-bold tracking-wider hover:opacity-90">MỞ KHÓA</button>
         </div>
+        <div class="pt-2">
+          <button type="button" onclick="authorAuth.resetDefaultPassword()" class="text-[10px] text-[var(--fg-muted)] underline hover:text-[var(--accent)]">
+            Khôi phục mật mã gốc (hienvang)
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -802,20 +807,28 @@
         const pwd = this.input.value.trim();
         if (!pwd) return;
 
+        // Cho phép nhận trực tiếp mật khẩu mặc định hoặc mã hash
         const hashed = await hashString(pwd);
         const stored = localStorage.getItem(this.hashKey) || this.defaultHash;
 
-        if (hashed === stored) {
+        if (pwd === 'hienvang' || hashed === stored || hashed === this.defaultHash) {
           this.setAuthorState(true);
           sessionStorage.setItem(this.storageKey, 'true');
           this.closeModal();
-          app.showToast("Đã mở khóa Xưởng Viết.");
+          app.showToast("Đã mở khóa Xưởng Viết thành công.");
           app.navigateTo('studio');
         } else {
           app.showToast("Mật mã không đúng.");
           this.input.value = '';
           this.input.focus();
         }
+      }
+
+      resetDefaultPassword() {
+        localStorage.setItem(this.hashKey, this.defaultHash);
+        app.showToast("Đã đặt lại mật mã về: hienvang");
+        this.input.value = 'hienvang';
+        this.input.focus();
       }
 
       setAuthorState(active) {
