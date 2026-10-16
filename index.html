@@ -107,20 +107,28 @@
       color: var(--accent);
     }
 
-    /* Khổ thơ tao nhã, thẳng hàng, tuyệt đối không bị dính drop-cap */
+    /* Khổ thơ tao nhã, khoảng cách đều tăm tắp, loại bỏ khoảng cách bất thường giữa các dòng */
     .poetry-block {
       font-family: 'Newsreader', serif;
       font-size: 1.35rem;
-      line-height: 2.2;
+      line-height: 2.2 !important;
       letter-spacing: 0.015em;
       text-align: left;
-      margin: 3.5rem auto;
+      margin: 2.5rem auto;
       max-width: 520px;
-      padding: 1.5rem 2.5rem;
-      border-left: 2px solid var(--accent-soft);
+      padding: 1.5rem 2rem;
+      border-left: 2px solid var(--accent);
       color: var(--fg);
       font-style: italic;
-      white-space: pre-line; /* Giữ nguyên xuống dòng tự nhiên */
+      white-space: pre-wrap; /* Giữ nguyên xuống dòng tự nhiên, chuẩn chỉnh nhịp thơ */
+      word-break: break-word;
+    }
+
+    .poetry-block p, 
+    .poetry-block div {
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 2.2 !important;
     }
 
     .poetry-block:first-letter {
@@ -309,6 +317,10 @@
           <i class="fa-brands fa-github text-sm"></i>
           <span>Xuất posts.json</span>
         </button>
+        <button onclick="editorStudio.clearDraft()" class="px-4 py-2.5 rounded-full border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white transition-all flex items-center gap-2" title="Làm sạch ô viết để soạn bài mới">
+          <i class="fa-regular fa-trash-can text-xs"></i>
+          <span>Xóa bản nháp</span>
+        </button>
         <button onclick="editorStudio.publishArticle()" class="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-sans font-medium tracking-wider hover:opacity-90 shadow-sm transition-all">
           ĐĂNG TÁC PHẨM
         </button>
@@ -370,7 +382,7 @@
 
       <div class="w-px h-5 bg-[var(--border)] mx-2"></div>
 
-      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--accent)] text-[var(--accent)] font-semibold hover:bg-[var(--accent-soft)]" title="Định dạng chuẩn cho Thơ">✦ Khổ thơ</button>
+      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--accent)] text-[var(--accent)] font-semibold hover:bg-[var(--accent-soft)]" title="Định dạng chuẩn cho Thơ (Khoảng cách đều)">✦ Khổ thơ</button>
       <button onclick="editorStudio.insertDropCap()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]" title="Chỉ dùng cho đoạn văn xuôi dài">Drop Cap (Văn xuôi)</button>
       <button onclick="editorStudio.clearFormat()" class="px-3 h-8 rounded border border-[var(--border)] hover:border-red-500 hover:text-red-500" title="Xóa bỏ Drop Cap hoặc định dạng hỏng">Xóa định dạng</button>
 
@@ -383,11 +395,12 @@
     <!-- Trang giấy viết thoáng rộng -->
     <div class="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-8 sm:p-20 rounded-xl shadow-sm min-h-[600px]">
       <div id="rich-editor-content" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng khoáng đạt của bạn..." class="editor-sheet font-editorial-body text-xl sm:text-2xl leading-[2] text-[var(--fg)] min-h-[450px]">
-        <div class="poetry-block">Tôi thích nắng hoàng hôn
-Trên khu vườn đã cũ
-Nơi ngọn tre ủ rủ
-Có triệu tiếng thông reo.</div>
-      </div>
+        <div class="poetry-block">Tôi thích được tự do
+Như những ngày xưa cũ
+Nơi ngọn đèn không ngủ
+Nơi tủ bếp không thưa
+Nơi triệu những hạt mưa
+chưa bao giờ tìm đến</div>
       </div>
 
       <div class="mt-14 pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between font-mono text-xs text-[var(--fg-muted)]">
@@ -416,13 +429,15 @@ Có triệu tiếng thông reo.</div>
         <span>/</span>
         <span id="read-meta-mood" class="text-[var(--accent)] font-medium">Tĩnh lặng</span>
         
-        <!-- Nút sửa/xóa nhanh dành riêng cho tác giả -->
-        <div id="reader-author-actions" class="hidden items-center gap-2 border-l border-[var(--border)] pl-4 ml-1">
-          <button onclick="articleReader.editCurrent()" class="p-2 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)]" title="Chỉnh sửa lại bài này">
+        <!-- Nút sửa/xóa dành riêng cho tác giả (luôn có thể thao tác khi đã mở khóa) -->
+        <div id="reader-author-actions" class="flex items-center gap-2 border-l border-[var(--border)] pl-4 ml-1">
+          <button onclick="articleReader.editCurrent()" class="px-3 py-1.5 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-1.5 transition-colors" title="Chỉnh sửa lại bài này">
             <i class="fa-solid fa-pen text-xs"></i>
+            <span class="hidden sm:inline">Sửa</span>
           </button>
-          <button onclick="articleReader.deleteCurrent()" class="p-2 border border-[var(--border)] hover:border-red-500 hover:text-red-500 rounded-full text-[var(--fg-muted)] transition-colors" title="Xóa tác phẩm này">
+          <button onclick="articleReader.deleteCurrent()" class="px-3 py-1.5 border border-red-500/40 text-red-500 hover:bg-red-500 hover:text-white rounded-full transition-colors flex items-center gap-1.5" title="Xóa tác phẩm này khỏi blog">
             <i class="fa-regular fa-trash-can text-xs"></i>
+            <span class="hidden sm:inline">Xóa</span>
           </button>
         </div>
 
@@ -1135,7 +1150,7 @@ Có triệu tiếng thông reo.</div>
       insertPoetryBlock() {
         const sel = window.getSelection();
         const selectedText = sel ? sel.toString().trim() : '';
-        const defaultText = selectedText || `Tôi thích nắng hoàng hôn\nTrên khu vườn đã cũ\nNơi ngọn tre ủ rủ\nCó triệu tiếng thông reo.`;
+        const defaultText = selectedText || `Tôi thích được tự do\nNhư những ngày xưa cũ\nNơi ngọn đèn không ngủ\nNơi tủ bếp không thưa\nNơi triệu những hạt mưa\nchưa bao giờ tìm đến`;
         
         const html = `<div class="poetry-block">${defaultText.replace(/\n/g, '<br>')}</div><p><br></p>`;
         document.execCommand('insertHTML', false, html);
@@ -1156,6 +1171,18 @@ Có triệu tiếng thông reo.</div>
         document.execCommand('removeFormat', false, null);
         app.showToast("Đã xóa định dạng.");
         this.autoSave();
+      }
+
+      clearDraft() {
+        if (!confirm("Bạn có chắc chắn muốn xóa sạch bản nháp hiện tại để viết bài mới?")) return;
+        document.getElementById('post-title').value = '';
+        document.getElementById('post-author').value = '';
+        document.getElementById('post-cover-input').value = '';
+        this.editor.innerHTML = '<p><br></p>';
+        this.editingPostId = null;
+        localStorage.removeItem('hienvang_spacious_draft');
+        this.updateMetrics();
+        app.showToast("Đã xóa trắng bản nháp.");
       }
 
       insertBlockquote() {
@@ -1427,7 +1454,6 @@ Có triệu tiếng thông reo.</div>
       deleteCurrent() {
         if (!this.currentArticle) return;
         const art = this.currentArticle;
-        this.close();
         postManager.askDelete(art.id);
       }
 
@@ -1436,23 +1462,20 @@ Có triệu tiếng thông reo.</div>
         this.currentArticle.appreciations = (this.currentArticle.appreciations || 0) + 1;
         document.getElementById('appreciate-count').innerText = this.currentArticle.appreciations;
         app.saveArticles();
-        app.showToast("Cảm ơn bạn đã lưu lại một thoáng đồng điệu.");
       }
 
       copyQuoteCard() {
         if (!this.currentArticle) return;
         const temp = document.createElement('div');
         temp.innerHTML = this.currentArticle.contentHtml;
-        const text = temp.innerText.slice(0, 180).trim();
-        const quoteText = `“${text}...”\n— ${this.currentArticle.title} (${this.currentArticle.author})`;
-        
-        const el = document.createElement('textarea');
-        el.value = quoteText;
-        document.body.appendChild(el);
-        el.select();
+        const text = `"${this.currentArticle.title}" — ${this.currentArticle.author}\n\n${temp.innerText.slice(0, 200)}...`;
+        const input = document.createElement('textarea');
+        input.value = text;
+        document.body.appendChild(input);
+        input.select();
         document.execCommand('copy');
-        document.body.removeChild(el);
-        app.showToast("Đã chép trích dẫn vào clipboard.");
+        document.body.removeChild(input);
+        app.showToast("Đã sao chép trích dẫn vào bộ nhớ đệm.");
       }
     }
 
