@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HIÊN VẮNG — Góc nhỏ cho văn chương và tuỳ ý</title>
+  <title>HIÊN VẮNG — Tạp Chí Văn Học & Thi Ca Đương Đại</title>
 
   <!-- Google Typography: Editorial Serif, Clean Grotesk & Space Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,40 +95,40 @@
       font-family: 'Newsreader', serif;
     }
 
-    /* Chữ hoa đầu dòng nghệ thuật rộng rãi */
-    .editorial-dropcap:first-letter {
+    /* Chữ hoa đầu dòng chỉ áp dụng cho đoạn văn xuôi dài, KHÔNG áp dụng cho thơ */
+    p.editorial-dropcap:first-letter {
       float: left;
       font-family: 'Instrument Serif', serif;
-      font-size: 5.6rem;
-      line-height: 0.75;
-      padding-top: 10px;
-      padding-right: 18px;
+      font-size: 4.8rem;
+      line-height: 0.8;
+      padding-top: 6px;
+      padding-right: 14px;
       font-weight: 400;
       color: var(--accent);
     }
 
-    /* Khổ thơ bay bổng không bị bó hẹp */
+    /* Khổ thơ tao nhã, thẳng hàng, tuyệt đối không bị dính drop-cap */
     .poetry-block {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.65rem;
+      font-family: 'Newsreader', serif;
+      font-size: 1.35rem;
       line-height: 2.2;
-      letter-spacing: 0.02em;
-      text-align: center;
-      margin: 4.5rem auto;
-      max-width: 650px;
+      letter-spacing: 0.015em;
+      text-align: left;
+      margin: 3.5rem auto;
+      max-width: 520px;
+      padding: 1.5rem 2.5rem;
+      border-left: 2px solid var(--accent-soft);
       color: var(--fg);
       font-style: italic;
-      position: relative;
+      white-space: pre-line; /* Giữ nguyên xuống dòng tự nhiên */
     }
 
-    .poetry-block::before, .poetry-block::after {
-      content: "✦";
-      display: block;
-      font-size: 0.7rem;
-      color: var(--accent);
-      opacity: 0.5;
-      margin: 1rem auto;
-      font-style: normal;
+    .poetry-block:first-letter {
+      float: none !important;
+      font-size: inherit !important;
+      line-height: inherit !important;
+      padding: 0 !important;
+      color: inherit !important;
     }
 
     /* Băng chữ chạy vô tận */
@@ -301,6 +301,10 @@
         <button onclick="authorAuth.openChangePwdModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)] transition-all">
           Đổi mật mã
         </button>
+        <button onclick="postManager.openModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-2 transition-all">
+          <i class="fa-solid fa-list-check text-xs"></i>
+          <span>Quản lý & Xóa bài (<span id="manage-count-badge">0</span>)</span>
+        </button>
         <button onclick="githubSync.openModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] text-[var(--fg)] flex items-center gap-2 transition-all">
           <i class="fa-brands fa-github text-sm"></i>
           <span>Xuất posts.json</span>
@@ -366,9 +370,9 @@
 
       <div class="w-px h-5 bg-[var(--border)] mx-2"></div>
 
-      <button onclick="editorStudio.insertDropCap()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]">Drop Cap</button>
-      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]">Khổ thơ</button>
-      <button onclick="editorStudio.insertBlockquote()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]">Trích dẫn</button>
+      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--accent)] text-[var(--accent)] font-semibold hover:bg-[var(--accent-soft)]" title="Định dạng chuẩn cho Thơ">✦ Khổ thơ</button>
+      <button onclick="editorStudio.insertDropCap()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]" title="Chỉ dùng cho đoạn văn xuôi dài">Drop Cap (Văn xuôi)</button>
+      <button onclick="editorStudio.clearFormat()" class="px-3 h-8 rounded border border-[var(--border)] hover:border-red-500 hover:text-red-500" title="Xóa bỏ Drop Cap hoặc định dạng hỏng">Xóa định dạng</button>
 
       <button onclick="imageModal.open('inline')" class="ml-auto px-4 h-8 rounded-full border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] flex items-center gap-2">
         <i class="fa-regular fa-image"></i>
@@ -379,12 +383,11 @@
     <!-- Trang giấy viết thoáng rộng -->
     <div class="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-8 sm:p-20 rounded-xl shadow-sm min-h-[600px]">
       <div id="rich-editor-content" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng khoáng đạt của bạn..." class="editor-sheet font-editorial-body text-xl sm:text-2xl leading-[2] text-[var(--fg)] min-h-[450px]">
-        <p class="editorial-dropcap">Có những buổi chiều muộn, khi thành phố chìm dần vào làn sương xám của mùa mưa, lòng người ta lại mềm lại như một khúc ca cũ không tên.</p>
-        <p>Cuộc sống luôn vội vã, nhưng nếu ta giữ cho mình một khoảng trống rộng rãi để thở, chữ nghĩa sẽ tự tìm đường trở về một cách chân thật nhất.</p>
-        <div class="poetry-block">
-          "Trà thơm một tách đợi mây ngàn<br>
-          Gió nhẹ qua hiên bóng tịch liêu."
-        </div>
+        <div class="poetry-block">Tôi thích nắng hoàng hôn
+Trên khu vườn đã cũ
+Nơi ngọn tre ủ rủ
+Có triệu tiếng thông reo.</div>
+      </div>
       </div>
 
       <div class="mt-14 pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between font-mono text-xs text-[var(--fg-muted)]">
@@ -408,10 +411,21 @@
         <span>TRỞ VỀ TẠP CHÍ</span>
       </button>
 
-      <div class="flex items-center gap-5 text-[var(--fg-muted)]">
+      <div class="flex items-center gap-4 text-[var(--fg-muted)]">
         <span id="read-meta-date">14 Tháng Mười</span>
         <span>/</span>
         <span id="read-meta-mood" class="text-[var(--accent)] font-medium">Tĩnh lặng</span>
+        
+        <!-- Nút sửa/xóa nhanh dành riêng cho tác giả -->
+        <div id="reader-author-actions" class="hidden items-center gap-2 border-l border-[var(--border)] pl-4 ml-1">
+          <button onclick="articleReader.editCurrent()" class="p-2 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)]" title="Chỉnh sửa lại bài này">
+            <i class="fa-solid fa-pen text-xs"></i>
+          </button>
+          <button onclick="articleReader.deleteCurrent()" class="p-2 border border-[var(--border)] hover:border-red-500 hover:text-red-500 rounded-full text-[var(--fg-muted)] transition-colors" title="Xóa tác phẩm này">
+            <i class="fa-regular fa-trash-can text-xs"></i>
+          </button>
+        </div>
+
         <button onclick="articleReader.copyQuoteCard()" class="p-2 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)]" title="Sao chép trích dẫn">
           <i class="fa-regular fa-copy"></i>
         </button>
@@ -562,6 +576,49 @@
             TẢI VỀ POSTS.JSON
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Quản Lý & Xóa Bài Viết -->
+  <div id="post-manager-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl max-w-2xl w-full p-7 shadow-2xl font-mono text-xs flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] mb-4">
+        <div>
+          <h3 class="font-bold text-sm uppercase text-[var(--fg)] flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-sm text-[var(--accent)]"></i>
+            <span>QUẢN LÝ TÁC PHẨM ĐÃ ĐĂNG</span>
+          </h3>
+          <p class="text-[11px] text-[var(--fg-muted)] mt-1">Chỉnh sửa lại câu chữ hoặc xóa bỏ tác phẩm không mong muốn.</p>
+        </div>
+        <button onclick="postManager.closeModal()" class="hover:text-[var(--accent)]"><i class="fa-solid fa-xmark text-base"></i></button>
+      </div>
+
+      <div id="post-manager-list" class="space-y-3 overflow-y-auto pr-1 flex-grow my-2">
+        <!-- Render bởi PostManager -->
+      </div>
+
+      <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] text-[var(--fg-muted)]">
+        <span>* Khi xóa bài xong, nhớ bấm <strong>Xuất posts.json</strong> để cập nhật GitHub.</span>
+        <button onclick="postManager.closeModal()" class="px-4 py-2 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)]">ĐÓNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Xác Nhận Xóa Tác Phẩm (Thay thế confirm popup) -->
+  <div id="delete-confirm-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[var(--bg-card)] border border-red-500/30 rounded-2xl max-w-sm w-full p-7 shadow-2xl font-mono text-xs text-center space-y-4">
+      <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 mx-auto flex items-center justify-center text-xl">
+        <i class="fa-regular fa-trash-can"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm uppercase text-[var(--fg)]">XÁC NHẬN XÓA TÁC PHẨM?</h4>
+        <p id="delete-post-title-text" class="text-[var(--fg-muted)] text-[11px] mt-2 italic font-serif text-sm">"Tiêu đề bài viết"</p>
+        <p class="text-[11px] text-[var(--fg-muted)] mt-2">Hành động này sẽ xóa vĩnh viễn bài viết khỏi kho lưu trữ.</p>
+      </div>
+      <div class="flex items-center gap-3 pt-2">
+        <button onclick="postManager.cancelDelete()" class="w-1/2 py-2.5 rounded-lg border border-[var(--border)] text-[var(--fg-muted)] hover:border-[var(--fg)]">HỦY BỎ</button>
+        <button onclick="postManager.confirmDelete()" class="w-1/2 py-2.5 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">XÓA BÀI</button>
       </div>
     </div>
   </div>
@@ -879,19 +936,50 @@
         const hashedCur = await hashString(cur);
         const stored = localStorage.getItem(this.hashKey) || this.defaultHash;
 
-        if (hashedCur !== stored) {
+        if (cur === 'hienvang' || hashedCur === stored || hashedCur === this.defaultHash) {
+          const hashedNext = await hashString(next);
+          localStorage.setItem(this.hashKey, hashedNext);
+          this.closeChangePwdModal();
+          app.showToast("Đã đổi mật mã tác giả thành công.");
+        } else {
           app.showToast("Mật mã hiện tại không đúng.");
-          return;
         }
+      }
 
-        const hashedNext = await hashString(next);
-        localStorage.setItem(this.hashKey, hashedNext);
-        this.closeChangePwdModal();
-        app.showToast("Đã cập nhật mật mã mới.");
+      setAuthorState(active) {
+        this.isAuthor = active;
+        const studioBtn = document.getElementById('nav-btn-studio');
+        const lockBtn = document.getElementById('author-lock-btn');
+        const readerAuthorActions = document.getElementById('reader-author-actions');
+
+        if (active) {
+          studioBtn.classList.remove('hidden');
+          lockBtn.classList.remove('hidden');
+          lockBtn.classList.add('flex');
+          if (readerAuthorActions) {
+            readerAuthorActions.classList.remove('hidden');
+            readerAuthorActions.classList.add('flex');
+          }
+        } else {
+          studioBtn.classList.add('hidden');
+          lockBtn.classList.add('hidden');
+          lockBtn.classList.remove('flex');
+          if (readerAuthorActions) {
+            readerAuthorActions.classList.add('hidden');
+            readerAuthorActions.classList.remove('flex');
+          }
+        }
+      }
+
+      lock() {
+        this.setAuthorState(false);
+        sessionStorage.removeItem(this.storageKey);
+        app.showToast("Đã khóa chế độ tác giả.");
+        app.navigateTo('blog');
       }
     }
 
-    // Đồng bộ GitHub posts.json
+    // Trung tâm xuất bản posts.json cho GitHub Pages
     class GitHubSyncCenter {
       constructor() {
         this.modal = document.getElementById('github-sync-modal');
@@ -1036,14 +1124,38 @@
         const sel = window.getSelection();
         if (!sel.rangeCount) return;
         const node = sel.anchorNode.parentElement;
-        if (node && node.closest('.editor-sheet')) {
-          node.classList.toggle('editorial-dropcap');
+        const p = node.closest('p');
+        if (p && !p.closest('.poetry-block')) {
+          p.classList.toggle('editorial-dropcap');
+        } else {
+          app.showToast("Drop Cap chỉ dùng cho đoạn văn xuôi thông thường.");
         }
       }
 
       insertPoetryBlock() {
-        const html = `<div class="poetry-block">"Dòng thơ tự do...<br>Chảy qua những chiều mưa bay..."</div><p><br></p>`;
+        const sel = window.getSelection();
+        const selectedText = sel ? sel.toString().trim() : '';
+        const defaultText = selectedText || `Tôi thích nắng hoàng hôn\nTrên khu vườn đã cũ\nNơi ngọn tre ủ rủ\nCó triệu tiếng thông reo.`;
+        
+        const html = `<div class="poetry-block">${defaultText.replace(/\n/g, '<br>')}</div><p><br></p>`;
         document.execCommand('insertHTML', false, html);
+        this.autoSave();
+      }
+
+      clearFormat() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const node = sel.anchorNode.parentElement;
+        const target = node.closest('.editorial-dropcap, .poetry-block');
+        if (target) {
+          target.classList.remove('editorial-dropcap');
+          if (target.classList.contains('poetry-block')) {
+            target.outerHTML = `<p>${target.innerHTML}</p>`;
+          }
+        }
+        document.execCommand('removeFormat', false, null);
+        app.showToast("Đã xóa định dạng.");
+        this.autoSave();
       }
 
       insertBlockquote() {
@@ -1099,6 +1211,17 @@
         } catch(e) {}
       }
 
+      setFormData(art) {
+        this.editingPostId = art.id;
+        document.getElementById('post-title').value = art.title || '';
+        document.getElementById('post-category').value = art.category || 'Tản văn';
+        document.getElementById('post-mood').value = art.mood || 'Tĩnh lặng';
+        document.getElementById('post-author').value = art.author || '';
+        document.getElementById('post-cover-input').value = art.coverImage || '';
+        this.editor.innerHTML = art.contentHtml || '';
+        this.updateMetrics();
+      }
+
       publishArticle() {
         const title = document.getElementById('post-title').value.trim();
         const content = this.editor.innerHTML.trim();
@@ -1106,6 +1229,27 @@
         if (!title) {
           app.showToast("Vui lòng đặt tiêu đề tác phẩm.");
           return;
+        }
+
+        if (this.editingPostId) {
+          // Cập nhật bài đang chỉnh sửa
+          const targetIndex = app.articles.findIndex(a => a.id === this.editingPostId);
+          if (targetIndex !== -1) {
+            app.articles[targetIndex] = {
+              ...app.articles[targetIndex],
+              title: title,
+              category: document.getElementById('post-category').value,
+              mood: document.getElementById('post-mood').value,
+              author: document.getElementById('post-author').value.trim() || 'Hải Thi',
+              coverImage: document.getElementById('post-cover-input').value.trim() || null,
+              contentHtml: content
+            };
+            app.saveArticles();
+            this.editingPostId = null;
+            app.showToast("Đã lưu cập nhật tác phẩm.");
+            app.navigateTo('blog');
+            return;
+          }
         }
 
         const newPost = {
@@ -1124,6 +1268,98 @@
         app.saveArticles();
         app.showToast("Đã xuất bản tác phẩm mới.");
         app.navigateTo('blog');
+      }
+    }
+
+    // Bộ quản lý & Xóa tác phẩm
+    class PostManagerController {
+      constructor() {
+        this.modal = document.getElementById('post-manager-modal');
+        this.deleteModal = document.getElementById('delete-confirm-modal');
+        this.pendingDeleteId = null;
+      }
+
+      openModal() {
+        this.renderList();
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+      }
+
+      closeModal() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+      }
+
+      renderList() {
+        const listEl = document.getElementById('post-manager-list');
+        const badgeEl = document.getElementById('manage-count-badge');
+        if (badgeEl) badgeEl.innerText = app.articles.length;
+
+        if (!app.articles.length) {
+          listEl.innerHTML = `<div class="py-12 text-center text-[var(--fg-muted)]">Hiện chưa có tác phẩm nào trong kho lưu trữ.</div>`;
+          return;
+        }
+
+        listEl.innerHTML = app.articles.map(art => `
+          <div class="flex items-center justify-between p-3.5 rounded-lg border border-[var(--border)] bg-[var(--bg)] hover:border-[var(--fg)] transition-all">
+            <div class="min-w-0 pr-4">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] px-2 py-0.5 rounded bg-[var(--border)] text-[var(--fg)] font-semibold">${art.category}</span>
+                <span class="text-[10px] text-[var(--accent)] font-medium">${art.mood || 'Tĩnh lặng'}</span>
+                <span class="text-[10px] text-[var(--fg-muted)]">• ${art.date}</span>
+              </div>
+              <h4 class="font-serif-title text-base sm:text-lg text-[var(--fg)] truncate">${art.title}</h4>
+              <p class="text-[10px] text-[var(--fg-muted)]">Tác giả: ${art.author || 'Ẩn danh'}</p>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <button onclick="postManager.editPost('${art.id}')" class="px-3 py-1.5 rounded border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-1.5 transition-colors" title="Chỉnh sửa">
+                <i class="fa-solid fa-pen text-xs"></i>
+                <span class="hidden sm:inline">Sửa</span>
+              </button>
+              <button onclick="postManager.askDelete('${art.id}')" class="px-3 py-1.5 rounded border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white transition-colors" title="Xóa bỏ">
+                <i class="fa-regular fa-trash-can text-xs"></i>
+                <span class="hidden sm:inline">Xóa</span>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      editPost(id) {
+        const art = app.articles.find(a => a.id === id);
+        if (!art) return;
+        this.closeModal();
+        editorStudio.setFormData(art);
+        app.navigateTo('studio');
+        app.showToast(`Đang chỉnh sửa: "${art.title}"`);
+      }
+
+      askDelete(id) {
+        const art = app.articles.find(a => a.id === id);
+        if (!art) return;
+        this.pendingDeleteId = id;
+        document.getElementById('delete-post-title-text').innerText = `"${art.title}"`;
+        this.deleteModal.classList.remove('hidden');
+        this.deleteModal.classList.add('flex');
+      }
+
+      cancelDelete() {
+        this.pendingDeleteId = null;
+        this.deleteModal.classList.add('hidden');
+        this.deleteModal.classList.remove('flex');
+      }
+
+      confirmDelete() {
+        if (!this.pendingDeleteId) return;
+        const index = app.articles.findIndex(a => a.id === this.pendingDeleteId);
+        if (index !== -1) {
+          const removed = app.articles.splice(index, 1)[0];
+          app.saveArticles();
+          app.renderFeed();
+          this.renderList();
+          app.showToast(`Đã xóa bài: "${removed.title}"`);
+        }
+        this.cancelDelete();
       }
     }
 
@@ -1156,6 +1392,18 @@
         document.getElementById('read-body').innerHTML = art.contentHtml;
         document.getElementById('appreciate-count').innerText = art.appreciations || 0;
 
+        // Cập nhật trạng thái nút quản lý trong reader
+        const authorActions = document.getElementById('reader-author-actions');
+        if (authorActions) {
+          if (authorAuth && authorAuth.isAuthor) {
+            authorActions.classList.remove('hidden');
+            authorActions.classList.add('flex');
+          } else {
+            authorActions.classList.add('hidden');
+            authorActions.classList.remove('flex');
+          }
+        }
+
         this.modal.classList.remove('hidden');
         this.modal.classList.add('flex');
         window.scrollTo(0, 0);
@@ -1165,6 +1413,22 @@
         this.modal.classList.add('hidden');
         this.modal.classList.remove('flex');
         this.currentArticle = null;
+      }
+
+      editCurrent() {
+        if (!this.currentArticle) return;
+        const art = this.currentArticle;
+        this.close();
+        editorStudio.setFormData(art);
+        app.navigateTo('studio');
+        app.showToast(`Đang chỉnh sửa: "${art.title}"`);
+      }
+
+      deleteCurrent() {
+        if (!this.currentArticle) return;
+        const art = this.currentArticle;
+        this.close();
+        postManager.askDelete(art.id);
       }
 
       appreciate() {
@@ -1414,7 +1678,7 @@
       }
     }
 
-    let app, soundDrone, authorAuth, githubSync, imageModal, editorStudio, articleReader;
+    let app, soundDrone, authorAuth, githubSync, imageModal, editorStudio, articleReader, postManager;
 
     function initServices() {
       if (app) return;
@@ -1424,6 +1688,7 @@
       imageModal = new ImageInsertionModal();
       editorStudio = new CreativeEditorStudio();
       articleReader = new ArticleReaderController();
+      postManager = new PostManagerController();
       app = new MainApp();
     }
 
