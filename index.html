@@ -72,6 +72,7 @@
             letter-spacing: 0.02em;
             color: var(--text-primary);
             text-align: left;
+            white-space: pre-wrap;
         }
 
         /* Khổ 2: lệch phải đối xứng, thanh cam bên phải */
@@ -89,6 +90,7 @@
             letter-spacing: 0.02em;
             color: var(--text-primary);
             text-align: right;
+            white-space: pre-wrap;
         }
 
         /* Triệt tiêu margin thừa của các dòng bên trong khổ thơ để khoảng cách luôn đều */
@@ -189,7 +191,7 @@
 
         <!-- Danh sách bài viết -->
         <div id="postsList" class="space-y-24">
-            <!-- Được render qua JavaScript -->
+            <!-- Render qua JavaScript -->
         </div>
     </main>
 
@@ -211,7 +213,7 @@
             </div>
 
             <article id="readerContent" class="space-y-8">
-                <!-- Nội dung được nạp qua JS -->
+                <!-- Nội dung nạp qua JS -->
             </article>
         </div>
     </div>
@@ -257,7 +259,7 @@
                     </div>
                 </div>
 
-                <!-- THANH CÔNG CỤ ĐỊNH DẠNG (FORMATTING TOOLBAR) -->
+                <!-- THANH CÔNG CỤ ĐỊNH DẠNG -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-1.5 p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
                     <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
@@ -281,14 +283,18 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG (WYSIWYG) -->
+                <!-- KHUNG SOẠN NỘI DUNG (ĐÃ SỬA LỖI ENTER NHÂN BẢN KHỔ) -->
                 <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc quét chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
+                </div>
+                <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
+                    <i class="fa-regular fa-lightbulb text-[var(--accent-orange)]"></i>
+                    <span>Mẹo: Trong khổ thơ, nhấn <b>Enter</b> để xuống câu tiếp theo; nhấn <b>Shift + Enter</b> để thoát hẳn khỏi khổ thơ.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (ĐĂNG NHẬP MẬT MÃ TÁC GIẢ) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -309,7 +315,7 @@
         </div>
     </div>
 
-    <!-- MODAL CẤU HÌNH GITHUB DATABASE SYNC -->
+    <!-- MODAL GITHUB CONFIG -->
     <div id="githubModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
@@ -339,10 +345,9 @@
         </div>
     </div>
 
-    <!-- TOAST THÔNG BÁO -->
+    <!-- TOAST -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
-    <!-- LOGIC JAVASCRIPT TOÀN BỘ HỆ THỐNG -->
     <script>
         const DEFAULT_POSTS = [
             {
@@ -353,18 +358,9 @@
                 date: '16/10/2026',
                 content: `
                     <div class="poetry-symmetric-container">
-                        <div class="poetry-stanza-left">
-                            Tôi thích được tự do<br>
-                            Như những ngày xưa cũ
-                        </div>
-                        <div class="poetry-stanza-right">
-                            Nơi ngọn đèn không ngủ<br>
-                            Nơi tủ bếp không thưa
-                        </div>
-                        <div class="poetry-stanza-left">
-                            Nơi triệu những hạt mưa<br>
-                            chưa bao giờ tìm đến
-                        </div>
+                        <div class="poetry-stanza-left">Tôi thích được tự do<br>Như những ngày xưa cũ</div>
+                        <div class="poetry-stanza-right">Nơi ngọn đèn không ngủ<br>Nơi tủ bếp không thưa</div>
+                        <div class="poetry-stanza-left">Nơi triệu những hạt mưa<br>chưa bao giờ tìm đến</div>
                     </div>
                 `
             }
@@ -539,6 +535,59 @@
         class EditorService {
             constructor() {
                 this.currentEditingId = null;
+                this.bindEditorEvents();
+            }
+
+            // Xử lý bàn phím thông minh để Enter không bị sinh thêm khối mới
+            bindEditorEvents() {
+                const ed = document.getElementById('editorContent');
+                ed.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        const selection = window.getSelection();
+                        if (!selection.rangeCount) return;
+
+                        // Tìm thẻ cha xem có đang nằm trong khổ thơ không
+                        let node = selection.anchorNode;
+                        let stanza = null;
+                        while (node && node !== ed) {
+                            if (node.classList && (node.classList.contains('poetry-stanza-left') || node.classList.contains('poetry-stanza-right') || node.classList.contains('poetry-block'))) {
+                                stanza = node;
+                                break;
+                            }
+                            node = node.parentNode;
+                        }
+
+                        if (stanza) {
+                            if (e.shiftKey) {
+                                // Shift + Enter: Thoát ra ngoài khổ thơ để viết đoạn mới
+                                e.preventDefault();
+                                const p = document.createElement('p');
+                                p.innerHTML = '<br>';
+                                if (stanza.nextSibling) {
+                                    stanza.parentNode.insertBefore(p, stanza.nextSibling);
+                                } else {
+                                    stanza.parentNode.appendChild(p);
+                                }
+                                const range = document.createRange();
+                                range.setStart(p, 0);
+                                range.collapse(true);
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            } else {
+                                // Enter bình thường: Chèn <br> ngắt câu, không nhân bản thẻ div!
+                                e.preventDefault();
+                                const range = selection.getRangeAt(0);
+                                const br = document.createElement('br');
+                                range.deleteContents();
+                                range.insertNode(br);
+                                range.setStartAfter(br);
+                                range.setEndAfter(br);
+                                selection.removeAllRanges();
+                                selection.addRange(range);
+                            }
+                        }
+                    }
+                });
             }
 
             format(cmd, val = null) {
@@ -552,20 +601,23 @@
             // Chèn khổ 1 bên trái (thanh cam bên trái)
             insertStanzaLeft() {
                 const selectedText = window.getSelection().toString();
-                const html = `<div class="poetry-stanza-left">${selectedText ? selectedText.replace(/\\n/g, '<br>') : 'Dòng thơ thứ nhất<br>Dòng thơ thứ hai'}</div><p><br></p>`;
+                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Dòng thơ thứ nhất<br>Dòng thơ thứ hai';
+                const html = `<div class="poetry-stanza-left">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
 
             // Chèn khổ 2 bên phải (thanh cam bên phải đối xứng)
             insertStanzaRight() {
                 const selectedText = window.getSelection().toString();
-                const html = `<div class="poetry-stanza-right">${selectedText ? selectedText.replace(/\\n/g, '<br>') : 'Khổ đối xứng thứ hai<br>Nghiêng theo vạt nắng'}</div><p><br></p>`;
+                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Khổ đối xứng thứ hai<br>Nghiêng theo vạt nắng';
+                const html = `<div class="poetry-stanza-right">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
 
             insertPoetryBlock() {
                 const selectedText = window.getSelection().toString();
-                const html = `<div class="poetry-block">${selectedText || 'Câu thơ căn giữa tự do'}</div><p><br></p>`;
+                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Câu thơ căn giữa tự do';
+                const html = `<div class="poetry-block">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
 
@@ -629,7 +681,6 @@
             }
 
             async init() {
-                // Thử fetch posts.json từ chính GitHub Pages
                 try {
                     const res = await fetch('posts.json?t=' + Date.now());
                     if (res.ok) {
