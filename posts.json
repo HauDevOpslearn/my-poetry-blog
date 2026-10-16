@@ -16,23 +16,5 @@
       "moon": 45
     },
     "contentHtml": "\n          <p class=\"drop-cap\">Mỗi lần phố vào mùa mưa, lòng người dường như cũng chùng xuống một nhịp. Khói bếp, khói thuốc hay làn sương mỏng giăng mắc nơi đầu ngõ đều mang một màu xám đùng đục của ký ức xa xôi.</p>\n          <figure class=\"art-figure img-align-right img-width-sm frame-polaroid\" contenteditable=\"false\">\n            <img src=\"https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80\" alt=\"Đèn phố mưa\">\n            <figcaption class=\"art-caption\">Bóng đèn vàng hiu hắt giữa ngã tư</figcaption>\n          </figure>\n          <p>Ta ngồi ở góc quán quen, nhìn giọt mưa đập vào thềm kính vỡ tan tành như những lời hẹn ước thuở hai mươi chưa kịp thành hình. Cuộc sống xô bồ cuốn ta đi qua trăm vạn ngả đường, nhưng chỉ cần một chiều mưa dầm dề bên hiên vắng, ta lại khao khát được bé lại, nép mình vào lòng mẹ nghe kể chuyện đồng xa.</p>\n          <blockquote class=\"vintage-quote\">“Có những người chỉ đi qua đời ta một đoạn ngắn, nhưng để lại một mùa mưa dài suốt cả kiếp nhân sinh.”</blockquote>\n          <p>Người rời đi mang theo mùa hạ rực rỡ, để lại cho ta cả một mùa đông rét buốt trong mắt nhau.</p>\n        "
-  },
-  {
-    "id": "art-3",
-    "title": "Tự tình của kẻ đi lạc giữa tuổi hăm",
-    "category": "Ghi chép",
-    "mood": "Cô đơn",
-    "author": "Vũ Yên",
-    "date": "08 Tháng Mười",
-    "coverImage": null,
-    "deskX": 80,
-    "deskY": 340,
-    "rotate": 2,
-    "claps": {
-      "flower": 21,
-      "tear": 40,
-      "moon": 19
-    },
-    "contentHtml": "\n          <p class=\"drop-cap\">Hai mươi lăm tuổi, ta không còn khóc oà khi tổn thương, mà chỉ biết im lặng ngắm nhìn trần nhà trắng toát mỗi lúc nửa đêm.</p>\n          <p>Ta từng nghĩ trưởng thành là có tự do, nhưng hóa ra trưởng thành là chấp nhận cô đơn như một phần da thịt. Không còn ai dỗ dành khi ta vấp ngã. Không còn ai kiên nhẫn nghe ta kể những giấc mộng viển vông.</p>\n          <div class=\"poetic-divider\">❦ ❦ ❦</div>\n          <p>Nhưng có hề chi, chính trong những khoảng lặng rỗng không ấy, ta mới chạm được vào bản thể chân thực nhất của chính mình.</p>\n        "
   }
 ]
