@@ -78,7 +78,6 @@
       transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Lớp phủ hạt phim điện ảnh mờ mịn */
     .film-grain {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
@@ -88,14 +87,9 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
 
-    .font-serif-title {
-      font-family: 'Instrument Serif', serif;
-    }
-    .font-editorial-body {
-      font-family: 'Newsreader', serif;
-    }
+    .font-serif-title { font-family: 'Instrument Serif', serif; }
+    .font-editorial-body { font-family: 'Newsreader', serif; }
 
-    /* Chữ hoa đầu dòng chỉ áp dụng cho đoạn văn xuôi dài, KHÔNG áp dụng cho thơ */
     p.editorial-dropcap:first-letter {
       float: left;
       font-family: 'Instrument Serif', serif;
@@ -107,11 +101,11 @@
       color: var(--accent);
     }
 
-    /* Khổ thơ tao nhã, khoảng cách đều tăm tắp, loại bỏ khoảng cách bất thường giữa các dòng */
+    /* Khổ thơ chuẩn mực: giãn dòng đều đặn, không bị nhảy khoảng cách */
     .poetry-block {
       font-family: 'Newsreader', serif;
       font-size: 1.35rem;
-      line-height: 2.2 !important;
+      line-height: 2.3 !important;
       letter-spacing: 0.015em;
       text-align: left;
       margin: 2.5rem auto;
@@ -120,7 +114,7 @@
       border-left: 2px solid var(--accent);
       color: var(--fg);
       font-style: italic;
-      white-space: pre-wrap; /* Giữ nguyên xuống dòng tự nhiên, chuẩn chỉnh nhịp thơ */
+      white-space: pre-wrap;
       word-break: break-word;
     }
 
@@ -128,7 +122,7 @@
     .poetry-block div {
       margin: 0 !important;
       padding: 0 !important;
-      line-height: 2.2 !important;
+      line-height: 2.3 !important;
     }
 
     .poetry-block:first-letter {
@@ -139,7 +133,6 @@
       color: inherit !important;
     }
 
-    /* Băng chữ chạy vô tận */
     @keyframes marquee {
       0% { transform: translateX(0%); }
       100% { transform: translateX(-50%); }
@@ -165,26 +158,46 @@
       pointer-events: none;
     }
     .editor-sheet:focus { outline: none; }
+
+    /* Spinner xoay cho trạng thái đồng bộ */
+    .spin-slow {
+      animation: spin 1.2s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-[var(--fg)] selection:text-[var(--bg)]">
 
-  <!-- Grain Texture Overlay -->
   <div class="film-grain"></div>
+
+  <!-- Thanh thông báo trạng thái đồng bộ GitHub Realtime -->
+  <div id="github-sync-indicator" class="hidden bg-emerald-950 text-emerald-300 border-b border-emerald-800 text-[11px] font-mono px-4 py-1.5 justify-between items-center z-50">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span id="github-sync-msg">GitHub Database: Đã kết nối với repository</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="github-db-repo" class="text-[10px] text-emerald-400/80"></span>
+      <button onclick="githubDatabase.syncNow()" class="underline hover:text-white" title="Lấy dữ liệu mới nhất từ GitHub">Làm mới</button>
+    </div>
+  </div>
 
   <div class="border-b border-[var(--border-subtle)] text-[11px] font-mono tracking-widest overflow-hidden bg-[var(--bg)] select-none">
     <div class="animate-marquee py-2.5 whitespace-nowrap flex items-center text-[var(--fg-muted)]">
       <span class="mx-8">HIÊN VẮNG LITERARY ARCHIVE</span>
       <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
+      <span class="mx-8">GIT-AS-A-DATABASE ENGINE</span>
+      <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
       <span class="mx-8">TỰ DO TRONG SUY TƯỞNG & THI CA</span>
       <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
       <span class="mx-8">KHÔNG GIAN ĐỌC MỞ RỘNG</span>
       <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
-      <span class="mx-8">PHÁ VỠ MỌI GIỚI HẠN GÒ BÓ</span>
-      <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
       <span class="mx-8">HIÊN VẮNG LITERARY ARCHIVE</span>
       <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
-      <span class="mx-8">TỰ DO TRONG SUY TƯỞNG & THI CA</span>
+      <span class="mx-8">GIT-AS-A-DATABASE ENGINE</span>
       <span class="text-[var(--accent)] font-serif italic text-sm">/</span>
     </div>
   </div>
@@ -192,9 +205,9 @@
   <header class="sticky top-0 bg-[var(--bg)]/90 backdrop-blur-md z-40 border-b border-[var(--border-subtle)] transition-colors">
     <div class="max-w-7xl mx-auto px-6 sm:px-10 h-24 flex items-center justify-between">
       
-      <!-- Brand Logo với khoảng thở rộng -->
+      <!-- Brand Logo - Nhấn 3 lần để mở Author Gate -->
       <div class="flex items-center gap-6">
-        <a href="javascript:void(0)" onclick="app.navigateTo('blog')" id="site-logo" class="group block select-none cursor-pointer">
+        <a href="javascript:void(0)" onclick="app.navigateTo('blog')" id="site-logo" class="group block select-none cursor-pointer" title="Nhấp 3 lần để mở Cổng Tác Giả">
           <div class="flex items-baseline gap-3">
             <span class="font-cinzel text-2xl sm:text-3xl font-semibold tracking-[0.2em] text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors">HIÊN VẮNG</span>
             <span class="hidden sm:inline-block text-[10px] font-mono tracking-widest text-[var(--fg-muted)] uppercase">VOL. 07</span>
@@ -203,7 +216,7 @@
         </a>
       </div>
 
-      <!-- Center Mood Filter - Trình diễn thoáng mắt -->
+      <!-- Mood Filter -->
       <div class="hidden md:flex items-center gap-4 text-xs font-mono">
         <span class="text-[var(--fg-muted)] text-[11px] tracking-wider uppercase">Tần số:</span>
         <div class="flex items-center gap-3">
@@ -217,23 +230,24 @@
       <!-- Action Utilities -->
       <div class="flex items-center gap-3 font-mono text-xs">
         
-        <!-- Ambient Drone Sound Generator -->
+        <!-- Âm thanh Drone Thư Giãn -->
         <button id="synth-sound-btn" onclick="soundDrone.toggle()" class="h-10 px-4 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-2.5 transition-all" title="Bật/Tắt âm thanh thư giãn">
           <i id="synth-icon" class="fa-solid fa-waveform text-[11px] opacity-70"></i>
           <span id="synth-text" class="hidden sm:inline">Âm hưởng</span>
         </button>
 
-        <!-- Nút Studio tác giả (Ẩn mặc định, chỉ hiện khi đăng nhập) -->
+        <!-- Nút Xưởng Viết (Chỉ hiện khi đã mở khóa Tác giả) -->
         <button id="nav-btn-studio" onclick="app.navigateTo('studio')" class="hidden h-10 px-5 rounded-full bg-[var(--accent)] text-white hover:opacity-90 font-medium tracking-wide flex items-center gap-2 transition-all">
           <i class="fa-solid fa-pen-nib text-xs"></i>
           <span>Xưởng Viết</span>
         </button>
 
+        <!-- Nút Khóa Xưởng -->
         <button id="author-lock-btn" onclick="authorAuth.lock()" class="hidden w-10 h-10 rounded-full border border-[var(--border)] hover:border-red-500 hover:text-red-500 items-center justify-center transition-colors" title="Khóa Xưởng Viết">
           <i class="fa-solid fa-lock text-xs"></i>
         </button>
 
-        <!-- Chuyển đổi Dark / Light Theme -->
+        <!-- Đổi Theme -->
         <button onclick="app.toggleTheme()" class="w-10 h-10 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center justify-center transition-all" title="Đổi tone màu">
           <i id="theme-icon" class="fa-solid fa-circle-half-stroke text-xs"></i>
         </button>
@@ -244,7 +258,6 @@
 
   <main id="page-blog" class="flex-grow">
     
-    <!-- Hero Section: Tiêu đề lớn & Không gian mở bao la -->
     <section class="max-w-7xl mx-auto px-6 sm:px-10 pt-20 sm:pt-28 pb-16">
       <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-12">
         <div class="max-w-4xl">
@@ -256,7 +269,7 @@
         </div>
 
         <div class="lg:w-72 font-mono text-xs text-[var(--fg-muted)] space-y-4">
-          <p class="leading-relaxed">Một không gian đọc chậm, không khung viền tù túng, dành riêng cho những rung cảm sâu kín nhất của tâm hồn.</p>
+          <p class="leading-relaxed">Một không gian đọc chậm, không khung viền tù túng, lưu trữ tự động trên nền tảng GitHub Database độc lập.</p>
           <div class="flex items-center justify-between pt-2 border-t border-[var(--border)] text-[var(--fg)]">
             <span class="tracking-wider">BẢN GHI ĐÃ LƯU:</span>
             <strong id="stat-total-posts" class="text-sm font-semibold">03</strong>
@@ -264,7 +277,7 @@
         </div>
       </div>
 
-      <!-- Category Filter Tabs: Tối giản, không viền hộp -->
+      <!-- Category Filter Tabs -->
       <div class="flex items-center gap-6 sm:gap-8 overflow-x-auto pt-14 pb-4 border-b border-[var(--border-subtle)] font-mono text-xs tracking-wider">
         <button onclick="app.filterCategory('all')" class="cat-pill active-cat text-[var(--fg)] font-bold border-b-2 border-[var(--fg)] pb-2 transition-all">TẤT CẢ TÁC PHẨM</button>
         <button onclick="app.filterCategory('Tản văn')" class="cat-pill text-[var(--fg-muted)] hover:text-[var(--fg)] pb-2 transition-all">TẢN VĂN</button>
@@ -273,13 +286,13 @@
       </div>
     </section>
 
+    <!-- Khu vực hiển thị danh sách bài viết -->
     <section class="max-w-7xl mx-auto px-6 sm:px-10 pb-32">
       <div id="feed-container" class="space-y-28 sm:space-y-36">
-        <!-- Render tự động bởi JavaScript -->
+        <!-- Render tự động bởi MainApp -->
       </div>
     </section>
 
-    <!-- Trích dẫn triết lý cuối trang - Thoáng đãng & sâu lắng -->
     <section class="border-t border-[var(--border-subtle)] bg-[var(--bg-subtle)]/40 py-28 px-6 transition-colors">
       <div class="max-w-3xl mx-auto text-center space-y-8">
         <span class="text-xs font-mono text-[var(--accent)] tracking-[0.3em] uppercase block">// LỜI TỪ HIÊN VẮNG</span>
@@ -299,30 +312,32 @@
     <div class="pb-8 mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-b border-[var(--border)] font-mono">
       <div>
         <div class="flex items-center gap-2.5 text-xs mb-2">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-          <span class="text-[var(--fg)] font-semibold uppercase tracking-wider">XƯỞNG VIẾT TỰ DO // AUTHOR STUDIO</span>
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span class="text-[var(--fg)] font-semibold uppercase tracking-wider">XƯỞNG QUẢN TRỊ // GITHUB DATABASE</span>
         </div>
-        <h2 class="font-serif-title text-4xl sm:text-5xl text-[var(--fg)]">Kiến Tạo Bản Thảo Mới</h2>
+        <h2 class="font-serif-title text-4xl sm:text-5xl text-[var(--fg)]">Kiến Tạo & Quản Lý Bản Thảo</h2>
       </div>
 
-      <div class="flex items-center flex-wrap gap-3 text-xs">
-        <button onclick="authorAuth.openChangePwdModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)] transition-all">
-          Đổi mật mã
-        </button>
-        <button onclick="postManager.openModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-2 transition-all">
-          <i class="fa-solid fa-list-check text-xs"></i>
-          <span>Quản lý & Xóa bài (<span id="manage-count-badge">0</span>)</span>
-        </button>
-        <button onclick="githubSync.openModal()" class="px-4 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--accent)] text-[var(--fg)] flex items-center gap-2 transition-all">
+      <div class="flex items-center flex-wrap gap-2.5 text-xs">
+        <!-- Nút Cấu hình Kết nối GitHub DB -->
+        <button onclick="githubConfigModal.open()" class="px-3.5 py-2.5 rounded-full border border-emerald-600/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 flex items-center gap-2 transition-all" title="Cấu hình Token GitHub Database">
           <i class="fa-brands fa-github text-sm"></i>
-          <span>Xuất posts.json</span>
+          <span>Kết nối GitHub DB</span>
         </button>
-        <button onclick="editorStudio.clearDraft()" class="px-4 py-2.5 rounded-full border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white transition-all flex items-center gap-2" title="Làm sạch ô viết để soạn bài mới">
+
+        <button onclick="postManager.openModal()" class="px-3.5 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-1.5 transition-all">
+          <i class="fa-solid fa-list-check text-xs"></i>
+          <span>Quản lý & Xóa (<span id="manage-count-badge">0</span>)</span>
+        </button>
+
+        <button onclick="editorStudio.clearDraft()" class="px-3.5 py-2.5 rounded-full border border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white transition-all flex items-center gap-1.5" title="Xóa trắng ô viết để soạn bài mới">
           <i class="fa-regular fa-trash-can text-xs"></i>
-          <span>Xóa bản nháp</span>
+          <span>Xóa nháp</span>
         </button>
-        <button onclick="editorStudio.publishArticle()" class="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-sans font-medium tracking-wider hover:opacity-90 shadow-sm transition-all">
-          ĐĂNG TÁC PHẨM
+
+        <button id="btn-save-publish" onclick="editorStudio.publishArticle()" class="px-6 py-2.5 rounded-full bg-[var(--accent)] text-white font-sans font-medium tracking-wider hover:opacity-90 shadow-sm flex items-center gap-2 transition-all">
+          <i class="fa-solid fa-cloud-arrow-up text-xs"></i>
+          <span id="btn-publish-text">LƯU LÊN GITHUB</span>
         </button>
       </div>
     </div>
@@ -360,7 +375,7 @@
           <label class="block text-[var(--fg-muted)] mb-2">Ảnh bìa toàn cảnh</label>
           <div class="flex gap-2">
             <input id="post-cover-input" type="text" placeholder="https://..." class="w-full bg-[var(--bg-card)] border border-[var(--border)] rounded-md p-3 text-[var(--fg)] focus:outline-none truncate">
-            <button onclick="imageModal.open('cover')" class="px-3.5 border border-[var(--border)] rounded-md hover:border-[var(--fg)] text-[var(--fg)]" title="Tải ảnh">
+            <button onclick="imageModal.open('cover')" class="px-3.5 border border-[var(--border)] rounded-md hover:border-[var(--fg)] text-[var(--fg)]" title="Tải ảnh lên GitHub Repo hoặc dán URL">
               <i class="fa-solid fa-arrow-up-from-bracket"></i>
             </button>
           </div>
@@ -368,7 +383,7 @@
       </div>
     </div>
 
-    <!-- Editorial Toolbar -->
+    <!-- Thanh công cụ định dạng chữ & thi ca -->
     <div class="sticky top-24 z-30 bg-[var(--bg)]/95 backdrop-blur-md py-3.5 border-y border-[var(--border-subtle)] mb-10 flex items-center flex-wrap gap-2 font-mono text-xs">
       <button onclick="editorStudio.exec('bold')" class="w-8 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)] font-bold">B</button>
       <button onclick="editorStudio.exec('italic')" class="w-8 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)] italic font-serif">I</button>
@@ -382,9 +397,10 @@
 
       <div class="w-px h-5 bg-[var(--border)] mx-2"></div>
 
-      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--accent)] text-[var(--accent)] font-semibold hover:bg-[var(--accent-soft)]" title="Định dạng chuẩn cho Thơ (Khoảng cách đều)">✦ Khổ thơ</button>
-      <button onclick="editorStudio.insertDropCap()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]" title="Chỉ dùng cho đoạn văn xuôi dài">Drop Cap (Văn xuôi)</button>
-      <button onclick="editorStudio.clearFormat()" class="px-3 h-8 rounded border border-[var(--border)] hover:border-red-500 hover:text-red-500" title="Xóa bỏ Drop Cap hoặc định dạng hỏng">Xóa định dạng</button>
+      <!-- Nút định dạng khổ thơ chuẩn (không dính lỗi nhảy dòng) -->
+      <button onclick="editorStudio.insertPoetryBlock()" class="px-3.5 h-8 rounded border border-[var(--accent)] text-[var(--accent)] font-semibold hover:bg-[var(--accent-soft)]" title="Khổ thơ: khoảng cách dòng đều tăm tắp">✦ Khổ thơ</button>
+      <button onclick="editorStudio.insertDropCap()" class="px-3.5 h-8 rounded border border-[var(--border)] hover:border-[var(--fg)]" title="Drop Cap (chỉ dùng cho đoạn văn xuôi)">Drop Cap</button>
+      <button onclick="editorStudio.clearFormat()" class="px-3 h-8 rounded border border-[var(--border)] hover:border-red-500 hover:text-red-500" title="Xóa định dạng">Xóa định dạng</button>
 
       <button onclick="imageModal.open('inline')" class="ml-auto px-4 h-8 rounded-full border border-[var(--fg)] bg-[var(--fg)] text-[var(--bg)] flex items-center gap-2">
         <i class="fa-regular fa-image"></i>
@@ -392,7 +408,7 @@
       </button>
     </div>
 
-    <!-- Trang giấy viết thoáng rộng -->
+    <!-- Khung giấy viết chính -->
     <div class="bg-[var(--bg-card)] border border-[var(--border-subtle)] p-8 sm:p-20 rounded-xl shadow-sm min-h-[600px]">
       <div id="rich-editor-content" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng khoáng đạt của bạn..." class="editor-sheet font-editorial-body text-xl sm:text-2xl leading-[2] text-[var(--fg)] min-h-[450px]">
         <div class="poetry-block">Tôi thích được tự do
@@ -409,7 +425,7 @@ chưa bao giờ tìm đến</div>
           <span>•</span>
           <span id="metric-read-time">~1 phút đọc</span>
         </div>
-        <span class="text-[var(--accent)] font-medium">BẢN THẢO HIÊN VẮNG</span>
+        <span class="text-[var(--accent)] font-medium">BẢN THẢO HIÊN VẮNG // GITHUB CLOUD</span>
       </div>
     </div>
 
@@ -417,7 +433,6 @@ chưa bao giờ tìm đến</div>
 
   <article id="reader-modal" class="fixed inset-0 z-50 bg-[var(--bg)] hidden flex-col overflow-y-auto">
     
-    <!-- Thanh điều hướng đọc trên đỉnh -->
     <div class="sticky top-0 bg-[var(--bg)]/95 backdrop-blur-md border-b border-[var(--border-subtle)] px-6 sm:px-10 h-20 flex items-center justify-between z-30 max-w-5xl w-full mx-auto font-mono text-xs">
       <button onclick="articleReader.close()" class="text-[var(--fg)] hover:text-[var(--accent)] flex items-center gap-2.5 transition-colors">
         <i class="fa-solid fa-arrow-left-long"></i>
@@ -429,13 +444,13 @@ chưa bao giờ tìm đến</div>
         <span>/</span>
         <span id="read-meta-mood" class="text-[var(--accent)] font-medium">Tĩnh lặng</span>
         
-        <!-- Nút sửa/xóa dành riêng cho tác giả (luôn có thể thao tác khi đã mở khóa) -->
-        <div id="reader-author-actions" class="flex items-center gap-2 border-l border-[var(--border)] pl-4 ml-1">
-          <button onclick="articleReader.editCurrent()" class="px-3 py-1.5 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-1.5 transition-colors" title="Chỉnh sửa lại bài này">
+        <!-- Nút sửa/xóa trực tiếp cho tác giả -->
+        <div id="reader-author-actions" class="hidden items-center gap-2 border-l border-[var(--border)] pl-4 ml-1">
+          <button onclick="articleReader.editCurrent()" class="px-3 py-1.5 border border-[var(--border)] rounded-full hover:border-[var(--fg)] text-[var(--fg)] flex items-center gap-1.5 transition-colors" title="Chỉnh sửa lại tác phẩm">
             <i class="fa-solid fa-pen text-xs"></i>
             <span class="hidden sm:inline">Sửa</span>
           </button>
-          <button onclick="articleReader.deleteCurrent()" class="px-3 py-1.5 border border-red-500/40 text-red-500 hover:bg-red-500 hover:text-white rounded-full transition-colors flex items-center gap-1.5" title="Xóa tác phẩm này khỏi blog">
+          <button onclick="articleReader.deleteCurrent()" class="px-3 py-1.5 border border-red-500/40 text-red-500 hover:bg-red-500 hover:text-white rounded-full transition-colors flex items-center gap-1.5" title="Xóa tác phẩm khỏi GitHub">
             <i class="fa-regular fa-trash-can text-xs"></i>
             <span class="hidden sm:inline">Xóa</span>
           </button>
@@ -447,10 +462,8 @@ chưa bao giờ tìm đến</div>
       </div>
     </div>
 
-    <!-- Thân bài đọc: Chiều ngang thoáng mắt, dòng giãn rộng -->
     <div class="max-w-3xl sm:max-w-4xl mx-auto px-6 sm:px-12 py-16 sm:py-24 w-full flex-grow">
       
-      <!-- Bìa toàn cảnh không viền đóng hộp -->
       <div id="read-cover-box" class="hidden mb-16 overflow-hidden rounded-2xl">
         <img id="read-cover-img" class="w-full h-auto max-h-[560px] object-cover grayscale contrast-110 hover:grayscale-0 transition-all duration-700">
       </div>
@@ -464,15 +477,13 @@ chưa bao giờ tìm đến</div>
         <h1 id="read-title" class="font-serif-title text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.08] text-[var(--fg)] tracking-tight"></h1>
       </div>
 
-      <!-- Khối chính văn: Phông Newsreader, khoảng cách dòng rộng rãi -->
       <div id="read-body" class="font-editorial-body text-xl sm:text-2xl leading-[2.1] text-[var(--fg)] space-y-10 font-normal">
-        <!-- Render tự động -->
+        <!-- Render nội dung -->
       </div>
 
-      <!-- Tương tác cảm xúc cuối bài -->
       <div class="mt-28 pt-10 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-6 font-mono text-xs">
         <div class="text-[var(--fg-muted)] tracking-wider">
-          Ấn phẩm lưu trữ tại Thư viện số Hiên Vắng.
+          Ấn phẩm lưu trữ trên GitHub Database // Hiên Vắng.
         </div>
         <button onclick="articleReader.appreciate()" id="btn-appreciate" class="px-6 py-3.5 rounded-full border border-[var(--fg)] hover:bg-[var(--fg)] hover:text-[var(--bg)] text-[var(--fg)] transition-all flex items-center gap-3 self-start sm:self-auto">
           <i class="fa-solid fa-heart text-[var(--accent)]"></i>
@@ -486,22 +497,26 @@ chưa bao giờ tìm đến</div>
   <div id="image-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl max-w-md w-full p-7 shadow-2xl font-mono text-xs text-[var(--fg)]">
       <div class="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] mb-5">
-        <h3 class="font-bold uppercase tracking-wider">CHÈN HÌNH ẢNH TOÀN CẢNH</h3>
+        <h3 class="font-bold uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-image text-[var(--accent)]"></i>
+          <span>CHÈN HÌNH ẢNH (GITHUB STORAGE)</span>
+        </h3>
         <button onclick="imageModal.close()" class="hover:text-[var(--accent)]"><i class="fa-solid fa-xmark text-sm"></i></button>
       </div>
 
       <div class="space-y-5">
         <div>
-          <label class="block text-[var(--fg-muted)] mb-1.5">Đường link ảnh trực tiếp (URL):</label>
+          <label class="block text-[var(--fg-muted)] mb-1.5">Cách 1: Đường link ảnh trực tiếp (URL)</label>
           <input type="url" id="img-url-input" placeholder="https://images.unsplash.com/..." class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-md p-3 focus:outline-none focus:border-[var(--fg)]">
         </div>
 
-        <div class="text-center text-[var(--fg-muted)] text-[11px]">— HOẶC TẢI LÊN TỪ MÁY —</div>
+        <div class="text-center text-[var(--fg-muted)] text-[11px]">— HOẶC TẢI LÊN LƯU VÀO REPO GITHUB —</div>
 
         <div>
-          <label class="block border border-dashed border-[var(--border)] rounded-lg p-6 text-center cursor-pointer hover:border-[var(--fg)] transition-colors">
-            <i class="fa-solid fa-cloud-arrow-up text-2xl mb-2 text-[var(--accent)]"></i>
-            <span class="block">Chọn file ảnh từ thiết bị</span>
+          <label id="upload-label-box" class="block border border-dashed border-[var(--border)] rounded-lg p-6 text-center cursor-pointer hover:border-[var(--fg)] transition-colors">
+            <i id="upload-icon" class="fa-solid fa-cloud-arrow-up text-2xl mb-2 text-[var(--accent)]"></i>
+            <span id="upload-status-text" class="block">Chọn file ảnh từ thiết bị</span>
+            <span class="text-[10px] text-[var(--fg-muted)] block mt-1">Ảnh sẽ tự động upload vào thư mục <code>images/</code> trên repo GitHub của bạn</span>
             <input type="file" id="img-file-input" accept="image/*" class="hidden" onchange="imageModal.handleUpload(event)">
           </label>
         </div>
@@ -513,9 +528,61 @@ chưa bao giờ tìm đến</div>
 
         <div class="flex justify-end gap-3 pt-4 border-t border-[var(--border-subtle)]">
           <button onclick="imageModal.close()" class="px-4 py-2 border border-[var(--border)] rounded-md">HỦY</button>
-          <button onclick="imageModal.confirm()" class="px-5 py-2 rounded-md bg-[var(--fg)] text-[var(--bg)] font-semibold">XÁC NHẬN</button>
+          <button onclick="imageModal.confirm()" class="px-5 py-2 rounded-md bg-[var(--fg)] text-[var(--bg)] font-semibold">XÁC NHẬN CHÈN</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="github-config-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl max-w-lg w-full p-8 shadow-2xl font-mono text-xs text-[var(--fg)]">
+      <div class="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] mb-5">
+        <div class="flex items-center gap-2.5">
+          <i class="fa-brands fa-github text-xl text-[var(--accent)]"></i>
+          <h3 class="font-bold text-sm uppercase">CẤU HÌNH GITHUB DATABASE</h3>
+        </div>
+        <button onclick="githubConfigModal.close()" class="hover:text-[var(--accent)]"><i class="fa-solid fa-xmark text-sm"></i></button>
+      </div>
+
+      <p class="text-[11px] text-[var(--fg-muted)] leading-relaxed mb-5">
+        Biến kho GitHub của bạn thành cơ sở dữ liệu đám mây. Mỗi khi bạn thêm, sửa, xóa bài, website sẽ tự động commit và lưu trữ trực tiếp vào repository GitHub.
+      </p>
+
+      <form onsubmit="githubConfigModal.save(event)" class="space-y-4">
+        <div>
+          <label class="block text-[var(--fg-muted)] mb-1">GitHub Repository (Owner/Repo):</label>
+          <input type="text" id="gh-cfg-repo" placeholder="ví dụ: HauDevOpslearn/my-poetry-blog" required class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 focus:outline-none focus:border-[var(--fg)]">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-[var(--fg-muted)] mb-1">Nhánh (Branch):</label>
+            <input type="text" id="gh-cfg-branch" placeholder="main" value="main" required class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 focus:outline-none focus:border-[var(--fg)]">
+          </div>
+          <div>
+            <label class="block text-[var(--fg-muted)] mb-1">File dữ liệu:</label>
+            <input type="text" id="gh-cfg-filepath" placeholder="posts.json" value="posts.json" readonly class="w-full bg-[var(--bg-subtle)] border border-[var(--border)] rounded-lg p-3 text-[var(--fg-muted)] focus:outline-none cursor-not-allowed">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[var(--fg-muted)] mb-1">GitHub Personal Access Token (PAT):</label>
+          <input type="password" id="gh-cfg-token" placeholder="ghp_••••••••••••••••••••••••••••••••" required class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 tracking-wider focus:outline-none focus:border-[var(--fg)]">
+          <p class="text-[10px] text-[var(--fg-muted)] mt-1.5">Token có quyền <code>repo</code> để đọc và ghi file. Token chỉ lưu an toàn trên trình duyệt của bạn.</p>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
+          <button type="button" onclick="githubConfigModal.testConnection()" id="btn-test-gh" class="px-4 py-2.5 rounded-lg border border-[var(--border)] hover:border-[var(--fg)] flex items-center gap-1.5">
+            <i class="fa-solid fa-plug text-xs"></i>
+            <span>Kiểm tra kết nối</span>
+          </button>
+
+          <div class="flex gap-2">
+            <button type="button" onclick="githubConfigModal.close()" class="px-4 py-2.5 rounded-lg border border-[var(--border)]">ĐÓNG</button>
+            <button type="submit" class="px-5 py-2.5 rounded-lg bg-[var(--fg)] text-[var(--bg)] font-bold hover:bg-[var(--accent)] transition-colors">LƯU CẤU HÌNH</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -525,7 +592,7 @@ chưa bao giờ tìm đến</div>
         <i class="fa-solid fa-fingerprint text-xl"></i>
       </div>
       <h3 class="font-cinzel text-lg font-bold text-[var(--fg)] tracking-widest mb-1">AUTHOR GATE</h3>
-      <p class="text-[var(--fg-muted)] mb-6 text-[11px]">Xác nhận quyền tác giả để mở Xưởng Viết.</p>
+      <p class="text-[var(--fg-muted)] mb-6 text-[11px]">Xác nhận quyền tác giả để mở Xưởng Quản Trị.</p>
       
       <form onsubmit="authorAuth.verify(event)" class="space-y-4">
         <input type="password" id="author-pass-input" placeholder="••••••••" class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-center tracking-widest text-sm focus:outline-none focus:border-[var(--fg)] text-[var(--fg)]" autocomplete="current-password">
@@ -542,85 +609,31 @@ chưa bao giờ tìm đến</div>
     </div>
   </div>
 
-  <div id="change-pwd-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl max-w-sm w-full p-7 shadow-2xl font-mono text-xs">
-      <h3 class="font-bold text-sm uppercase text-[var(--fg)] mb-2">Đổi Mật Mã Tác Giả</h3>
-      <p class="text-[var(--fg-muted)] mb-5 text-[11px]">Mật mã được mã hóa an toàn qua SHA-256 trên thiết bị của bạn.</p>
-      
-      <form onsubmit="authorAuth.submitChangePassword(event)" class="space-y-3.5">
-        <input type="password" id="current-pwd-input" placeholder="Mật mã hiện tại" class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-md p-3 focus:outline-none focus:border-[var(--fg)] text-[var(--fg)]">
-        <input type="password" id="new-pwd-input" placeholder="Mật mã mới" class="w-full bg-[var(--bg)] border border-[var(--border)] rounded-md p-3 focus:outline-none focus:border-[var(--fg)] text-[var(--fg)]">
-        <div class="flex items-center gap-3 pt-3">
-          <button type="button" onclick="authorAuth.closeChangePwdModal()" class="w-1/2 py-2.5 rounded-md border border-[var(--border)]">HỦY</button>
-          <button type="submit" class="w-1/2 py-2.5 rounded-md bg-[var(--accent)] text-white font-bold">LƯU LẠI</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="github-sync-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-xl max-w-xl w-full p-7 shadow-2xl font-mono text-xs flex flex-col max-h-[85vh]">
-      <div class="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] mb-5">
-        <h3 class="font-bold text-sm uppercase text-[var(--fg)] flex items-center gap-2">
-          <i class="fa-brands fa-github text-base"></i>
-          <span>XUẤT BẢN POSTS.JSON CHO GITHUB PAGES</span>
-        </h3>
-        <button onclick="githubSync.closeModal()" class="hover:text-[var(--accent)]"><i class="fa-solid fa-xmark text-sm"></i></button>
-      </div>
-
-      <div class="space-y-4 overflow-y-auto pr-1">
-        <p class="text-[var(--fg-muted)] leading-relaxed">
-          Tải file <strong>posts.json</strong> này về và đưa lên kho lưu trữ GitHub của bạn. Blog sẽ tự động cập nhật bài viết cho độc giả toàn cầu.
-        </p>
-
-        <div>
-          <div class="flex items-center justify-between mb-2 text-[11px] text-[var(--fg-muted)]">
-            <span>DỮ LIỆU JSON (<span id="json-count-articles">0</span> BÀI):</span>
-            <button onclick="githubSync.copyJson()" class="text-[var(--fg)] underline hover:text-[var(--accent)]">SAO CHÉP NHANH</button>
-          </div>
-          <textarea id="github-json-textarea" readonly class="w-full h-40 bg-[var(--bg)] border border-[var(--border)] rounded-md p-3 text-[11px] font-mono text-[var(--fg)] focus:outline-none"></textarea>
-        </div>
-
-        <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
-          <label class="cursor-pointer text-[var(--fg-muted)] hover:text-[var(--fg)] flex items-center gap-2">
-            <i class="fa-solid fa-arrow-up-from-bracket"></i>
-            <span>Nhập file từ máy</span>
-            <input type="file" accept=".json" class="hidden" onchange="githubSync.importJson(event)">
-          </label>
-          <button onclick="githubSync.downloadFile()" class="px-5 py-2.5 rounded-full bg-[var(--fg)] text-[var(--bg)] font-bold hover:bg-[var(--accent)] transition-colors">
-            TẢI VỀ POSTS.JSON
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Quản Lý & Xóa Bài Viết -->
   <div id="post-manager-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl max-w-2xl w-full p-7 shadow-2xl font-mono text-xs flex flex-col max-h-[85vh]">
       <div class="flex items-center justify-between pb-4 border-b border-[var(--border-subtle)] mb-4">
         <div>
           <h3 class="font-bold text-sm uppercase text-[var(--fg)] flex items-center gap-2">
-            <i class="fa-solid fa-layer-group text-sm text-[var(--accent)]"></i>
-            <span>QUẢN LÝ TÁC PHẨM ĐÃ ĐĂNG</span>
+            <i class="fa-solid fa-database text-sm text-[var(--accent)]"></i>
+            <span>QUẢN LÝ DỮ LIỆU BÀI VIẾT TRÊN GITHUB</span>
           </h3>
-          <p class="text-[11px] text-[var(--fg-muted)] mt-1">Chỉnh sửa lại câu chữ hoặc xóa bỏ tác phẩm không mong muốn.</p>
+          <p class="text-[11px] text-[var(--fg-muted)] mt-1">Chỉnh sửa lại câu chữ hoặc xóa bỏ vĩnh viễn khỏi GitHub Database.</p>
         </div>
         <button onclick="postManager.closeModal()" class="hover:text-[var(--accent)]"><i class="fa-solid fa-xmark text-base"></i></button>
       </div>
 
       <div id="post-manager-list" class="space-y-3 overflow-y-auto pr-1 flex-grow my-2">
-        <!-- Render bởi PostManager -->
+        <!-- Render danh sách bài viết -->
       </div>
 
       <div class="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between text-[11px] text-[var(--fg-muted)]">
-        <span>* Khi xóa bài xong, nhớ bấm <strong>Xuất posts.json</strong> để cập nhật GitHub.</span>
+        <span>* Thao tác xóa hoặc sửa sẽ đồng bộ trực tiếp lên repo GitHub.</span>
         <button onclick="postManager.closeModal()" class="px-4 py-2 rounded-full border border-[var(--border)] hover:border-[var(--fg)] text-[var(--fg)]">ĐÓNG</button>
       </div>
     </div>
   </div>
 
-  <!-- Modal Xác Nhận Xóa Tác Phẩm (Thay thế confirm popup) -->
+  <!-- Modal Xác Nhận Xóa Bài Viết -->
   <div id="delete-confirm-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm hidden items-center justify-center p-4">
     <div class="bg-[var(--bg-card)] border border-red-500/30 rounded-2xl max-w-sm w-full p-7 shadow-2xl font-mono text-xs text-center space-y-4">
       <div class="w-12 h-12 rounded-full bg-red-500/10 text-red-500 mx-auto flex items-center justify-center text-xl">
@@ -629,16 +642,16 @@ chưa bao giờ tìm đến</div>
       <div>
         <h4 class="font-bold text-sm uppercase text-[var(--fg)]">XÁC NHẬN XÓA TÁC PHẨM?</h4>
         <p id="delete-post-title-text" class="text-[var(--fg-muted)] text-[11px] mt-2 italic font-serif text-sm">"Tiêu đề bài viết"</p>
-        <p class="text-[11px] text-[var(--fg-muted)] mt-2">Hành động này sẽ xóa vĩnh viễn bài viết khỏi kho lưu trữ.</p>
+        <p class="text-[11px] text-red-400 mt-2">Bài viết sẽ bị xóa vĩnh viễn khỏi kho lưu trữ GitHub của bạn.</p>
       </div>
       <div class="flex items-center gap-3 pt-2">
         <button onclick="postManager.cancelDelete()" class="w-1/2 py-2.5 rounded-lg border border-[var(--border)] text-[var(--fg-muted)] hover:border-[var(--fg)]">HỦY BỎ</button>
-        <button onclick="postManager.confirmDelete()" class="w-1/2 py-2.5 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">XÓA BÀI</button>
+        <button onclick="postManager.confirmDelete()" id="btn-confirm-delete-action" class="w-1/2 py-2.5 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 transition-colors">XÓA BÀI</button>
       </div>
     </div>
   </div>
 
-  <!-- Footer thoáng đãng -->
+  <!-- Footer -->
   <footer class="border-t border-[var(--border-subtle)] bg-[var(--bg)] py-14 px-6 sm:px-10 font-mono text-xs text-[var(--fg-muted)]">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
       <div>
@@ -646,7 +659,7 @@ chưa bao giờ tìm đến</div>
         <p class="text-[11px] mt-1.5">Không gian văn học & thi ca độc lập. Độc giả thưởng thức không gián đoạn.</p>
       </div>
       <div class="flex items-center gap-6 text-[11px]">
-        <span>MINIMALIST EDITORIAL</span>
+        <span>GIT-POWERED DATABASE</span>
         <span>•</span>
         <span>NO-TRACKER</span>
         <span>•</span>
@@ -674,10 +687,8 @@ chưa bao giờ tìm đến</div>
         contentHtml: `
           <p class="editorial-dropcap">Có những ngày thành phố lùi sâu vào làn sương xám của mùa mưa, lòng người ta bỗng nhiên chậm lại một nhịp. Không hẳn là buồn bã, chỉ là một trạng thái lặng yên hiếm hoi giữa nhịp sống dồn dập thường nhật.</p>
           <p>Ta ngồi trong một góc quán quen, nhìn những giọt nước đập vào thềm kính rồi lặng lẽ chảy dài. Đôi khi, sự trưởng thành không nằm ở việc ta chinh phục được bao nhiêu đỉnh cao, mà là ở khoảnh khắc ta biết ngồi yên và lắng nghe tiếng thở của chính mình.</p>
-          <div class="poetry-block">
-            "Có những khoảng lặng không phải để trốn tránh<br>
-            Mà để ta nhìn rõ hơn hình hài những điều mình trân quý."
-          </div>
+          <div class="poetry-block">"Có những khoảng lặng không phải để trốn tránh
+Mà để ta nhìn rõ hơn hình hài những điều mình trân quý."</div>
           <p>Mùi cà phê rang thơm thoang thoảng trong không gian. Ngoài kia, dòng xe cộ vẫn hối hả che chắn những cơn mưa rào bất chợt. Nhưng ở đây, thời gian như ngưng đọng lại, vừa vặn cho một dòng suy tưởng dịu êm.</p>
         `
       },
@@ -691,19 +702,15 @@ chưa bao giờ tìm đến</div>
         coverImage: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1600&q=80",
         appreciations: 56,
         contentHtml: `
-          <div class="poetry-block">
-            Đêm nay trăng lặn xuống thềm sương<br>
-            Nhặt lại câu thơ gói đoạn đường<br>
-            Một ấm trà thơm bừng khói tỏa<br>
-            Quên hết phong trần, nhẹ vết thương.
-          </div>
+          <div class="poetry-block">Đêm nay trăng lặn xuống thềm sương
+Nhặt lại câu thơ gói đoạn đường
+Một ấm trà thơm bừng khói tỏa
+Quên hết phong trần, nhẹ vết thương.</div>
           <p>Thơ ca là nơi ký thác những điều không thể nói bằng lời thoại thường nhật. Từng dòng chữ như chiếc lá nhẹ rơi xuống mặt hồ phẳng lặng, tạo nên những vòng sóng lăn tăn nhưng sâu lắng.</p>
-          <div class="poetry-block">
-            Cúc vàng ngậm giọt tinh khôi biếc<br>
-            Lòng khép thênh thang đón gió lành<br>
-            Gặp gỡ, chia ly đều duyên số<br>
-            Cớ sao lòng mãi vấn vương ai?
-          </div>
+          <div class="poetry-block">Cúc vàng ngậm giọt tinh khôi biếc
+Lòng khép thênh thang đón gió lành
+Gặp gỡ, chia ly đều duyên số
+Cớ sao lòng mãi vấn vương ai?</div>
         `
       },
       {
@@ -728,7 +735,241 @@ chưa bao giờ tìm đến</div>
       return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Âm thanh Synth Drone thư giãn
+    // Helper mã hóa Base64 hỗ trợ UTF-8 cho tiếng Việt
+    function utf8ToBase64(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+        return String.fromCharCode(parseInt(p1, 16));
+      }));
+    }
+
+    function base64ToUtf8(str) {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    }
+
+    class GitHubDatabaseEngine {
+      constructor() {
+        this.storageKey = 'hienvang_gh_config';
+        this.config = this.loadConfig();
+      }
+
+      loadConfig() {
+        const stored = localStorage.getItem(this.storageKey);
+        if (stored) {
+          try { return JSON.parse(stored); } catch(e) {}
+        }
+        return {
+          repo: 'HauDevOpslearn/my-poetry-blog',
+          branch: 'main',
+          path: 'posts.json',
+          token: ''
+        };
+      }
+
+      saveConfig(cfg) {
+        this.config = { ...this.config, ...cfg };
+        localStorage.setItem(this.storageKey, JSON.stringify(this.config));
+        this.updateIndicator();
+      }
+
+      isConfigured() {
+        return !!(this.config.repo && this.config.token && this.config.token.trim().length > 10);
+      }
+
+      updateIndicator() {
+        const bar = document.getElementById('github-sync-indicator');
+        const repoText = document.getElementById('github-db-repo');
+        if (this.isConfigured() && authorAuth && authorAuth.isAuthor) {
+          bar.classList.remove('hidden');
+          bar.classList.add('flex');
+          if (repoText) repoText.innerText = this.config.repo;
+        } else {
+          bar.classList.add('hidden');
+          bar.classList.remove('flex');
+        }
+      }
+
+      // Đọc file từ GitHub qua API (lấy cả nội dung và SHA file)
+      async fetchFile() {
+        const url = `https://api.github.com/repos/${this.config.repo}/contents/${this.config.path}?ref=${this.config.branch}&t=${Date.now()}`;
+        const headers = {
+          'Accept': 'application/vnd.github.v3+json'
+        };
+        if (this.config.token) {
+          headers['Authorization'] = `token ${this.config.token}`;
+        }
+
+        const res = await fetch(url, { headers });
+        if (!res.ok) {
+          throw new Error(`GitHub API HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        const contentStr = base64ToUtf8(data.content.replace(/\s/g, ''));
+        const posts = JSON.parse(contentStr);
+        return { posts, sha: data.sha };
+      }
+
+      // Lưu file đè lên GitHub qua API commit
+      async commitFile(postsArray, commitMessage = "Cập nhật bài viết qua Hiên Vắng Studio") {
+        if (!this.isConfigured()) {
+          throw new Error("Chưa cấu hình GitHub Token trong Cài đặt GitHub DB.");
+        }
+
+        // Lấy SHA hiện tại của file
+        let currentSha = null;
+        try {
+          const fileInfo = await this.fetchFile();
+          currentSha = fileInfo.sha;
+        } catch(e) {
+          console.warn("Chưa tìm thấy file posts.json cũ trên repo, tạo mới file.");
+        }
+
+        const contentJson = JSON.stringify(postsArray, null, 2);
+        const contentBase64 = utf8ToBase64(contentJson);
+
+        const url = `https://api.github.com/repos/${this.config.repo}/contents/${this.config.path}`;
+        const body = {
+          message: commitMessage,
+          content: contentBase64,
+          branch: this.config.branch
+        };
+        if (currentSha) {
+          body.sha = currentSha;
+        }
+
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${this.config.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || `Lỗi GitHub HTTP ${res.status}`);
+        }
+
+        return await res.json();
+      }
+
+      // Tải ảnh trực tiếp lên thư mục images/ trên GitHub repo
+      async uploadImageFile(file, fileName) {
+        if (!this.isConfigured()) {
+          throw new Error("Cần kết nối GitHub Token để upload ảnh trực tiếp lên repo.");
+        }
+
+        const safeName = `img-${Date.now()}-${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
+        const filePath = `images/${safeName}`;
+
+        const base64Data = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const raw = reader.result.split(',')[1];
+            resolve(raw);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+
+        const url = `https://api.github.com/repos/${this.config.repo}/contents/${filePath}`;
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `token ${this.config.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: `Upload hình ảnh: ${safeName}`,
+            content: base64Data,
+            branch: this.config.branch
+          })
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || `Lỗi tải ảnh HTTP ${res.status}`);
+        }
+
+        // Tạo raw URL chuẩn để hiển thị ngay tức thì
+        const rawUrl = `https://raw.githubusercontent.com/${this.config.repo}/${this.config.branch}/${filePath}`;
+        return rawUrl;
+      }
+
+      async syncNow() {
+        app.showToast("Đang đồng bộ dữ liệu mới nhất từ GitHub...");
+        await app.loadPublicPosts(true);
+        app.renderFeed();
+        app.showToast("Đã đồng bộ xong dữ liệu từ GitHub.");
+      }
+    }
+
+    class GitHubConfigModal {
+      constructor() {
+        this.modal = document.getElementById('github-config-modal');
+      }
+
+      open() {
+        const cfg = githubDatabase.config;
+        document.getElementById('gh-cfg-repo').value = cfg.repo || '';
+        document.getElementById('gh-cfg-branch').value = cfg.branch || 'main';
+        document.getElementById('gh-cfg-token').value = cfg.token || '';
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+      }
+
+      close() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+      }
+
+      async testConnection() {
+        const repo = document.getElementById('gh-cfg-repo').value.trim();
+        const token = document.getElementById('gh-cfg-token').value.trim();
+        const btn = document.getElementById('btn-test-gh');
+
+        if (!repo || !token) {
+          app.showToast("Vui lòng điền đầy đủ Repo và Token.");
+          return;
+        }
+
+        btn.innerHTML = `<i class="fa-solid fa-spinner spin-slow text-xs"></i> <span>Đang thử...</span>`;
+        try {
+          const res = await fetch(`https://api.github.com/repos/${repo}`, {
+            headers: {
+              'Authorization': `token ${token}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+          if (res.ok) {
+            app.showToast("Kết nối GitHub Database thành công!");
+          } else {
+            app.showToast("Không thể kết nối. Kiểm tra lại Repo hoặc Token.");
+          }
+        } catch(e) {
+          app.showToast("Lỗi mạng khi kết nối GitHub.");
+        } finally {
+          btn.innerHTML = `<i class="fa-solid fa-plug text-xs"></i> <span>Kiểm tra kết nối</span>`;
+        }
+      }
+
+      save(e) {
+        e.preventDefault();
+        const repo = document.getElementById('gh-cfg-repo').value.trim();
+        const branch = document.getElementById('gh-cfg-branch').value.trim() || 'main';
+        const token = document.getElementById('gh-cfg-token').value.trim();
+
+        githubDatabase.saveConfig({ repo, branch, token });
+        this.close();
+        app.showToast("Đã lưu cấu hình GitHub Database.");
+        githubDatabase.syncNow();
+      }
+    }
+
     class MinimalSynthDrone {
       constructor() {
         this.ctx = null;
@@ -807,12 +1048,10 @@ chưa bao giờ tìm đến</div>
       }
     }
 
-    // Bảo mật tác giả không lộ diện
     class AuthorAuth {
       constructor() {
         this.modal = document.getElementById('author-auth-modal');
         this.input = document.getElementById('author-pass-input');
-        this.pwdModal = document.getElementById('change-pwd-modal');
         this.isAuthor = false;
         this.storageKey = 'hienvang_author_session';
         this.hashKey = 'hienvang_pwd_sha256';
@@ -879,7 +1118,6 @@ chưa bao giờ tìm đến</div>
         const pwd = this.input.value.trim();
         if (!pwd) return;
 
-        // Cho phép nhận trực tiếp mật khẩu mặc định hoặc mã hash
         const hashed = await hashString(pwd);
         const stored = localStorage.getItem(this.hashKey) || this.defaultHash;
 
@@ -887,7 +1125,7 @@ chưa bao giờ tìm đến</div>
           this.setAuthorState(true);
           sessionStorage.setItem(this.storageKey, 'true');
           this.closeModal();
-          app.showToast("Đã mở khóa Xưởng Viết thành công.");
+          app.showToast("Đã mở khóa Xưởng Quản Trị thành công.");
           app.navigateTo('studio');
         } else {
           app.showToast("Mật mã không đúng.");
@@ -898,67 +1136,9 @@ chưa bao giờ tìm đến</div>
 
       resetDefaultPassword() {
         localStorage.setItem(this.hashKey, this.defaultHash);
-        app.showToast("Đã đặt lại mật mã về: hienvang");
+        app.showToast("Đã khôi phục mật mã về: hienvang");
         this.input.value = 'hienvang';
         this.input.focus();
-      }
-
-      setAuthorState(active) {
-        this.isAuthor = active;
-        const studioBtn = document.getElementById('nav-btn-studio');
-        const lockBtn = document.getElementById('author-lock-btn');
-
-        if (active) {
-          studioBtn.classList.remove('hidden');
-          lockBtn.classList.remove('hidden');
-          lockBtn.classList.add('flex');
-        } else {
-          studioBtn.classList.add('hidden');
-          lockBtn.classList.add('hidden');
-          lockBtn.classList.remove('flex');
-        }
-      }
-
-      lock() {
-        this.setAuthorState(false);
-        sessionStorage.removeItem(this.storageKey);
-        app.showToast("Đã khóa chế độ tác giả.");
-        app.navigateTo('blog');
-      }
-
-      openChangePwdModal() {
-        this.pwdModal.classList.remove('hidden');
-        this.pwdModal.classList.add('flex');
-        document.getElementById('current-pwd-input').value = '';
-        document.getElementById('new-pwd-input').value = '';
-      }
-
-      closeChangePwdModal() {
-        this.pwdModal.classList.add('hidden');
-        this.pwdModal.classList.remove('flex');
-      }
-
-      async submitChangePassword(e) {
-        e.preventDefault();
-        const cur = document.getElementById('current-pwd-input').value.trim();
-        const next = document.getElementById('new-pwd-input').value.trim();
-
-        if (!cur || !next) {
-          app.showToast("Vui lòng nhập đầy đủ thông tin.");
-          return;
-        }
-
-        const hashedCur = await hashString(cur);
-        const stored = localStorage.getItem(this.hashKey) || this.defaultHash;
-
-        if (cur === 'hienvang' || hashedCur === stored || hashedCur === this.defaultHash) {
-          const hashedNext = await hashString(next);
-          localStorage.setItem(this.hashKey, hashedNext);
-          this.closeChangePwdModal();
-          app.showToast("Đã đổi mật mã tác giả thành công.");
-        } else {
-          app.showToast("Mật mã hiện tại không đúng.");
-        }
       }
 
       setAuthorState(active) {
@@ -984,6 +1164,10 @@ chưa bao giờ tìm đến</div>
             readerAuthorActions.classList.remove('flex');
           }
         }
+
+        if (githubDatabase) {
+          githubDatabase.updateIndicator();
+        }
       }
 
       lock() {
@@ -994,83 +1178,19 @@ chưa bao giờ tìm đến</div>
       }
     }
 
-    // Trung tâm xuất bản posts.json cho GitHub Pages
-    class GitHubSyncCenter {
-      constructor() {
-        this.modal = document.getElementById('github-sync-modal');
-      }
-
-      openModal() {
-        const jsonStr = JSON.stringify(app.articles, null, 2);
-        document.getElementById('github-json-textarea').value = jsonStr;
-        document.getElementById('json-count-articles').innerText = app.articles.length;
-        this.modal.classList.remove('hidden');
-        this.modal.classList.add('flex');
-      }
-
-      closeModal() {
-        this.modal.classList.add('hidden');
-        this.modal.classList.remove('flex');
-      }
-
-      downloadFile() {
-        const jsonStr = JSON.stringify(app.articles, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'posts.json';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        app.showToast("Đã tải về file posts.json.");
-      }
-
-      copyJson() {
-        const textarea = document.getElementById('github-json-textarea');
-        textarea.select();
-        document.execCommand('copy');
-        app.showToast("Đã sao chép vào bộ nhớ đệm.");
-      }
-
-      importJson(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const data = JSON.parse(e.target.result);
-            if (Array.isArray(data)) {
-              app.articles = data;
-              app.saveArticles();
-              app.renderFeed();
-              document.getElementById('github-json-textarea').value = JSON.stringify(app.articles, null, 2);
-              document.getElementById('json-count-articles').innerText = app.articles.length;
-              app.showToast(`Đã nạp ${data.length} tác phẩm.`);
-            }
-          } catch(err) {
-            app.showToast("File JSON không hợp lệ.");
-          }
-        };
-        reader.readAsText(file);
-      }
-    }
-
-    // Quản lý chèn ảnh
     class ImageInsertionModal {
       constructor() {
         this.modal = document.getElementById('image-modal');
         this.target = 'inline';
-        this.imgData = '';
+        this.uploadedUrl = '';
       }
 
       open(target = 'inline') {
         this.target = target;
-        this.imgData = '';
+        this.uploadedUrl = '';
         document.getElementById('img-url-input').value = '';
         document.getElementById('img-caption-input').value = '';
+        document.getElementById('upload-status-text').innerText = 'Chọn file ảnh từ thiết bị';
         document.getElementById('inline-caption-wrap').style.display = target === 'cover' ? 'none' : 'block';
         this.modal.classList.remove('hidden');
         this.modal.classList.add('flex');
@@ -1081,20 +1201,45 @@ chưa bao giờ tìm đến</div>
         this.modal.classList.remove('flex');
       }
 
-      handleUpload(e) {
+      async handleUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          this.imgData = ev.target.result;
-          this.confirm();
-        };
-        reader.readAsDataURL(file);
+
+        const statusEl = document.getElementById('upload-status-text');
+        const iconEl = document.getElementById('upload-icon');
+
+        if (!githubDatabase.isConfigured()) {
+          // Nếu chưa cấu hình GitHub Token, nạp tạm dạng Base64
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            this.uploadedUrl = ev.target.result;
+            statusEl.innerText = `Đã chọn: ${file.name} (Tạm thời)`;
+            app.showToast("Đã nạp ảnh từ máy.");
+          };
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        try {
+          statusEl.innerText = "Đang tải ảnh lên GitHub repo...";
+          iconEl.className = "fa-solid fa-spinner spin-slow text-2xl mb-2 text-[var(--accent)]";
+          
+          const rawUrl = await githubDatabase.uploadImageFile(file, file.name);
+          this.uploadedUrl = rawUrl;
+          document.getElementById('img-url-input').value = rawUrl;
+          statusEl.innerText = `Tải lên GitHub thành công: ${file.name}`;
+          iconEl.className = "fa-solid fa-check text-2xl mb-2 text-emerald-500";
+          app.showToast("Đã lưu ảnh vào thư mục images/ trên GitHub!");
+        } catch(err) {
+          statusEl.innerText = "Lỗi tải ảnh lên GitHub. Chọn lại.";
+          iconEl.className = "fa-solid fa-triangle-exclamation text-2xl mb-2 text-red-500";
+          app.showToast("Lỗi upload: " + err.message);
+        }
       }
 
       confirm() {
         const urlInput = document.getElementById('img-url-input').value.trim();
-        const finalUrl = this.imgData || urlInput;
+        const finalUrl = this.uploadedUrl || urlInput;
 
         if (!finalUrl) {
           app.showToast("Vui lòng cung cấp URL hoặc chọn ảnh.");
@@ -1111,10 +1256,10 @@ chưa bao giờ tìm đến</div>
       }
     }
 
-    // Xưởng soạn thảo
     class CreativeEditorStudio {
       constructor() {
         this.editor = document.getElementById('rich-editor-content');
+        this.editingPostId = null;
         this.init();
       }
 
@@ -1143,7 +1288,7 @@ chưa bao giờ tìm đến</div>
         if (p && !p.closest('.poetry-block')) {
           p.classList.toggle('editorial-dropcap');
         } else {
-          app.showToast("Drop Cap chỉ dùng cho đoạn văn xuôi thông thường.");
+          app.showToast("Drop Cap chỉ dùng cho đoạn văn xuôi dài.");
         }
       }
 
@@ -1174,7 +1319,7 @@ chưa bao giờ tìm đến</div>
       }
 
       clearDraft() {
-        if (!confirm("Bạn có chắc chắn muốn xóa sạch bản nháp hiện tại để viết bài mới?")) return;
+        if (!confirm("Bạn có chắc muốn xóa sạch bản nháp hiện tại để soạn bài mới?")) return;
         document.getElementById('post-title').value = '';
         document.getElementById('post-author').value = '';
         document.getElementById('post-cover-input').value = '';
@@ -1182,12 +1327,8 @@ chưa bao giờ tìm đến</div>
         this.editingPostId = null;
         localStorage.removeItem('hienvang_spacious_draft');
         this.updateMetrics();
+        document.getElementById('btn-publish-text').innerText = "LƯU LÊN GITHUB";
         app.showToast("Đã xóa trắng bản nháp.");
-      }
-
-      insertBlockquote() {
-        const html = `<blockquote class="poetry-block">“Một câu văn lắng đọng giữa không gian bao la...”</blockquote><p><br></p>`;
-        document.execCommand('insertHTML', false, html);
       }
 
       insertFigure(url, caption) {
@@ -1247,9 +1388,10 @@ chưa bao giờ tìm đến</div>
         document.getElementById('post-cover-input').value = art.coverImage || '';
         this.editor.innerHTML = art.contentHtml || '';
         this.updateMetrics();
+        document.getElementById('btn-publish-text').innerText = "CẬP NHẬT LÊN GITHUB";
       }
 
-      publishArticle() {
+      async publishArticle() {
         const title = document.getElementById('post-title').value.trim();
         const content = this.editor.innerHTML.trim();
 
@@ -1258,47 +1400,64 @@ chưa bao giờ tìm đến</div>
           return;
         }
 
-        if (this.editingPostId) {
-          // Cập nhật bài đang chỉnh sửa
-          const targetIndex = app.articles.findIndex(a => a.id === this.editingPostId);
-          if (targetIndex !== -1) {
-            app.articles[targetIndex] = {
-              ...app.articles[targetIndex],
+        const btnPublish = document.getElementById('btn-save-publish');
+        const originalText = btnPublish.innerHTML;
+        btnPublish.innerHTML = `<i class="fa-solid fa-spinner spin-slow"></i> <span>ĐANG LƯU VÀO GITHUB...</span>`;
+        btnPublish.disabled = true;
+
+        try {
+          if (this.editingPostId) {
+            // Sửa bài viết cũ
+            const targetIndex = app.articles.findIndex(a => a.id === this.editingPostId);
+            if (targetIndex !== -1) {
+              app.articles[targetIndex] = {
+                ...app.articles[targetIndex],
+                title: title,
+                category: document.getElementById('post-category').value,
+                mood: document.getElementById('post-mood').value,
+                author: document.getElementById('post-author').value.trim() || 'Hải Thi',
+                coverImage: document.getElementById('post-cover-input').value.trim() || null,
+                contentHtml: content
+              };
+            }
+          } else {
+            // Thêm bài mới
+            const newPost = {
+              id: `art-${Date.now()}`,
               title: title,
               category: document.getElementById('post-category').value,
               mood: document.getElementById('post-mood').value,
               author: document.getElementById('post-author').value.trim() || 'Hải Thi',
+              date: 'Hôm nay',
               coverImage: document.getElementById('post-cover-input').value.trim() || null,
+              appreciations: 0,
               contentHtml: content
             };
-            app.saveArticles();
-            this.editingPostId = null;
-            app.showToast("Đã lưu cập nhật tác phẩm.");
-            app.navigateTo('blog');
-            return;
+            app.articles.unshift(newPost);
           }
+
+          // Commit trực tiếp lên GitHub Database
+          if (githubDatabase.isConfigured()) {
+            await githubDatabase.commitFile(app.articles, `Cập nhật bài viết: ${title}`);
+            app.showToast("Đã lưu trực tiếp vào GitHub Database thành công!");
+          } else {
+            app.showToast("Đã lưu tạm (Hãy cấu hình GitHub Token để đồng bộ tự động).");
+          }
+
+          app.saveArticles();
+          this.editingPostId = null;
+          localStorage.removeItem('hienvang_spacious_draft');
+          document.getElementById('btn-publish-text').innerText = "LƯU LÊN GITHUB";
+          app.navigateTo('blog');
+        } catch(err) {
+          app.showToast("Lỗi khi lưu GitHub: " + err.message);
+        } finally {
+          btnPublish.innerHTML = originalText;
+          btnPublish.disabled = false;
         }
-
-        const newPost = {
-          id: `art-${Date.now()}`,
-          title: title,
-          category: document.getElementById('post-category').value,
-          mood: document.getElementById('post-mood').value,
-          author: document.getElementById('post-author').value.trim() || 'Hải Thi',
-          date: 'Hôm nay',
-          coverImage: document.getElementById('post-cover-input').value.trim() || null,
-          appreciations: 0,
-          contentHtml: content
-        };
-
-        app.articles.unshift(newPost);
-        app.saveArticles();
-        app.showToast("Đã xuất bản tác phẩm mới.");
-        app.navigateTo('blog');
       }
     }
 
-    // Bộ quản lý & Xóa tác phẩm
     class PostManagerController {
       constructor() {
         this.modal = document.getElementById('post-manager-modal');
@@ -1376,21 +1535,44 @@ chưa bao giờ tìm đến</div>
         this.deleteModal.classList.remove('flex');
       }
 
-      confirmDelete() {
+      async confirmDelete() {
         if (!this.pendingDeleteId) return;
         const index = app.articles.findIndex(a => a.id === this.pendingDeleteId);
-        if (index !== -1) {
+        if (index === -1) return;
+
+        const btn = document.getElementById('btn-confirm-delete-action');
+        btn.innerText = "Đang xóa trên GitHub...";
+        btn.disabled = true;
+
+        try {
           const removed = app.articles.splice(index, 1)[0];
+
+          // Nếu có GitHub token, commit xóa bài trực tiếp lên GitHub Database
+          if (githubDatabase.isConfigured()) {
+            await githubDatabase.commitFile(app.articles, `Xóa bài viết: ${removed.title}`);
+            app.showToast(`Đã xóa vĩnh viễn bài "${removed.title}" khỏi GitHub!`);
+          } else {
+            app.showToast(`Đã xóa bài "${removed.title}" trên máy.`);
+          }
+
           app.saveArticles();
           app.renderFeed();
           this.renderList();
-          app.showToast(`Đã xóa bài: "${removed.title}"`);
+
+          // Đóng reader nếu đang mở bài vừa bị xóa
+          if (articleReader && articleReader.currentArticle && articleReader.currentArticle.id === this.pendingDeleteId) {
+            articleReader.close();
+          }
+        } catch(err) {
+          app.showToast("Lỗi khi xóa trên GitHub: " + err.message);
+        } finally {
+          btn.innerText = "XÓA BÀI";
+          btn.disabled = false;
+          this.cancelDelete();
         }
-        this.cancelDelete();
       }
     }
 
-    // Trình đọc Zen Reader
     class ArticleReaderController {
       constructor() {
         this.modal = document.getElementById('reader-modal');
@@ -1419,7 +1601,6 @@ chưa bao giờ tìm đến</div>
         document.getElementById('read-body').innerHTML = art.contentHtml;
         document.getElementById('appreciate-count').innerText = art.appreciations || 0;
 
-        // Cập nhật trạng thái nút quản lý trong reader
         const authorActions = document.getElementById('reader-author-actions');
         if (authorActions) {
           if (authorAuth && authorAuth.isAuthor) {
@@ -1457,7 +1638,7 @@ chưa bao giờ tìm đến</div>
         postManager.askDelete(art.id);
       }
 
-      appreciate() {
+      async appreciate() {
         if (!this.currentArticle) return;
         this.currentArticle.appreciations = (this.currentArticle.appreciations || 0) + 1;
         document.getElementById('appreciate-count').innerText = this.currentArticle.appreciations;
@@ -1479,7 +1660,6 @@ chưa bao giờ tìm đến</div>
       }
     }
 
-    // Main App
     class MainApp {
       constructor() {
         this.articles = [];
@@ -1489,15 +1669,30 @@ chưa bao giờ tìm đến</div>
       }
 
       async init() {
-        await this.loadPublicPosts();
         this.initTheme();
+        await this.loadPublicPosts();
         this.renderFeed();
         editorStudio.loadDraft();
       }
 
-      async loadPublicPosts() {
+      async loadPublicPosts(forceGitHubApi = false) {
+        // 1. Thử lấy dữ liệu từ GitHub Database API nếu đã cấu hình
+        if (githubDatabase && (forceGitHubApi || githubDatabase.isConfigured())) {
+          try {
+            const data = await githubDatabase.fetchFile();
+            if (Array.isArray(data.posts) && data.posts.length > 0) {
+              this.articles = data.posts;
+              this.saveArticles();
+              return;
+            }
+          } catch(e) {
+            console.warn("Không thể fetch trực tiếp qua GitHub API, chuyển sang HTTP fetch:", e);
+          }
+        }
+
+        // 2. Thử fetch file posts.json tĩnh trên GitHub Pages
         try {
-          const res = await fetch('posts.json', { cache: 'no-cache' });
+          const res = await fetch(`posts.json?t=${Date.now()}`, { cache: 'no-cache' });
           if (res.ok) {
             const data = await res.json();
             if (Array.isArray(data) && data.length > 0) {
@@ -1508,6 +1703,7 @@ chưa bao giờ tìm đến</div>
           }
         } catch(e) {}
 
+        // 3. Fallback lấy từ LocalStorage hoặc bài mẫu
         const stored = localStorage.getItem('hienvang_modern_articles');
         if (stored) {
           try { this.articles = JSON.parse(stored); } catch(e) { this.articles = INITIAL_ARTICLES; }
@@ -1568,6 +1764,8 @@ chưa bao giờ tìm đến</div>
         if (page === 'studio') {
           blog.classList.add('hidden');
           studio.classList.remove('hidden');
+          const badgeEl = document.getElementById('manage-count-badge');
+          if (badgeEl) badgeEl.innerText = this.articles.length;
         } else {
           studio.classList.add('hidden');
           blog.classList.remove('hidden');
@@ -1600,7 +1798,6 @@ chưa bao giờ tìm đến</div>
           return;
         }
 
-        // Duyệt bài viết và phân bổ bố cục thoáng mắt
         list.forEach((art, index) => {
           const temp = document.createElement('div');
           temp.innerHTML = art.contentHtml || '';
@@ -1608,14 +1805,12 @@ chưa bao giờ tìm đến</div>
 
           const articleEl = document.createElement('article');
 
-          // Bố cục Nhịp 1: Bài viết lớn toàn cảnh (Featured Hero Showcase)
           if (index % 3 === 0) {
             articleEl.className = 'group cursor-pointer pt-6';
             articleEl.onclick = () => articleReader.open(art.id);
 
             articleEl.innerHTML = `
               <div class="space-y-8">
-                <!-- Metadata thoáng -->
                 <div class="flex items-center gap-4 font-mono text-xs text-[var(--fg-muted)] tracking-wider">
                   <span class="text-[var(--accent)] font-semibold uppercase">${art.category}</span>
                   <span>/</span>
@@ -1624,19 +1819,16 @@ chưa bao giờ tìm đến</div>
                   <span class="text-[var(--fg)]">${art.mood || 'Tĩnh lặng'}</span>
                 </div>
 
-                <!-- Tiêu đề lớn phóng khoáng -->
                 <h2 class="font-serif-title text-4xl sm:text-6xl lg:text-7xl text-[var(--fg)] group-hover:text-[var(--accent)] transition-colors leading-[1.05] tracking-tight max-w-5xl">
                   ${art.title}
                 </h2>
 
-                <!-- Hình ảnh toàn cảnh không bị đóng khung hộp -->
                 ${art.coverImage ? `
                   <div class="w-full aspect-[21/10] sm:aspect-[21/9] overflow-hidden rounded-2xl my-8">
                     <img src="${art.coverImage}" alt="${art.title}" class="w-full h-full object-cover grayscale contrast-110 group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-700">
                   </div>
                 ` : ''}
 
-                <!-- Trích lược văn học mở rộng -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start pt-2">
                   <p class="md:col-span-8 font-editorial-body text-xl sm:text-2xl text-[var(--fg-muted)] leading-relaxed italic">
                     "${snippet}"
@@ -1648,9 +1840,7 @@ chưa bao giờ tìm đến</div>
                 </div>
               </div>
             `;
-          } 
-          // Bố cục Nhịp 2: Cột sole bất đối xứng (Editorial Offset Layout)
-          else {
+          } else {
             const isEven = index % 2 === 0;
             articleEl.className = 'group cursor-pointer pt-4';
             articleEl.onclick = () => articleReader.open(art.id);
@@ -1697,17 +1887,18 @@ chưa bao giờ tìm đến</div>
         const toast = document.getElementById('app-toast');
         document.getElementById('toast-text').innerText = msg;
         toast.style.opacity = '1';
-        setTimeout(() => toast.style.opacity = '0', 2500);
+        setTimeout(() => toast.style.opacity = '0', 2800);
       }
     }
 
-    let app, soundDrone, authorAuth, githubSync, imageModal, editorStudio, articleReader, postManager;
+    let app, soundDrone, authorAuth, githubDatabase, githubConfigModal, imageModal, editorStudio, articleReader, postManager;
 
     function initServices() {
       if (app) return;
+      githubDatabase = new GitHubDatabaseEngine();
       soundDrone = new MinimalSynthDrone();
       authorAuth = new AuthorAuth();
-      githubSync = new GitHubSyncCenter();
+      githubConfigModal = new GitHubConfigModal();
       imageModal = new ImageInsertionModal();
       editorStudio = new CreativeEditorStudio();
       articleReader = new ArticleReaderController();
