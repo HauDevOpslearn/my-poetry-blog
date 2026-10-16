@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="vintage">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiên Vắng — Quán Thơ Bụi & Xưởng Sáng Tác Nghệ Thuật</title>
+
+  <!-- Google Typography: Editorial & Handcrafted Vietnamese Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            display: ['"Playfair Display"', 'serif'],
+            hand: ['"Dancing Script"', 'cursive'],
+            cinzel: ['"Cinzel"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            amberInk: '#c4783c',
+            vintagePaper: '#f3ece1',
+            darkRoast: '#1e1814',
+            sepiaWash: '#3d2e24',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --bg: #141210;
+      --paper: #f2ece1;
+      --paper-card: #f9f5ed;
+      --ink: #201a15;
+      --ink-muted: #6e6156;
+      --accent: #d2793b;
+      --accent-glow: rgba(210, 121, 59, 0.28);
+      --border-ink: rgba(70, 52, 40, 0.18);
+    }
+
+    [data-theme="parchment"] {
+      --bg: #ece2cf;
+      --paper: #fcf8f0;
+      --paper-card: #fffdf9;
+      --ink: #2b221a;
+      --ink-muted: #746353;
+      --accent: #a25227;
+      --accent-glow: rgba(162, 82, 39, 0.25);
+      --border-ink: rgba(85, 60, 42, 0.2);
+    }
+
+    [data-theme="noir"] {
+      --bg: #0b0c0e;
+      --paper: #16191f;
+      --paper-card: #1d212a;
+      --ink: #e5e9f0;
+      --ink-muted: #8a94a6;
+      --accent: #e5a468;
+      --accent-glow: rgba(229, 164, 104, 0.2);
+      --border-ink: rgba(255, 255, 255, 0.08);
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      cursor: default;
+      transition: background-color 0.5s ease;
+    }
+
+    /* Film Grain Texture Overlay */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      opacity: 0.045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Custom Cursor Trails */
+    #cursor-brush {
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 1000;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out, width 0.2s, height 0.2s;
+      box-shadow: 0 0 16px var(--accent);
+    }
+    .cursor-trace {
+      position: fixed;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      animation: traceFade 0.9s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+    @keyframes traceFade {
+      0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(3.5); }
+    }
+
+    /* Tarot 3D Flip */
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+
+    /* Vinyl Record Spin */
+    @keyframes vinylRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .spin-vinyl { animation: vinylRotate 7s linear infinite; }
+    .spin-paused { animation-play-state: paused; }
+
+    /* Washi tape & Post-it visuals */
+    .washi-tape {
+      background: rgba(220, 185, 140, 0.65);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 84px;
+      height: 22px;
+      clip-path: polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%);
+    }
+
+    /* Desk Draggable Elements */
+    .desk-card {
+      user-select: none;
+      touch-action: none;
+      transition: box-shadow 0.2s, transform 0.08s ease-out;
+    }
+    .desk-card:active {
+      cursor: grabbing;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+      z-index: 50 !important;
+    }
+
+    /* Drop caps */
+    .magazine-drop:first-letter, .prose-content .drop-cap:first-letter {
+      float: left;
+      font-size: 4.5rem;
+      line-height: 0.75;
+      padding-top: 6px;
+      padding-right: 12px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    /* Spotlight reader lighting */
+    .spotlight-active {
+      box-shadow: 0 0 0 9999px rgba(8, 8, 10, 0.88);
+      position: relative;
+      z-index: 60;
+    }
+
+    /* Floating Heart/Petal Particle */
+    @keyframes floatParticle {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.7) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--tx), -120px) scale(1.4) rotate(var(--tr)); }
+    }
+    .magic-particle {
+      position: absolute;
+      pointer-events: none;
+      animation: floatParticle 1.4s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+      z-index: 100;
+    }
+
+    /* ContentEditable Typography & Embedded Images Styling */
+    .editor-sheet:empty:before {
+      content: attr(data-placeholder);
+      color: var(--ink-muted);
+      opacity: 0.5;
+      font-style: italic;
+      pointer-events: none;
+    }
+    .editor-sheet:focus { outline: none; }
+
+    /* Article inline images & frames */
+    .prose-content figure.art-figure {
+      margin: 1.5rem 0;
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+    }
+    .prose-content figure.art-figure img {
+      display: block;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    /* Frame styles */
+    .frame-polaroid {
+      background: #ffffff;
+      padding: 10px 10px 28px 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      transform: rotate(-1deg);
+      border-radius: 4px !important;
+    }
+    .frame-film {
+      border: 8px solid #141210;
+      border-top-width: 14px;
+      border-bottom-width: 14px;
+      background: #141210;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .frame-torn {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+      clip-path: polygon(1% 0%, 99% 1%, 100% 98%, 98% 100%, 2% 99%, 0% 2%);
+    }
+
+    /* Layout float & alignments */
+    .img-align-center {
+      display: block !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      text-align: center;
+      clear: both;
+    }
+    .img-align-left {
+      float: left !important;
+      margin: 0.5rem 1.75rem 1rem 0 !important;
+      max-width: 48% !important;
+    }
+    .img-align-right {
+      float: right !important;
+      margin: 0.5rem 0 1rem 1.75rem !important;
+      max-width: 48% !important;
+    }
+
+    /* Image widths */
+    .img-width-sm { width: 240px; }
+    .img-width-md { width: 440px; }
+    .img-width-full { width: 100%; }
+
+    /* Figcaption */
+    .art-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      text-align: center;
+      margin-top: 0.4rem;
+      color: var(--ink-muted);
+      border: none;
+      background: transparent;
+      outline: none;
+      width: 100%;
+    }
+
+    /* Poetry Stanza Block */
+    .poetry-stanza {
+      text-align: center;
+      font-style: italic;
+      line-height: 2.2;
+      margin: 1.5rem 0;
+      padding: 0.5rem 1rem;
+    }
+
+    /* Blockquote Vintage */
+    blockquote.vintage-quote {
+      border-left: 3px solid var(--accent);
+      padding-left: 1.25rem;
+      font-style: italic;
+      color: var(--ink);
+      margin: 1.5rem 0;
+      opacity: 0.92;
+    }
+
+    /* Divider */
+    .poetic-divider {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 1.25rem;
+      color: var(--accent);
+      letter-spacing: 0.4em;
+      opacity: 0.8;
+      user-select: none;
+    }
+
+    /* Selected element border in editor */
+    .figure-selected {
+      outline: 2px dashed var(--accent);
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-[var(--ink)]">
+
+  <!-- Background Interactive Water-ink & Blossom Canvas -->
+  <canvas id="ambient-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-70"></canvas>
+  <div class="film-grain"></div>
+  <div id="cursor-brush" class="hidden md:block"></div>
+
+  <!-- Ambient Sound / Vinyl Player Floating Island -->
+  <aside class="fixed bottom-6 left-6 z-40 bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-3 sm:p-4 shadow-2xl backdrop-blur-xl flex items-center gap-3.5 max-w-[320px] transition-all hover:scale-[1.02]">
+    <div class="relative w-12 h-12 flex-shrink-0 cursor-pointer" onclick="musicBox.togglePlay()">
+      <div id="vinyl-disc" class="w-12 h-12 rounded-full bg-stone-900 border-2 border-stone-700 flex items-center justify-center shadow-inner spin-vinyl spin-paused">
+        <div class="w-4 h-4 rounded-full bg-[var(--accent)] border border-amber-900 flex items-center justify-center">
+          <div class="w-1.5 h-1.5 rounded-full bg-stone-900"></div>
+        </div>
+      </div>
+      <button id="vinyl-status-icon" class="absolute inset-0 flex items-center justify-center text-white/90 text-xs drop-shadow">
+        <i class="fa-solid fa-play"></i>
+      </button>
+    </div>
+
+    <div class="flex-grow font-sans text-xs">
+      <div class="flex items-center justify-between">
+        <span class="font-serif italic font-bold tracking-wide text-sm truncate text-[var(--ink)]">Đĩa Than Lo-Fi #04</span>
+        <span id="audio-time-label" class="text-[10px] text-[var(--ink-muted)] font-mono">00:00</span>
+      </div>
+      <div class="flex items-center gap-2 mt-1">
+        <select id="ambient-mode" onchange="musicBox.changeTrack(this.value)" class="bg-transparent border-0 text-[11px] font-sans font-medium text-[var(--accent)] outline-none cursor-pointer p-0">
+          <option value="rain">Mưa ngâu & Đĩa than</option>
+          <option value="wind">Gió chiều & Chuông đồng</option>
+          <option value="fire">Bếp củi & Dế đêm</option>
+        </select>
+        <div class="flex items-center gap-1 ml-auto">
+          <i class="fa-solid fa-volume-low text-[9px] text-[var(--ink-muted)]"></i>
+          <input type="range" min="0" max="1" step="0.05" value="0.5" oninput="musicBox.setVolume(this.value)" class="w-12 h-1 accent-[var(--accent)] bg-stone-400 rounded-lg cursor-pointer">
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Floating Navigation & Top Bar -->
+  <header class="sticky top-4 z-40 max-w-6xl mx-auto px-4">
+    <div class="bg-[var(--paper-card)]/90 backdrop-blur-xl border border-[var(--border-ink)] rounded-full px-5 py-3 shadow-xl flex items-center justify-between">
+      
+      <!-- Logo -->
+      <a href="javascript:void(0)" onclick="app.navigateTo('blog')" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-full bg-[var(--accent)] text-white flex items-center justify-center shadow-md font-hand text-xl group-hover:rotate-12 transition-transform">
+          H
+        </div>
+        <div>
+          <h1 class="font-cinzel text-lg sm:text-xl font-extrabold tracking-widest text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
+            HIÊN VẮNG
+          </h1>
+          <p class="text-[9px] font-sans uppercase tracking-widest text-[var(--ink-muted)] -mt-1 hidden sm:block">Zine Thơ Ca & Xưởng Sáng Tác</p>
+        </div>
+      </a>
+
+      <!-- Main Navigation Switcher: Blog / Studio -->
+      <div class="flex items-center bg-[var(--bg)]/40 p-1 rounded-full border border-[var(--border-ink)] text-xs font-sans">
+        <button onclick="app.navigateTo('blog')" id="nav-btn-blog" class="px-4 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-[var(--accent)] text-white shadow-sm">
+          <i class="fa-solid fa-house-chimney-window"></i>
+          <span>Vườn Chữ</span>
+        </button>
+        <!-- Studio button is HIDDEN by default for public readers, shown only to author -->
+        <button onclick="app.navigateTo('studio')" id="nav-btn-studio" class="hidden px-4 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 text-[var(--ink-muted)] hover:text-[var(--ink)]">
+          <i class="fa-solid fa-feather-pointed text-[var(--accent)]"></i>
+          <span>Xưởng Viết & Ảnh</span>
+        </button>
+      </div>
+
+      <!-- Action Tools -->
+      <div class="flex items-center gap-2">
+        <!-- Poetry Card Draw Modal Trigger -->
+        <button onclick="tarotDeck.openModal()" class="w-9 h-9 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-[var(--accent)] hover:bg-[var(--accent)] hover:text-white transition-all text-sm shadow-sm" title="Rút thẻ thơ ngẫu hứng">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </button>
+
+        <!-- Discreet Author Login / Lock Trigger -->
+        <button id="author-lock-btn" onclick="authorAuth.openModal()" class="w-9 h-9 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-[var(--ink-muted)] hover:text-[var(--accent)] transition-all text-sm shadow-sm" title="Dành riêng cho tác giả (Ctrl+Shift+A)">
+          <i class="fa-solid fa-key text-xs"></i>
+        </button>
+
+        <!-- Theme Picker Popover -->
+        <div class="relative group">
+          <button class="w-9 h-9 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-[var(--ink-muted)] hover:text-[var(--ink)] text-sm">
+            <i class="fa-solid fa-palette"></i>
+          </button>
+          <div class="absolute right-0 top-full mt-2 w-40 bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-2xl shadow-2xl p-2 hidden group-hover:block z-50 text-xs font-sans">
+            <button onclick="app.setTheme('vintage')" class="w-full text-left px-3 py-1.5 rounded-xl flex items-center gap-2 hover:bg-[var(--bg)]/40">
+              <span class="w-3 h-3 rounded-full bg-[#141210] border border-amber-600"></span> Nâu Trầm Dạ Quán
+            </button>
+            <button onclick="app.setTheme('parchment')" class="w-full text-left px-3 py-1.5 rounded-xl flex items-center gap-2 hover:bg-[var(--bg)]/40">
+              <span class="w-3 h-3 rounded-full bg-[#ece2cf] border border-stone-400"></span> Giấy Điệp Cổ Điển
+            </button>
+            <button onclick="app.setTheme('noir')" class="w-full text-left px-3 py-1.5 rounded-xl flex items-center gap-2 hover:bg-[var(--bg)]/40">
+              <span class="w-3 h-3 rounded-full bg-[#0b0c0e] border border-zinc-600"></span> Đêm Đen Tĩnh Mịch
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- PAGE 1: BLOG DISPLAY VIEW (VƯỜN CHỮ)      -->
+  <!-- ========================================== -->
+  <div id="page-blog" class="transition-opacity duration-300">
+    <!-- Hero Section -->
+    <section class="relative z-10 max-w-6xl mx-auto px-4 pt-10 pb-6 text-center">
+      <div class="inline-block relative">
+        <span class="font-hand text-2xl sm:text-3xl text-[var(--accent)] block -rotate-3 mb-2 drop-shadow">
+          nơi cất giữ những vụn vỡ dịu êm...
+        </span>
+        <h2 class="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-[var(--ink)] leading-[1.1]">
+          VƯỜN CHỮ & KỶ NIỆM
+        </h2>
+        <div class="w-24 h-1 bg-[var(--accent)] mx-auto mt-4 rounded-full opacity-80"></div>
+      </div>
+
+      <!-- Mood Filters & Layout Mode Controls -->
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 max-w-4xl mx-auto px-2">
+        <div class="flex items-center flex-wrap justify-center gap-1.5 text-xs font-sans">
+          <span class="text-[var(--ink-muted)] italic font-serif mr-1">Tâm trạng:</span>
+          <button onclick="app.filterMood('all')" class="mood-stamp active-mood px-3 py-1 rounded-full border border-[var(--border-ink)] bg-[var(--accent)] text-white shadow-sm transition-all">Mọi xúc cảm</button>
+          <button onclick="app.filterMood('Hoài niệm')" class="mood-stamp px-3 py-1 rounded-full border border-[var(--border-ink)] bg-[var(--paper-card)] text-[var(--ink)] hover:border-[var(--accent)] transition-all">⏳ Hoài niệm</button>
+          <button onclick="app.filterMood('Cô đơn')" class="mood-stamp px-3 py-1 rounded-full border border-[var(--border-ink)] bg-[var(--paper-card)] text-[var(--ink)] hover:border-[var(--accent)] transition-all">🍂 Cô đơn</button>
+          <button onclick="app.filterMood('Dịu êm')" class="mood-stamp px-3 py-1 rounded-full border border-[var(--border-ink)] bg-[var(--paper-card)] text-[var(--ink)] hover:border-[var(--accent)] transition-all">🍃 Dịu êm</button>
+          <button onclick="app.filterMood('Chiều mưa')" class="mood-stamp px-3 py-1 rounded-full border border-[var(--border-ink)] bg-[var(--paper-card)] text-[var(--ink)] hover:border-[var(--accent)] transition-all">🌧 Chiều mưa</button>
+        </div>
+
+        <!-- 3 Modes Switcher -->
+        <div class="flex items-center bg-[var(--paper-card)] p-1 rounded-full border border-[var(--border-ink)] text-xs font-sans">
+          <button onclick="app.switchBlogView('desk')" id="btn-blogview-desk" class="px-2.5 py-1 rounded-full bg-[var(--accent)] text-white font-medium" title="Bàn trà ngẫu hứng: kéo thả tự do">
+            <i class="fa-solid fa-hand mr-1"></i> Bàn Trà
+          </button>
+          <button onclick="app.switchBlogView('magazine')" id="btn-blogview-magazine" class="px-2.5 py-1 rounded-full text-[var(--ink-muted)] font-medium" title="Tạp chí cổ điển">
+            <i class="fa-solid fa-book-open mr-1"></i> Tạp Chí
+          </button>
+          <button onclick="app.switchBlogView('stream')" id="btn-blogview-stream" class="px-2.5 py-1 rounded-full text-[var(--ink-muted)] font-medium" title="Dòng chảy thi ca">
+            <i class="fa-solid fa-water mr-1"></i> Thi Ca
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Display -->
+    <main class="relative z-10 max-w-6xl mx-auto px-4 pb-28">
+      <!-- MODE 1: SCATTERED PINBOARD DESK (Drag & Drop) -->
+      <section id="view-desk" class="min-h-[720px] relative bg-[var(--paper)]/5 border-2 border-dashed border-[var(--border-ink)] rounded-3xl p-4 overflow-hidden select-none transition-opacity duration-300">
+        <div class="absolute top-4 right-4 pointer-events-none text-xs font-sans text-[var(--ink-muted)] flex items-center gap-2">
+          <i class="fa-solid fa-arrows-up-down-left-right text-[var(--accent)] animate-pulse"></i>
+          <span>Bạn có thể tự do <strong>kéo rê ảnh & bài thơ</strong> trên bàn trà</span>
+        </div>
+        <div id="desk-board" class="w-full h-full min-h-[680px] relative">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- MODE 2: EDITORIAL MAGAZINE -->
+      <section id="view-magazine" class="hidden transition-opacity duration-300">
+        <div id="magazine-grid" class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+
+      <!-- MODE 3: POETRY STREAM -->
+      <section id="view-stream" class="hidden transition-opacity duration-300 max-w-2xl mx-auto space-y-10">
+        <div id="stream-container" class="space-y-8">
+          <!-- Injected by JS -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- PAGE 2: CREATIVE STUDIO & RICH EDITOR      -->
+  <!-- ========================================== -->
+  <div id="page-studio" class="hidden min-h-screen relative z-20 max-w-6xl mx-auto px-4 pt-6 pb-24">
+    <!-- Studio Header & Controls -->
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-5 sm:p-6 shadow-xl mb-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+          <span class="font-sans text-[11px] uppercase tracking-wider text-[var(--accent)] font-semibold">Khu Vực Tác Giả & Xuất Bản GitHub</span>
+          <span class="text-stone-400">•</span>
+          <span class="font-sans text-[11px] text-[var(--ink-muted)]" id="autosave-status">Đã lưu tự động</span>
+        </div>
+        <h2 class="font-display text-2xl sm:text-3xl font-bold mt-1">Xưởng Thơ & Quản Trị Bài Viết</h2>
+      </div>
+
+      <div class="flex items-center flex-wrap gap-2.5 text-xs font-sans">
+        <!-- Live Preview Toggle -->
+        <button onclick="editorStudio.toggleSplitPreview()" id="btn-split-toggle" class="px-3.5 py-2 rounded-2xl border border-[var(--border-ink)] bg-[var(--bg)]/40 hover:border-[var(--accent)] transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-columns"></i>
+          <span>Xem trước song song</span>
+        </button>
+
+        <!-- GitHub Export / Publish Center -->
+        <button onclick="githubSync.openModal()" class="px-3.5 py-2 rounded-2xl border border-amber-600/40 bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 font-semibold transition-all flex items-center gap-1.5">
+          <i class="fa-brands fa-github text-sm"></i>
+          <span>Xuất File Public (posts.json)</span>
+        </button>
+
+        <!-- Lock Studio -->
+        <button onclick="authorAuth.lock()" class="px-3 py-2 rounded-2xl border border-[var(--border-ink)] hover:text-red-500 transition-all" title="Khóa xưởng / Đăng xuất tác giả">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+
+        <!-- Publish to Blog (Local Preview) -->
+        <button onclick="editorStudio.publishArticle()" class="px-5 py-2 rounded-2xl bg-[var(--accent)] text-white font-semibold hover:opacity-90 active:scale-95 transition-all shadow-lg flex items-center gap-2">
+          <i class="fa-solid fa-feather"></i>
+          <span>Lưu & Thêm Vào Blog</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Article Meta Settings (Cover Image, Title, Category, Mood) -->
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-6 shadow-xl mb-6">
+      
+      <!-- Cover Image Handler -->
+      <div class="mb-6">
+        <label class="block font-sans text-xs font-bold text-[var(--ink-muted)] uppercase tracking-wider mb-2">Ảnh Bìa Tác Phẩm (Cover Image)</label>
+        <div id="cover-preview-box" class="relative w-full h-48 sm:h-64 rounded-2xl border-2 border-dashed border-[var(--border-ink)] overflow-hidden bg-[var(--bg)]/30 flex flex-col items-center justify-center group">
+          <img id="cover-img-display" class="hidden w-full h-full object-cover">
+          <div id="cover-placeholder" class="text-center p-4">
+            <i class="fa-regular fa-image text-4xl text-[var(--ink-muted)] mb-2"></i>
+            <p class="font-serif italic text-sm text-[var(--ink-muted)]">Chưa có ảnh bìa cho tác phẩm</p>
+            <div class="mt-3 flex items-center justify-center gap-2">
+              <button onclick="imageModal.open('cover')" class="px-3.5 py-1.5 rounded-full bg-[var(--accent)] text-white text-xs font-sans font-medium hover:opacity-90">
+                <i class="fa-solid fa-camera mr-1"></i> Chọn Ảnh Bìa
+              </button>
+            </div>
+          </div>
+          <!-- Overlay buttons when cover exists -->
+          <div id="cover-controls" class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity hidden items-center justify-center gap-3">
+            <button onclick="imageModal.open('cover')" class="px-4 py-2 rounded-full bg-white text-stone-900 text-xs font-sans font-bold hover:bg-stone-200">
+              Đổi ảnh bìa khác
+            </button>
+            <button onclick="editorStudio.removeCover()" class="px-4 py-2 rounded-full bg-red-600 text-white text-xs font-sans font-bold hover:bg-red-700">
+              Xóa ảnh
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Title & Basic Metas -->
+      <div class="space-y-4">
+        <input id="post-title" type="text" placeholder="Nhập tựa đề bài viết hoặc khúc thơ..." class="w-full bg-transparent border-b-2 border-[var(--border-ink)] pb-2 font-display text-2xl sm:text-4xl font-bold focus:outline-none focus:border-[var(--accent)] text-[var(--ink)] placeholder:text-[var(--ink-muted)]/50">
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+          <div>
+            <label class="block font-sans text-xs font-semibold mb-1 text-[var(--ink-muted)]">Thể loại</label>
+            <select id="post-category" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-3 py-2 text-xs font-sans focus:outline-none focus:border-[var(--accent)] text-[var(--ink)]">
+              <option value="Tản văn">Tản văn</option>
+              <option value="Thơ">Thơ ca</option>
+              <option value="Ghi chép">Ghi chép vụn</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-sans text-xs font-semibold mb-1 text-[var(--ink-muted)]">Cung bậc cảm xúc</label>
+            <select id="post-mood" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-3 py-2 text-xs font-sans focus:outline-none focus:border-[var(--accent)] text-[var(--ink)]">
+              <option value="Hoài niệm">Hoài niệm</option>
+              <option value="Cô đơn">Cô đơn</option>
+              <option value="Dịu êm">Dịu êm</option>
+              <option value="Khát khao">Khát khao</option>
+              <option value="Chiều mưa">Chiều mưa</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-sans text-xs font-semibold mb-1 text-[var(--ink-muted)]">Bút danh tác giả</label>
+            <input id="post-author" type="text" placeholder="Để trống nếu ẩn danh" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-3 py-2 text-xs font-sans focus:outline-none focus:border-[var(--accent)] text-[var(--ink)]">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RICH TEXT TOOLBAR (Sticky when editing) -->
+    <div class="sticky top-20 z-30 bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-2xl p-2 shadow-xl mb-4 flex items-center flex-wrap gap-1 backdrop-blur-md">
+      
+      <!-- Text Style -->
+      <button onclick="editorStudio.exec('bold')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center font-bold" title="In đậm (Ctrl+B)">B</button>
+      <button onclick="editorStudio.exec('italic')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center italic font-serif" title="In nghiêng (Ctrl+I)">I</button>
+      <button onclick="editorStudio.exec('underline')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center underline" title="Gạch chân">U</button>
+      <button onclick="editorStudio.exec('strikeThrough')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center line-through" title="Gạch ngang">S</button>
+      
+      <div class="w-px h-5 bg-[var(--border-ink)] mx-1"></div>
+
+      <!-- Headings -->
+      <button onclick="editorStudio.formatBlock('H2')" class="px-2 h-8 rounded-lg hover:bg-[var(--bg)] text-xs font-bold" title="Tiêu đề lớn">H2</button>
+      <button onclick="editorStudio.formatBlock('H3')" class="px-2 h-8 rounded-lg hover:bg-[var(--bg)] text-xs font-bold" title="Tiêu đề vừa">H3</button>
+      <button onclick="editorStudio.formatBlock('P')" class="px-2 h-8 rounded-lg hover:bg-[var(--bg)] text-xs" title="Đoạn văn">P</button>
+
+      <div class="w-px h-5 bg-[var(--border-ink)] mx-1"></div>
+
+      <!-- Alignments -->
+      <button onclick="editorStudio.exec('justifyLeft')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center" title="Căn trái"><i class="fa-solid fa-align-left"></i></button>
+      <button onclick="editorStudio.exec('justifyCenter')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center" title="Căn giữa"><i class="fa-solid fa-align-center"></i></button>
+      <button onclick="editorStudio.exec('justifyRight')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center" title="Căn phải"><i class="fa-solid fa-align-right"></i></button>
+      <button onclick="editorStudio.exec('justifyFull')" class="w-8 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center justify-center" title="Căn đều hai bên"><i class="fa-solid fa-align-justify"></i></button>
+
+      <div class="w-px h-5 bg-[var(--border-ink)] mx-1"></div>
+
+      <!-- Literary Formatting Special Tools -->
+      <button onclick="editorStudio.insertDropCap()" class="px-2.5 h-8 rounded-lg hover:bg-[var(--bg)] text-xs font-serif font-bold text-[var(--accent)]" title="Drop Cap (Chữ hoa đầu đoạn cổ điển)">Drop Cap</button>
+      <button onclick="editorStudio.insertPoetryStanza()" class="px-2.5 h-8 rounded-lg hover:bg-[var(--bg)] text-xs font-serif italic text-[var(--accent)]" title="Khổ thơ căn giữa nghệ thuật">Khổ Thơ</button>
+      <button onclick="editorStudio.insertBlockquote()" class="px-2.5 h-8 rounded-lg hover:bg-[var(--bg)] text-xs font-serif" title="Trích dẫn thi ca"><i class="fa-solid fa-quote-left mr-1"></i> Trích dẫn</button>
+      
+      <div class="w-px h-5 bg-[var(--border-ink)] mx-1"></div>
+
+      <!-- Divider Ornament -->
+      <div class="relative group">
+        <button class="px-2.5 h-8 rounded-lg hover:bg-[var(--bg)] text-xs flex items-center gap-1">
+          <span>❦ Hoa văn</span> <i class="fa-solid fa-chevron-down text-[9px]"></i>
+        </button>
+        <div class="absolute left-0 top-full mt-1 bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-xl shadow-xl p-1.5 hidden group-hover:block z-50 text-xs w-36">
+          <button onclick="editorStudio.insertDivider('❦ ❦ ❦')" class="w-full text-center py-1 hover:bg-[var(--bg)] rounded">❦ ❦ ❦</button>
+          <button onclick="editorStudio.insertDivider('✧ ✦ ✧')" class="w-full text-center py-1 hover:bg-[var(--bg)] rounded">✧ ✦ ✧</button>
+          <button onclick="editorStudio.insertDivider('~ 𖤓 ~')" class="w-full text-center py-1 hover:bg-[var(--bg)] rounded">~ 𖤓 ~</button>
+          <button onclick="editorStudio.insertDivider('* * *')" class="w-full text-center py-1 hover:bg-[var(--bg)] rounded">* * *</button>
+        </div>
+      </div>
+
+      <!-- Highlight & Ink Color -->
+      <div class="flex items-center gap-1 ml-1">
+        <button onclick="editorStudio.highlight('rgba(210, 121, 59, 0.25)')" class="w-6 h-6 rounded-full bg-amber-400/40 border border-amber-600/50" title="Dạ quang vàng mộc"></button>
+        <button onclick="editorStudio.highlight('rgba(110, 150, 120, 0.25)')" class="w-6 h-6 rounded-full bg-emerald-400/40 border border-emerald-600/50" title="Dạ quang rêu phong"></button>
+        <button onclick="editorStudio.removeFormat()" class="w-6 h-6 rounded-full border border-[var(--border-ink)] text-[10px] flex items-center justify-center text-[var(--ink-muted)]" title="Xóa định dạng"><i class="fa-solid fa-eraser"></i></button>
+      </div>
+
+      <div class="w-px h-5 bg-[var(--border-ink)] mx-1"></div>
+
+      <!-- INSERT IMAGE BUTTON (MAIN FEATURE) -->
+      <button onclick="imageModal.open('inline')" class="px-3 h-8 rounded-lg bg-[var(--accent)] text-white text-xs font-sans font-semibold flex items-center gap-1.5 shadow hover:opacity-90 ml-auto">
+        <i class="fa-solid fa-image"></i>
+        <span>Chèn Ảnh Vào Bài</span>
+      </button>
+    </div>
+
+    <!-- WRITING CANVAS & LIVE PREVIEW CONTAINER -->
+    <div id="editor-workspace" class="grid grid-cols-1 gap-6 items-start">
+      <!-- Edit Surface -->
+      <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-6 sm:p-10 shadow-xl min-h-[580px] relative">
+        <div class="washi-tape"></div>
+        <div id="rich-editor-content" contenteditable="true" data-placeholder="Thả câu chữ và dán ảnh vào đây... (Hỗ trợ kéo thả ảnh hoặc nhấn Ctrl+V để dán trực tiếp ảnh từ clipboard)" class="editor-sheet prose-content font-serif text-lg sm:text-xl leading-relaxed text-[var(--ink)] min-h-[500px] outline-none">
+          <p class="drop-cap">Có những buổi chiều muộn, khi thành phố chìm dần vào làn sương xám của mùa mưa, lòng người ta lại mềm lại như một khúc ca cũ không tên.</p>
+          <figure class="art-figure img-align-center img-width-md frame-polaroid" contenteditable="false">
+            <img src="https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=800&q=80" alt="Ánh sáng mùa thu">
+            <figcaption class="art-caption" contenteditable="true">Vệt nắng sót lại trên hiên vắng chiều thu</figcaption>
+          </figure>
+          <div class="poetry-stanza">
+            "Người đi gom hết giọt nồng nàn<br>
+            Để lại thềm hoang chút gió than<br>
+            Khói thuốc tàn bay theo lối rẽ<br>
+            Trà thơm một tách đợi mây ngàn."
+          </div>
+          <p>Hãy tự do viết tiếp cảm xúc của bạn, bôi đen từ ngữ để định dạng hoặc bấm nút Chèn Ảnh để thêm các bức hình yêu thích.</p>
+        </div>
+
+        <!-- Word count & metrics footer -->
+        <div class="mt-8 pt-4 border-t border-[var(--border-ink)] flex items-center justify-between text-xs font-sans text-[var(--ink-muted)]">
+          <div class="flex items-center gap-4">
+            <span id="metric-word-count">128 từ</span>
+            <span>•</span>
+            <span id="metric-read-time">~1 phút đọc</span>
+          </div>
+          <span class="italic font-serif">Mẹo: Click vào ảnh trong bài để chỉnh vị trí căn lề & khung viền</span>
+        </div>
+      </div>
+
+      <!-- Split Live Preview (Hidden by default, toggled via Split button) -->
+      <div id="split-preview-pane" class="hidden bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-6 sm:p-10 shadow-xl min-h-[580px] sticky top-24 overflow-y-auto max-h-[85vh]">
+        <div class="text-xs font-sans uppercase tracking-widest text-[var(--accent)] font-bold mb-2">Xem Trước Thời Gian Thực</div>
+        <h1 id="preview-title" class="font-display text-3xl font-bold mb-4">Tựa đề bài viết</h1>
+        <div id="preview-body" class="prose-content font-serif text-lg leading-relaxed text-[var(--ink)]"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: IMAGE INSERTION & GALLERY           -->
+  <!-- ========================================== -->
+  <div id="image-insert-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl max-w-xl w-full p-6 shadow-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--border-ink)] mb-4">
+        <h3 class="font-display text-xl font-bold flex items-center gap-2">
+          <i class="fa-solid fa-photo-film text-[var(--accent)]"></i>
+          <span id="modal-image-title">Chèn Ảnh Nghệ Thuật</span>
+        </h3>
+        <button onclick="imageModal.close()" class="w-8 h-8 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-xs hover:text-[var(--accent)]">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Tabs: Upload / URL / Curated Gallery -->
+      <div class="flex border-b border-[var(--border-ink)] text-xs font-sans mb-4">
+        <button onclick="imageModal.switchTab('preset')" id="tab-btn-preset" class="px-4 py-2 border-b-2 border-[var(--accent)] font-semibold text-[var(--accent)]">Kho Ảnh Cổ Điển</button>
+        <button onclick="imageModal.switchTab('upload')" id="tab-btn-upload" class="px-4 py-2 border-b-2 border-transparent text-[var(--ink-muted)]">Tải Từ Máy Tính</button>
+        <button onclick="imageModal.switchTab('url')" id="tab-btn-url" class="px-4 py-2 border-b-2 border-transparent text-[var(--ink-muted)]">Dán Link URL</button>
+      </div>
+
+      <!-- TAB 1: CURATED GALLERY -->
+      <div id="tab-content-preset" class="space-y-3 overflow-y-auto pr-1 flex-grow">
+        <p class="font-serif italic text-xs text-[var(--ink-muted)]">Chọn nhanh một góc ký ức từ bộ sưu tập nhiếp ảnh hoài niệm:</p>
+        <div class="grid grid-cols-3 gap-2.5" id="curated-images-grid">
+          <!-- Curated presets injected via JS -->
+        </div>
+      </div>
+
+      <!-- TAB 2: UPLOAD FILE -->
+      <div id="tab-content-upload" class="hidden space-y-4 py-4 flex-grow">
+        <div class="border-2 border-dashed border-[var(--border-ink)] rounded-2xl p-8 text-center cursor-pointer hover:border-[var(--accent)] transition-colors" onclick="document.getElementById('file-input-upload').click()">
+          <i class="fa-solid fa-cloud-arrow-up text-4xl text-[var(--accent)] mb-2"></i>
+          <p class="font-sans text-xs font-bold">Bấm để chọn ảnh từ máy tính của bạn</p>
+          <p class="font-serif italic text-[11px] text-[var(--ink-muted)] mt-1">Hỗ trợ JPG, PNG, WEBP (Tự động nén & chèn tức thì)</p>
+        </div>
+        <input type="file" id="file-input-upload" accept="image/*" class="hidden" onchange="imageModal.handleFileUpload(event)">
+        <div id="upload-preview-zone" class="hidden text-center">
+          <img id="upload-preview-img" class="max-h-48 mx-auto rounded-xl shadow-md mb-2">
+          <span class="text-xs font-sans text-emerald-600 font-semibold">Đã tải ảnh lên thành công!</span>
+        </div>
+      </div>
+
+      <!-- TAB 3: DIRECT URL -->
+      <div id="tab-content-url" class="hidden space-y-4 py-4 flex-grow">
+        <div>
+          <label class="block font-sans text-xs font-bold mb-1">Dán liên kết ảnh (Direct URL)</label>
+          <input type="url" id="image-url-input" placeholder="https://example.com/photo.jpg" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2 text-xs font-sans focus:outline-none focus:border-[var(--accent)]">
+        </div>
+      </div>
+
+      <!-- Frame & Layout Options (Only for inline images) -->
+      <div id="inline-frame-options" class="pt-4 border-t border-[var(--border-ink)] mt-4">
+        <div class="grid grid-cols-2 gap-3 text-xs font-sans">
+          <div>
+            <label class="block font-semibold mb-1 text-[var(--ink-muted)]">Kiểu khung ảnh</label>
+            <select id="select-img-frame" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-xl px-2.5 py-1.5">
+              <option value="frame-polaroid">Thẻ Polaroid hoài niệm</option>
+              <option value="frame-film">Khung phim nhựa Noir</option>
+              <option value="frame-torn">Vết cắt giấy xé</option>
+              <option value="frame-none">Tối giản (Không khung)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1 text-[var(--ink-muted)]">Bố cục ảnh</label>
+            <select id="select-img-align" class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-xl px-2.5 py-1.5">
+              <option value="img-align-center">Căn giữa (Center)</option>
+              <option value="img-align-left">Lượn chữ bên trái (Float Left)</option>
+              <option value="img-align-right">Lượn chữ bên phải (Float Right)</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-2">
+          <input type="text" id="input-img-caption" placeholder="Nhập lời đề từ / chú thích cho ảnh..." class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-xl px-3 py-1.5 text-xs font-serif italic">
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="flex items-center justify-end gap-2 pt-4 border-t border-[var(--border-ink)] mt-3">
+        <button onclick="imageModal.close()" class="px-4 py-2 rounded-2xl text-xs font-sans border border-[var(--border-ink)]">Hủy bỏ</button>
+        <button onclick="imageModal.confirmInsert()" class="px-5 py-2 rounded-2xl text-xs font-sans bg-[var(--accent)] text-white font-medium hover:opacity-90 shadow-md">
+          Chèn Ngay Vào Bài
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING IMAGE POPUP MENU (Appears when clicking an image in the editor) -->
+  <div id="image-action-toolbar" class="fixed z-50 bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-2xl p-1.5 shadow-2xl hidden items-center gap-1 text-xs font-sans backdrop-blur-md">
+    <button onclick="editorStudio.changeActiveImgAlign('img-align-left')" class="p-2 rounded-xl hover:bg-[var(--bg)]" title="Nằm bên trái"><i class="fa-solid fa-align-left"></i></button>
+    <button onclick="editorStudio.changeActiveImgAlign('img-align-center')" class="p-2 rounded-xl hover:bg-[var(--bg)]" title="Căn giữa"><i class="fa-solid fa-align-center"></i></button>
+    <button onclick="editorStudio.changeActiveImgAlign('img-align-right')" class="p-2 rounded-xl hover:bg-[var(--bg)]" title="Nằm bên phải"><i class="fa-solid fa-align-right"></i></button>
+    <div class="w-px h-4 bg-[var(--border-ink)]"></div>
+    <button onclick="editorStudio.changeActiveImgWidth('img-width-sm')" class="px-2 py-1 rounded-xl hover:bg-[var(--bg)]">Nhỏ</button>
+    <button onclick="editorStudio.changeActiveImgWidth('img-width-md')" class="px-2 py-1 rounded-xl hover:bg-[var(--bg)]">Vừa</button>
+    <button onclick="editorStudio.changeActiveImgWidth('img-width-full')" class="px-2 py-1 rounded-xl hover:bg-[var(--bg)]">Tràn</button>
+    <div class="w-px h-4 bg-[var(--border-ink)]"></div>
+    <button onclick="editorStudio.deleteActiveImage()" class="p-2 rounded-xl text-red-500 hover:bg-[var(--bg)]" title="Xóa bức ảnh này"><i class="fa-regular fa-trash-can"></i></button>
+  </div>
+
+  <!-- ARTICLE READER MODAL (Spotlight & Distraction-free) -->
+  <div id="article-modal" class="fixed inset-0 z-50 bg-[var(--bg)]/95 backdrop-blur-xl hidden flex-col overflow-y-auto">
+    <div class="sticky top-0 bg-[var(--bg)]/90 border-b border-[var(--border-ink)] px-6 py-4 flex items-center justify-between z-20">
+      <button onclick="articleReader.close()" class="px-4 py-1.5 rounded-full border border-[var(--border-ink)] hover:border-[var(--accent)] hover:text-[var(--accent)] text-xs font-sans flex items-center gap-2 transition-all">
+        <i class="fa-solid fa-arrow-left"></i> Trở về vườn chữ
+      </button>
+
+      <div class="flex items-center gap-3 text-xs font-sans">
+        <button id="spotlight-btn" onclick="articleReader.toggleSpotlight()" class="px-3 py-1.5 rounded-full border border-[var(--border-ink)] flex items-center gap-1.5 hover:text-[var(--accent)]" title="Chế độ đèn bàn đọc đêm">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span class="hidden sm:inline">Đèn bàn đêm</span>
+        </button>
+        <button id="reader-bookmark-btn" onclick="articleReader.toggleBookmark()" class="w-8 h-8 rounded-full border border-[var(--border-ink)] flex items-center justify-center hover:text-[var(--accent)]">
+          <i class="fa-regular fa-bookmark"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <article id="reader-sheet" class="max-w-2xl mx-auto px-6 py-12 transition-all duration-300">
+      <!-- Article Cover display if present -->
+      <div id="read-cover-box" class="hidden mb-8 rounded-3xl overflow-hidden shadow-2xl max-h-80 border border-[var(--border-ink)]">
+        <img id="read-cover-img" class="w-full h-full object-cover">
+      </div>
+
+      <div class="text-center mb-10 pb-8 border-b border-[var(--border-ink)]">
+        <span id="read-category" class="font-sans text-xs uppercase tracking-widest text-[var(--accent)] font-semibold"></span>
+        <h1 id="read-title" class="font-display text-3xl sm:text-5xl font-bold my-4 leading-tight"></h1>
+        <div class="text-xs font-sans text-[var(--ink-muted)] flex items-center justify-center gap-3">
+          <span id="read-author" class="font-serif italic text-sm"></span>
+          <span>•</span>
+          <span id="read-date"></span>
+          <span>•</span>
+          <span id="read-mood" class="italic"></span>
+        </div>
+      </div>
+
+      <div id="read-body" class="prose-content font-serif text-lg sm:text-xl leading-relaxed text-[var(--ink)] space-y-6"></div>
+
+      <!-- Reactions & Claps -->
+      <div class="mt-12 pt-8 border-t border-[var(--border-ink)] flex items-center justify-center gap-4 text-xs font-sans">
+        <button onclick="articleReader.sendReaction('🌸', event)" class="px-4 py-2 rounded-full border border-[var(--border-ink)] hover:border-[var(--accent)] flex items-center gap-2 transition-transform active:scale-90">
+          <span>🌸 Gửi đóa hoa</span>
+          <span id="count-flower" class="font-bold text-[var(--accent)]">0</span>
+        </button>
+        <button onclick="articleReader.sendReaction('💧', event)" class="px-4 py-2 rounded-full border border-[var(--border-ink)] hover:border-[var(--accent)] flex items-center gap-2 transition-transform active:scale-90">
+          <span>💧 Lệ tri âm</span>
+          <span id="count-tear" class="font-bold text-[var(--accent)]">0</span>
+        </button>
+        <button onclick="articleReader.sendReaction('🌕', event)" class="px-4 py-2 rounded-full border border-[var(--border-ink)] hover:border-[var(--accent)] flex items-center gap-2 transition-transform active:scale-90">
+          <span>🌕 Vầng trăng</span>
+          <span id="count-moon" class="font-bold text-[var(--accent)]">0</span>
+        </button>
+      </div>
+    </article>
+  </div>
+
+  <!-- MODAL: TAROT & POETRY VERSE DRAW -->
+  <div id="tarot-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="max-w-sm w-full perspective-1000">
+      <div id="tarot-card-inner" onclick="tarotDeck.flipCard()" class="transform-style-3d relative w-full h-[460px] rounded-3xl transition-transform duration-700 cursor-pointer shadow-2xl">
+        
+        <!-- CARD BACK (Face Down) -->
+        <div class="backface-hidden absolute inset-0 bg-stone-900 border-2 border-amber-600/60 rounded-3xl p-6 flex flex-col items-center justify-between text-center select-none">
+          <div class="text-amber-500/60 font-cinzel text-xs tracking-widest">HIÊN VẮNG TỰ TẠI</div>
+          <div class="w-28 h-28 rounded-full border border-dashed border-amber-500/40 flex items-center justify-center">
+            <i class="fa-solid fa-moon text-4xl text-amber-500/80 animate-pulse"></i>
+          </div>
+          <div>
+            <p class="font-serif italic text-stone-300 text-sm">Chạm nhẹ để lật mở quẻ thơ tương ứng với xúc cảm hiện tại của bạn...</p>
+            <span class="inline-block mt-3 px-3 py-1 rounded-full border border-amber-500/30 text-amber-400 text-[10px] font-sans">Chạm để lật</span>
+          </div>
+        </div>
+
+        <!-- CARD FRONT (Face Up) -->
+        <div class="backface-hidden rotate-y-180 absolute inset-0 bg-[var(--paper-card)] border-2 border-[var(--accent)] rounded-3xl p-6 flex flex-col justify-between text-center select-none shadow-xl">
+          <div class="text-[10px] font-sans tracking-widest uppercase text-[var(--accent)] font-bold" id="tarot-tag">Khúc Chiêm Nghiệm</div>
+          <div>
+            <h3 id="tarot-title" class="font-display text-2xl font-bold mb-4 text-[var(--ink)]"></h3>
+            <div id="tarot-verse" class="font-serif italic text-base leading-relaxed text-[var(--ink)]"></div>
+          </div>
+          <div>
+            <span id="tarot-author" class="font-sans text-xs text-[var(--ink-muted)] block mb-3"></span>
+            <div class="flex items-center justify-center gap-2" onclick="event.stopPropagation()">
+              <button onclick="tarotDeck.drawNew()" class="px-3.5 py-1.5 rounded-full bg-[var(--accent)] text-white text-xs font-sans">
+                Rút thẻ khác
+              </button>
+              <button onclick="tarotDeck.closeModal()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-ink)] text-xs font-sans">
+                Khép lại
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AUTHOR AUTHENTICATION (SECRET KEY) -->
+  <div id="author-auth-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-feather-pointed"></i>
+      </div>
+      <h3 class="font-display text-xl font-bold mb-1">Xác Nhận Tác Giả</h3>
+      <p class="font-sans text-xs text-[var(--ink-muted)] mb-5">Nhập mật mã để mở Xưởng Viết và quản lý tác phẩm.</p>
+      
+      <form onsubmit="authorAuth.verify(event)" class="space-y-3">
+        <input type="password" id="author-pass-input" placeholder="Mật mã tác giả..." class="w-full bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl px-4 py-2.5 text-xs font-sans text-center tracking-widest focus:outline-none focus:border-[var(--accent)]" autocomplete="current-password">
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" onclick="authorAuth.closeModal()" class="w-1/2 py-2 rounded-2xl border border-[var(--border-ink)] text-xs font-sans">Đóng</button>
+          <button type="submit" class="w-1/2 py-2 rounded-2xl bg-[var(--accent)] text-white text-xs font-sans font-semibold hover:opacity-90">Mở Khóa</button>
+        </div>
+      </form>
+      <p class="text-[10px] text-[var(--ink-muted)] mt-4 font-mono">Mẹo: Mật khẩu khởi tạo ban đầu là <strong>hienvang</strong></p>
+    </div>
+  </div>
+
+  <!-- MODAL: GITHUB EXPORT & SYNC CENTER -->
+  <div id="github-sync-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-[var(--border-ink)] mb-4">
+        <h3 class="font-display text-xl font-bold flex items-center gap-2">
+          <i class="fa-brands fa-github text-[var(--accent)]"></i>
+          <span>Đồng Bộ Lên GitHub Pages / Netlify</span>
+        </h3>
+        <button onclick="githubSync.closeModal()" class="w-8 h-8 rounded-full border border-[var(--border-ink)] flex items-center justify-center text-xs hover:text-[var(--accent)]">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs font-sans flex-grow overflow-y-auto pr-1">
+        <div class="bg-[var(--bg)]/40 border border-[var(--border-ink)] rounded-2xl p-4">
+          <h4 class="font-bold text-[var(--ink)] mb-1 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-info text-[var(--accent)]"></i> Cách đưa bài viết mới lên cho toàn thế giới đọc:
+          </h4>
+          <ol class="list-decimal pl-5 space-y-1.5 text-[var(--ink-muted)] leading-relaxed mt-2">
+            <li>Bấm nút <strong>"Tải file posts.json"</strong> bên dưới về máy của bạn.</li>
+            <li>Vào repository GitHub của blog (nơi chứa file <code>index.html</code>).</li>
+            <li>Kéo thả hoặc upload đè file <code>posts.json</code> vừa tải vào cùng thư mục với <code>index.html</code> rồi chọn <strong>Commit changes</strong>.</li>
+            <li>GitHub Pages / Netlify sẽ tự động tải lại và độc giả khắp nơi sẽ thấy bài viết mới của bạn ngay lập tức!</li>
+          </ol>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <span class="font-bold uppercase tracking-wider text-[11px] text-[var(--ink-muted)]">Nội dung tệp posts.json (<span id="json-count-articles">0</span> bài viết)</span>
+            <button onclick="githubSync.copyJson()" class="text-[var(--accent)] hover:underline flex items-center gap-1">
+              <i class="fa-regular fa-copy"></i> Sao chép nhanh
+            </button>
+          </div>
+          <textarea id="github-json-textarea" readonly class="w-full h-44 bg-[var(--bg)] border border-[var(--border-ink)] rounded-2xl p-3 font-mono text-[11px] leading-relaxed select-all text-[var(--ink)] focus:outline-none"></textarea>
+        </div>
+
+        <div class="pt-2 border-t border-[var(--border-ink)] flex flex-wrap items-center justify-between gap-3">
+          <label class="cursor-pointer px-3.5 py-2 rounded-2xl border border-[var(--border-ink)] hover:border-[var(--accent)] transition-all flex items-center gap-2">
+            <i class="fa-solid fa-file-import text-[var(--accent)]"></i>
+            <span>Nạp posts.json từ máy tính</span>
+            <input type="file" id="json-file-input" accept=".json" class="hidden" onchange="githubSync.importJson(event)">
+          </label>
+          <button onclick="githubSync.downloadFile()" class="px-5 py-2.5 rounded-2xl bg-[var(--accent)] text-white font-bold hover:opacity-90 shadow-md flex items-center gap-2">
+            <i class="fa-solid fa-download"></i>
+            <span>Tải Về File posts.json</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="app-toast" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-[var(--paper-card)] border border-[var(--border-ink)] text-[var(--ink)] px-5 py-2.5 rounded-full text-xs font-sans shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+    <i class="fa-solid fa-circle-check text-[var(--accent)]"></i>
+    <span id="toast-text">Thông báo</span>
+  </div>
+
+  <!-- JAVASCRIPT SYSTEM ENGINE -->
+  <script>
+    /**
+     * Curated Aesthetic Unsplash Library
+     */
+    const CURATED_GALLERY = [
+      { name: "Cơn mưa qua thềm kính", url: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=700&q=80" },
+      { name: "Ấm trà hoa cúc chiều", url: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=700&q=80" },
+      { name: "Trang sách và hoa khô", url: "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=700&q=80" },
+      { name: "Ngọn nến sưởi đêm", url: "https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=700&q=80" },
+      { name: "Đèn đường phố cổ mưa", url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=700&q=80" },
+      { name: "Hoàng hôn buông mặt hồ", url: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?auto=format&fit=crop&w=700&q=80" }
+    ];
+
+    /**
+     * Initial Poetry & Literary Database (with embedded images)
+     */
+    const INITIAL_ARTICLES = [
+      {
+        id: "art-1",
+        title: "Khói thuốc chiều mưa và tiếng thở dài của phố",
+        category: "Tản văn",
+        mood: "Chiều mưa",
+        author: "Mộc Lan",
+        date: "14 Tháng Mười",
+        coverImage: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80",
+        deskX: 40,
+        deskY: 40,
+        rotate: -3,
+        claps: { flower: 34, tear: 12, moon: 45 },
+        contentHtml: `
+          <p class="drop-cap">Mỗi lần phố vào mùa mưa, lòng người dường như cũng chùng xuống một nhịp. Khói bếp, khói thuốc hay làn sương mỏng giăng mắc nơi đầu ngõ đều mang một màu xám đùng đục của ký ức xa xôi.</p>
+          <figure class="art-figure img-align-right img-width-sm frame-polaroid" contenteditable="false">
+            <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80" alt="Đèn phố mưa">
+            <figcaption class="art-caption">Bóng đèn vàng hiu hắt giữa ngã tư</figcaption>
+          </figure>
+          <p>Ta ngồi ở góc quán quen, nhìn giọt mưa đập vào thềm kính vỡ tan tành như những lời hẹn ước thuở hai mươi chưa kịp thành hình. Cuộc sống xô bồ cuốn ta đi qua trăm vạn ngả đường, nhưng chỉ cần một chiều mưa dầm dề bên hiên vắng, ta lại khao khát được bé lại, nép mình vào lòng mẹ nghe kể chuyện đồng xa.</p>
+          <blockquote class="vintage-quote">“Có những người chỉ đi qua đời ta một đoạn ngắn, nhưng để lại một mùa mưa dài suốt cả kiếp nhân sinh.”</blockquote>
+          <p>Người rời đi mang theo mùa hạ rực rỡ, để lại cho ta cả một mùa đông rét buốt trong mắt nhau.</p>
+        `
+      },
+      {
+        id: "art-2",
+        title: "Uống cạn ánh trăng trong chén trà sương",
+        category: "Thơ",
+        mood: "Dịu êm",
+        author: "Hải Thi",
+        date: "12 Tháng Mười",
+        coverImage: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80",
+        deskX: 420,
+        deskY: 20,
+        rotate: 4,
+        claps: { flower: 62, tear: 3, moon: 88 },
+        contentHtml: `
+          <div class="poetry-stanza">
+            Đêm nay trăng rụng xuống thềm sương<br>
+            Ta nhặt câu thơ gói đoạn đường<br>
+            Một ấm trà thơm bừng khói tỏa<br>
+            Quên hết phong trần, nhẹ vết thương.
+          </div>
+          <figure class="art-figure img-align-center img-width-md frame-film" contenteditable="false">
+            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=700&q=80" alt="Sách và trà">
+            <figcaption class="art-caption">Chén trà thơm giữa trang sách cũ</figcaption>
+          </figure>
+          <div class="poetry-stanza">
+            Cúc vàng ngậm giọt tinh khôi biếc<br>
+            Lòng khép thênh thang đón gió lành<br>
+            Gặp gỡ, chia ly đều duyên số<br>
+            Cớ sao lòng mãi vấn vương anh?
+          </div>
+        `
+      },
+      {
+        id: "art-3",
+        title: "Tự tình của kẻ đi lạc giữa tuổi hăm",
+        category: "Ghi chép",
+        mood: "Cô đơn",
+        author: "Vũ Yên",
+        date: "08 Tháng Mười",
+        coverImage: null,
+        deskX: 80,
+        deskY: 340,
+        rotate: 2,
+        claps: { flower: 21, tear: 40, moon: 19 },
+        contentHtml: `
+          <p class="drop-cap">Hai mươi lăm tuổi, ta không còn khóc oà khi tổn thương, mà chỉ biết im lặng ngắm nhìn trần nhà trắng toát mỗi lúc nửa đêm.</p>
+          <p>Ta từng nghĩ trưởng thành là có tự do, nhưng hóa ra trưởng thành là chấp nhận cô đơn như một phần da thịt. Không còn ai dỗ dành khi ta vấp ngã. Không còn ai kiên nhẫn nghe ta kể những giấc mộng viển vông.</p>
+          <div class="poetic-divider">❦ ❦ ❦</div>
+          <p>Nhưng có hề chi, chính trong những khoảng lặng rỗng không ấy, ta mới chạm được vào bản thể chân thực nhất của chính mình.</p>
+        `
+      }
+    ];
+
+    const TAROT_CARDS = [
+      { tag: "Khúc Chiêm Nghiệm #01", title: "Bình An Tự Tại", verse: "“Gió qua đầu cành rụng cánh hoa\nLòng người không vướng chuyện phong ba\nMột nhành trà ấm, đôi câu chuyện\nThế sự xoay vần cũng thoảng qua.”", author: "Thiền Ngữ" },
+      { tag: "Khúc Chiêm Nghiệm #02", title: "Duyên Khởi Trùng Phùng", verse: "“Đời người trăm ngã rẽ quanh co\nCó kẻ sang ngang chẳng đợi đò\nNgười thật lòng yêu như bến vắng\nBao mùa dông bão vẫn nguyên sơ.”", author: "Cổ Thi" },
+      { tag: "Khúc Chiêm Nghiệm #03", title: "Ánh Sáng Trong Đêm", verse: "“Đừng sợ đêm đen dẫu ngút ngàn\nTrong lòng thắp lửa sẽ bình an\nTrăng tàn rồi trăng lại tròn đấy\nVết sẹo trần gian hóa đoá vàng.”", author: "Vô Danh" }
+    ];
+
+    /**
+     * Author Authentication & Access Control (Headless Protection)
+     */
+    class AuthorAuth {
+      constructor() {
+        this.modal = document.getElementById('author-auth-modal');
+        this.input = document.getElementById('author-pass-input');
+        this.isAuthor = false;
+        this.storageKey = 'hienvang_author_session';
+        this.passKey = 'hienvang_secret_pwd';
+        this.init();
+      }
+
+      init() {
+        if (!localStorage.getItem(this.passKey)) {
+          localStorage.setItem(this.passKey, 'hienvang');
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('author') === '1' || sessionStorage.getItem(this.storageKey) === 'true') {
+          this.setAuthorState(true);
+        }
+
+        window.addEventListener('keydown', (e) => {
+          if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+            e.preventDefault();
+            if (this.isAuthor) {
+              app.navigateTo('studio');
+            } else {
+              this.openModal();
+            }
+          }
+        });
+      }
+
+      openModal() {
+        if (this.isAuthor) {
+          app.navigateTo('studio');
+          return;
+        }
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+        setTimeout(() => this.input.focus(), 100);
+      }
+
+      closeModal() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+        this.input.value = '';
+      }
+
+      verify(e) {
+        e.preventDefault();
+        const pwd = this.input.value.trim();
+        const storedPwd = localStorage.getItem(this.passKey);
+
+        if (pwd === storedPwd) {
+          this.setAuthorState(true);
+          sessionStorage.setItem(this.storageKey, 'true');
+          this.closeModal();
+          app.showToast("Chào mừng Tác giả! Đã mở quyền Xưởng Viết.");
+          app.navigateTo('studio');
+        } else {
+          app.showToast("Mật mã không đúng. Vui lòng thử lại!");
+          this.input.value = '';
+          this.input.focus();
+        }
+      }
+
+      setAuthorState(active) {
+        this.isAuthor = active;
+        const studioBtn = document.getElementById('nav-btn-studio');
+        const lockBtn = document.getElementById('author-lock-btn');
+
+        if (active) {
+          studioBtn.classList.remove('hidden');
+          lockBtn.innerHTML = '<i class="fa-solid fa-lock-open text-[var(--accent)]"></i>';
+          lockBtn.title = "Đang mở quyền tác giả (Bấm để vào Xưởng)";
+        } else {
+          studioBtn.classList.add('hidden');
+          lockBtn.innerHTML = '<i class="fa-solid fa-key text-xs"></i>';
+          lockBtn.title = "Dành riêng cho tác giả (Ctrl+Shift+A)";
+        }
+      }
+
+      lock() {
+        this.setAuthorState(false);
+        sessionStorage.removeItem(this.storageKey);
+        app.showToast("Đã khóa Xưởng Viết. Quay về chế độ độc giả.");
+        app.navigateTo('blog');
+      }
+    }
+
+    /**
+     * GitHub Sync & Static JSON Center
+     */
+    class GitHubSyncCenter {
+      constructor() {
+        this.modal = document.getElementById('github-sync-modal');
+      }
+
+      openModal() {
+        const jsonStr = JSON.stringify(app.articles, null, 2);
+        document.getElementById('github-json-textarea').value = jsonStr;
+        document.getElementById('json-count-articles').innerText = app.articles.length;
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+      }
+
+      closeModal() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+      }
+
+      downloadFile() {
+        const jsonStr = JSON.stringify(app.articles, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'posts.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        app.showToast("Đã tải posts.json! Đẩy file này lên GitHub để public nhé.");
+      }
+
+      copyJson() {
+        const textarea = document.getElementById('github-json-textarea');
+        textarea.select();
+        document.execCommand('copy');
+        app.showToast("Đã sao chép nội dung JSON vào Clipboard!");
+      }
+
+      importJson(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            if (Array.isArray(data)) {
+              app.articles = data;
+              app.saveArticles();
+              app.renderAllViews();
+              document.getElementById('github-json-textarea').value = JSON.stringify(app.articles, null, 2);
+              document.getElementById('json-count-articles').innerText = app.articles.length;
+              app.showToast(`Đã nạp thành công ${data.length} bài viết!`);
+            } else {
+              app.showToast("File không đúng cấu trúc danh sách bài viết.");
+            }
+          } catch (err) {
+            app.showToast("Lỗi định dạng file JSON.");
+          }
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    /**
+     * Web Audio API: Vinyl Noise & Ambient Sounds
+     */
+    class WebAudioMusicBox {
+      constructor() {
+        this.ctx = null;
+        this.isPlaying = false;
+        this.currentMode = 'rain';
+        this.volume = 0.5;
+        this.masterGain = null;
+        this.activeNodes = [];
+        this.timer = null;
+        this.seconds = 0;
+      }
+
+      initCtx() {
+        if (!this.ctx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioContextClass();
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+          this.masterGain.connect(this.ctx.destination);
+        }
+      }
+
+      togglePlay() {
+        this.initCtx();
+        if (this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+
+        if (this.isPlaying) {
+          this.stop();
+        } else {
+          this.play();
+        }
+      }
+
+      play() {
+        this.stopNodes();
+        this.isPlaying = true;
+
+        const disc = document.getElementById('vinyl-disc');
+        const icon = document.getElementById('vinyl-status-icon');
+        disc.classList.remove('spin-paused');
+        icon.innerHTML = '<i class="fa-solid fa-pause"></i>';
+
+        this.startVinylCrackle();
+
+        if (this.currentMode === 'rain') {
+          this.startRainSound();
+        } else if (this.currentMode === 'wind') {
+          this.startWindSound();
+        } else if (this.currentMode === 'fire') {
+          this.startFireSound();
+        }
+
+        this.startTimer();
+      }
+
+      stop() {
+        this.isPlaying = false;
+        const disc = document.getElementById('vinyl-disc');
+        const icon = document.getElementById('vinyl-status-icon');
+        disc.classList.add('spin-paused');
+        icon.innerHTML = '<i class="fa-solid fa-play"></i>';
+
+        this.stopNodes();
+        this.stopTimer();
+      }
+
+      setVolume(val) {
+        this.volume = parseFloat(val);
+        if (this.masterGain && this.ctx) {
+          this.masterGain.gain.setValueAtTime(this.volume, this.ctx.currentTime);
+        }
+      }
+
+      changeTrack(mode) {
+        this.currentMode = mode;
+        if (this.isPlaying) {
+          this.play();
+        }
+      }
+
+      startVinylCrackle() {
+        if (!this.ctx) return;
+        const bufferSize = this.ctx.sampleRate * 2;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * 0.035;
+          if (Math.random() < 0.0007) {
+            data[i] = (Math.random() > 0.5 ? 0.35 : -0.35);
+          }
+        }
+
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+        noise.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(1400, this.ctx.currentTime);
+        filter.Q.setValueAtTime(1.2, this.ctx.currentTime);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        noise.start();
+        this.activeNodes.push(noise, filter, gain);
+      }
+
+      startRainSound() {
+        if (!this.ctx) return;
+        const bufferSize = this.ctx.sampleRate * 3;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        let lastOut = 0.0;
+
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          data[i] = (lastOut + (0.02 * white)) / 1.02;
+          lastOut = data[i];
+          data[i] *= 2.8;
+        }
+
+        const rainSource = this.ctx.createBufferSource();
+        rainSource.buffer = buffer;
+        rainSource.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.45, this.ctx.currentTime);
+
+        rainSource.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        rainSource.start();
+        this.activeNodes.push(rainSource, filter, gain);
+      }
+
+      startWindSound() {
+        if (!this.ctx) return;
+        const bufferSize = this.ctx.sampleRate * 2;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * 0.12;
+        }
+
+        const windSource = this.ctx.createBufferSource();
+        windSource.buffer = buffer;
+        windSource.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(420, this.ctx.currentTime);
+        filter.Q.setValueAtTime(3.0, this.ctx.currentTime);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+
+        windSource.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        windSource.start();
+        this.activeNodes.push(windSource, filter, gain);
+      }
+
+      startFireSound() {
+        if (!this.ctx) return;
+        const bufferSize = this.ctx.sampleRate * 2;
+        const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * 0.05;
+          if (Math.random() < 0.0015) {
+            data[i] = (Math.random() * 2 - 1) * 0.6;
+          }
+        }
+
+        const fireSource = this.ctx.createBufferSource();
+        fireSource.buffer = buffer;
+        fireSource.loop = true;
+
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1100, this.ctx.currentTime);
+
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+
+        fireSource.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.masterGain);
+
+        fireSource.start();
+        this.activeNodes.push(fireSource, filter, gain);
+      }
+
+      stopNodes() {
+        this.activeNodes.forEach(node => {
+          try {
+            if (node.stop) node.stop();
+            if (node.disconnect) node.disconnect();
+          } catch (e) {}
+        });
+        this.activeNodes = [];
+      }
+
+      startTimer() {
+        this.stopTimer();
+        const label = document.getElementById('audio-time-label');
+        this.timer = setInterval(() => {
+          this.seconds++;
+          const mins = String(Math.floor(this.seconds / 60)).padStart(2, '0');
+          const secs = String(this.seconds % 60).padStart(2, '0');
+          if (label) label.innerText = `${mins}:${secs}`;
+        }, 1000);
+      }
+
+      stopTimer() {
+        if (this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }
+      }
+    }
+
+    /**
+     * Modal Controller for Image Insertion & Previews
+     */
+    class ImageInsertionModal {
+      constructor() {
+        this.modal = document.getElementById('image-insert-modal');
+        this.targetMode = 'inline'; // 'cover' or 'inline'
+        this.activeTab = 'preset';
+        this.selectedImageUrl = '';
+        this.initPresets();
+      }
+
+      initPresets() {
+        const grid = document.getElementById('curated-images-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        CURATED_GALLERY.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'group relative rounded-xl overflow-hidden cursor-pointer border border-[var(--border-ink)] hover:border-[var(--accent)] transition-all';
+          div.innerHTML = `
+            <img src="${item.url}" alt="${item.name}" class="w-full h-20 object-cover group-hover:scale-105 transition-transform duration-300">
+            <span class="absolute inset-x-0 bottom-0 bg-black/60 text-white text-[9px] p-1 text-center truncate block">${item.name}</span>
+          `;
+          div.onclick = () => this.selectPreset(item.url, div);
+          grid.appendChild(div);
+        });
+      }
+
+      selectPreset(url, element) {
+        document.querySelectorAll('#curated-images-grid > div').forEach(d => d.classList.remove('ring-2', 'ring-[var(--accent)]'));
+        if (element) element.classList.add('ring-2', 'ring-[var(--accent)]');
+        this.selectedImageUrl = url;
+      }
+
+      open(mode = 'inline') {
+        this.targetMode = mode;
+        this.selectedImageUrl = '';
+        const title = document.getElementById('modal-image-title');
+        const frameOpts = document.getElementById('inline-frame-options');
+
+        if (mode === 'cover') {
+          title.innerText = 'Chọn Ảnh Bìa Tác Phẩm';
+          frameOpts.classList.add('hidden');
+        } else {
+          title.innerText = 'Chèn Ảnh Vào Nội Dung Bài';
+          frameOpts.classList.remove('hidden');
+        }
+
+        this.switchTab('preset');
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+      }
+
+      close() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+      }
+
+      switchTab(tab) {
+        this.activeTab = tab;
+        ['preset', 'upload', 'url'].forEach(t => {
+          const btn = document.getElementById(`tab-btn-${t}`);
+          const content = document.getElementById(`tab-content-${t}`);
+          if (t === tab) {
+            btn.classList.add('border-[var(--accent)]', 'text-[var(--accent)]', 'font-semibold');
+            btn.classList.remove('border-transparent', 'text-[var(--ink-muted)]');
+            content.classList.remove('hidden');
+          } else {
+            btn.classList.remove('border-[var(--accent)]', 'text-[var(--accent)]', 'font-semibold');
+            btn.classList.add('border-transparent', 'text-[var(--ink-muted)]');
+            content.classList.add('hidden');
+          }
+        });
+      }
+
+      handleFileUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.selectedImageUrl = e.target.result;
+          const previewZone = document.getElementById('upload-preview-zone');
+          const previewImg = document.getElementById('upload-preview-img');
+          previewImg.src = this.selectedImageUrl;
+          previewZone.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      confirmInsert() {
+        if (this.activeTab === 'url') {
+          const urlInput = document.getElementById('image-url-input').value.trim();
+          if (urlInput) this.selectedImageUrl = urlInput;
+        }
+
+        if (!this.selectedImageUrl) {
+          app.showToast("Vui lòng chọn hoặc tải lên một bức ảnh!");
+          return;
+        }
+
+        if (this.targetMode === 'cover') {
+          editorStudio.setCover(this.selectedImageUrl);
+        } else {
+          const frame = document.getElementById('select-img-frame').value;
+          const align = document.getElementById('select-img-align').value;
+          const caption = document.getElementById('input-img-caption').value.trim();
+          editorStudio.insertFigure(this.selectedImageUrl, frame, align, caption);
+        }
+
+        this.close();
+      }
+    }
+
+    /**
+     * Creative Rich Text & Studio Editor Controller
+     */
+    class CreativeEditorStudio {
+      constructor() {
+        this.editor = document.getElementById('rich-editor-content');
+        this.activeFigure = null;
+        this.isSplitPreview = false;
+        this.coverImage = null;
+        this.actionToolbar = document.getElementById('image-action-toolbar');
+        this.initEvents();
+      }
+
+      initEvents() {
+        this.editor.addEventListener('input', () => {
+          this.updateMetrics();
+          this.syncPreview();
+          this.autoSave();
+        });
+
+        // Paste image handler directly from clipboard
+        this.editor.addEventListener('paste', (e) => {
+          const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+          for (let item of items) {
+            if (item.kind === 'file' && item.type.startsWith('image/')) {
+              e.preventDefault();
+              const blob = item.getAsFile();
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                this.insertFigure(ev.target.result, 'frame-polaroid', 'img-align-center', '');
+              };
+              reader.readAsDataURL(blob);
+              return;
+            }
+          }
+        });
+
+        // Image selection & floating action toolbar
+        this.editor.addEventListener('click', (e) => {
+          const fig = e.target.closest('figure.art-figure');
+          if (fig) {
+            this.selectFigure(fig, e);
+          } else if (!e.target.closest('#image-action-toolbar')) {
+            this.deselectFigure();
+          }
+        });
+
+        document.getElementById('post-title').addEventListener('input', () => {
+          this.syncPreview();
+          this.autoSave();
+        });
+      }
+
+      selectFigure(fig, evt) {
+        this.deselectFigure();
+        this.activeFigure = fig;
+        fig.classList.add('figure-selected');
+
+        const rect = fig.getBoundingClientRect();
+        this.actionToolbar.style.top = `${window.scrollY + rect.top - 46}px`;
+        this.actionToolbar.style.left = `${window.scrollX + rect.left}px`;
+        this.actionToolbar.classList.remove('hidden');
+        this.actionToolbar.classList.add('flex');
+      }
+
+      deselectFigure() {
+        if (this.activeFigure) {
+          this.activeFigure.classList.remove('figure-selected');
+          this.activeFigure = null;
+        }
+        this.actionToolbar.classList.add('hidden');
+        this.actionToolbar.classList.remove('flex');
+      }
+
+      changeActiveImgAlign(alignClass) {
+        if (!this.activeFigure) return;
+        this.activeFigure.classList.remove('img-align-center', 'img-align-left', 'img-align-right');
+        this.activeFigure.classList.add(alignClass);
+        this.autoSave();
+        this.syncPreview();
+      }
+
+      changeActiveImgWidth(widthClass) {
+        if (!this.activeFigure) return;
+        this.activeFigure.classList.remove('img-width-sm', 'img-width-md', 'img-width-full');
+        this.activeFigure.classList.add(widthClass);
+        this.autoSave();
+        this.syncPreview();
+      }
+
+      deleteActiveImage() {
+        if (this.activeFigure) {
+          this.activeFigure.remove();
+          this.deselectFigure();
+          this.autoSave();
+          this.syncPreview();
+        }
+      }
+
+      exec(command, value = null) {
+        document.execCommand(command, false, value);
+        this.editor.focus();
+        this.syncPreview();
+      }
+
+      formatBlock(tag) {
+        document.execCommand('formatBlock', false, tag);
+        this.editor.focus();
+        this.syncPreview();
+      }
+
+      insertDropCap() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const node = sel.anchorNode.parentElement;
+        if (node && node.closest('.editor-sheet')) {
+          node.classList.toggle('drop-cap');
+          this.syncPreview();
+        }
+      }
+
+      insertPoetryStanza() {
+        const html = `<div class="poetry-stanza">"Dòng thơ thứ nhất...<br>Dòng thơ thứ hai..."</div><p><br></p>`;
+        document.execCommand('insertHTML', false, html);
+        this.syncPreview();
+      }
+
+      insertBlockquote() {
+        const html = `<blockquote class="vintage-quote">“Lời trích dẫn lắng đọng...”</blockquote><p><br></p>`;
+        document.execCommand('insertHTML', false, html);
+        this.syncPreview();
+      }
+
+      insertDivider(symbol) {
+        const html = `<div class="poetic-divider">${symbol}</div><p><br></p>`;
+        document.execCommand('insertHTML', false, html);
+        this.syncPreview();
+      }
+
+      highlight(color) {
+        document.execCommand('hiliteColor', false, color);
+      }
+
+      removeFormat() {
+        document.execCommand('removeFormat', false, null);
+      }
+
+      insertFigure(src, frameClass, alignClass, captionText) {
+        const captionHtml = captionText ? `<figcaption class="art-caption" contenteditable="true">${captionText}</figcaption>` : `<figcaption class="art-caption" contenteditable="true">Chú thích ảnh...</figcaption>`;
+        const figureHtml = `
+          <figure class="art-figure ${alignClass} img-width-md ${frameClass}" contenteditable="false">
+            <img src="${src}" alt="Ảnh minh họa">
+            ${captionHtml}
+          </figure>
+          <p><br></p>
+        `;
+        this.editor.focus();
+        document.execCommand('insertHTML', false, figureHtml);
+        this.syncPreview();
+        this.autoSave();
+      }
+
+      setCover(url) {
+        this.coverImage = url;
+        const img = document.getElementById('cover-img-display');
+        const placeholder = document.getElementById('cover-placeholder');
+        const controls = document.getElementById('cover-controls');
+        img.src = url;
+        img.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+        controls.classList.remove('hidden');
+        controls.classList.add('flex');
+        this.autoSave();
+      }
+
+      removeCover() {
+        this.coverImage = null;
+        const img = document.getElementById('cover-img-display');
+        const placeholder = document.getElementById('cover-placeholder');
+        const controls = document.getElementById('cover-controls');
+        img.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        controls.classList.add('hidden');
+        controls.classList.remove('flex');
+        this.autoSave();
+      }
+
+      toggleSplitPreview() {
+        this.isSplitPreview = !this.isSplitPreview;
+        const pane = document.getElementById('split-preview-pane');
+        const workspace = document.getElementById('editor-workspace');
+        const btn = document.getElementById('btn-split-toggle');
+
+        if (this.isSplitPreview) {
+          workspace.classList.remove('grid-cols-1');
+          workspace.classList.add('grid-cols-1', 'lg:grid-cols-2');
+          pane.classList.remove('hidden');
+          btn.classList.add('bg-[var(--accent)]', 'text-white');
+          this.syncPreview();
+        } else {
+          workspace.classList.remove('lg:grid-cols-2');
+          workspace.classList.add('grid-cols-1');
+          pane.classList.add('hidden');
+          btn.classList.remove('bg-[var(--accent)]', 'text-white');
+        }
+      }
+
+      syncPreview() {
+        if (!this.isSplitPreview) return;
+        const title = document.getElementById('post-title').value;
+        document.getElementById('preview-title').innerText = title || 'Tựa đề bài viết';
+        document.getElementById('preview-body').innerHTML = this.editor.innerHTML;
+      }
+
+      updateMetrics() {
+        const text = this.editor.innerText.trim();
+        const words = text ? text.split(/\s+/).length : 0;
+        const time = Math.max(1, Math.ceil(words / 180));
+        document.getElementById('metric-word-count').innerText = `${words} từ`;
+        document.getElementById('metric-read-time').innerText = `~${time} phút đọc`;
+      }
+
+      autoSave() {
+        const draft = {
+          title: document.getElementById('post-title').value,
+          category: document.getElementById('post-category').value,
+          mood: document.getElementById('post-mood').value,
+          author: document.getElementById('post-author').value,
+          content: this.editor.innerHTML,
+          cover: this.coverImage
+        };
+        localStorage.setItem('hienvang_editor_draft', JSON.stringify(draft));
+        const status = document.getElementById('autosave-status');
+        if (status) status.innerText = 'Đã lưu tự động';
+      }
+
+      loadDraft() {
+        const saved = localStorage.getItem('hienvang_editor_draft');
+        if (!saved) return;
+        try {
+          const draft = JSON.parse(saved);
+          if (draft.title) document.getElementById('post-title').value = draft.title;
+          if (draft.category) document.getElementById('post-category').value = draft.category;
+          if (draft.mood) document.getElementById('post-mood').value = draft.mood;
+          if (draft.author) document.getElementById('post-author').value = draft.author;
+          if (draft.content) this.editor.innerHTML = draft.content;
+          if (draft.cover) this.setCover(draft.cover);
+          this.updateMetrics();
+        } catch (e) {}
+      }
+
+      publishArticle() {
+        const title = document.getElementById('post-title').value.trim();
+        const content = this.editor.innerHTML.trim();
+        if (!title) {
+          app.showToast("Vui lòng đặt tựa đề cho tác phẩm!");
+          return;
+        }
+
+        const newPost = {
+          id: `art-${Date.now()}`,
+          title: title,
+          category: document.getElementById('post-category').value,
+          mood: document.getElementById('post-mood').value,
+          author: document.getElementById('post-author').value.trim() || 'Người vô danh',
+          date: 'Hôm nay',
+          coverImage: this.coverImage,
+          deskX: Math.random() * 260 + 30,
+          deskY: Math.random() * 200 + 30,
+          rotate: (Math.random() - 0.5) * 6,
+          claps: { flower: 1, tear: 0, moon: 2 },
+          contentHtml: content
+        };
+
+        app.articles.unshift(newPost);
+        app.saveArticles();
+        app.showToast("Đã thêm bài mới vào danh sách!");
+        app.navigateTo('blog');
+
+        // Automatically prompt author to export posts.json for GitHub Pages
+        setTimeout(() => {
+          if (confirm("Bạn có muốn mở bảng 'Xuất posts.json' để đồng bộ lên GitHub Pages ngay không?")) {
+            githubSync.openModal();
+          }
+        }, 600);
+      }
+    }
+
+    /**
+     * Tarot & Poetry Card Draw System
+     */
+    class TarotSystem {
+      constructor() {
+        this.modal = document.getElementById('tarot-modal');
+        this.cardInner = document.getElementById('tarot-card-inner');
+        this.isFlipped = false;
+        this.currentCard = null;
+      }
+
+      openModal() {
+        this.drawNew(false);
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+      }
+
+      closeModal() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+        if (this.isFlipped) {
+          this.cardInner.classList.remove('rotate-y-180');
+          this.isFlipped = false;
+        }
+      }
+
+      flipCard() {
+        this.isFlipped = !this.isFlipped;
+        if (this.isFlipped) {
+          this.cardInner.classList.add('rotate-y-180');
+        } else {
+          this.cardInner.classList.remove('rotate-y-180');
+        }
+      }
+
+      drawNew(autoFlip = true) {
+        if (this.isFlipped) {
+          this.cardInner.classList.remove('rotate-y-180');
+          this.isFlipped = false;
+        }
+        const randomIndex = Math.floor(Math.random() * TAROT_CARDS.length);
+        this.currentCard = TAROT_CARDS[randomIndex];
+
+        setTimeout(() => {
+          document.getElementById('tarot-tag').innerText = this.currentCard.tag;
+          document.getElementById('tarot-title').innerText = this.currentCard.title;
+          document.getElementById('tarot-verse').innerHTML = this.currentCard.verse.replace(/\n/g, '<br>');
+          document.getElementById('tarot-author').innerText = `— ${this.currentCard.author} —`;
+          if (autoFlip) {
+            setTimeout(() => this.flipCard(), 250);
+          }
+        }, 200);
+      }
+    }
+
+    /**
+     * Main Blog Controller
+     */
+    class MainApp {
+      constructor() {
+        this.articles = [];
+        this.activeBlogView = 'desk';
+        this.activeMood = 'all';
+        this.bookmarks = new Set();
+        this.init();
+      }
+
+      async init() {
+        // Try fetching public posts.json from GitHub Pages repository first
+        await this.loadPublicPosts();
+
+        const thm = localStorage.getItem('hienvang_theme') || 'vintage';
+        this.setTheme(thm);
+        this.setupCustomCursor();
+        this.renderAllViews();
+        editorStudio.loadDraft();
+      }
+
+      async loadPublicPosts() {
+        try {
+          // If posts.json exists on GitHub Pages / hosting directory, load it
+          const res = await fetch('posts.json', { cache: 'no-cache' });
+          if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+              this.articles = data;
+              this.saveArticles();
+              return;
+            }
+          }
+        } catch (e) {
+          // File posts.json not yet uploaded or offline, fall back to localStorage
+        }
+
+        const stored = localStorage.getItem('hienvang_v3_articles');
+        if (stored) {
+          try { this.articles = JSON.parse(stored); } catch(e) { this.articles = INITIAL_ARTICLES; }
+        } else {
+          this.articles = INITIAL_ARTICLES;
+          this.saveArticles();
+        }
+      }
+
+      saveArticles() {
+        localStorage.setItem('hienvang_v3_articles', JSON.stringify(this.articles));
+      }
+
+      setTheme(thm) {
+        document.documentElement.setAttribute('data-theme', thm);
+        localStorage.setItem('hienvang_theme', thm);
+      }
+
+      navigateTo(page) {
+        const blog = document.getElementById('page-blog');
+        const studio = document.getElementById('page-studio');
+        const btnBlog = document.getElementById('nav-btn-blog');
+        const btnStudio = document.getElementById('nav-btn-studio');
+
+        if (page === 'studio') {
+          blog.classList.add('hidden');
+          studio.classList.remove('hidden');
+          btnStudio.classList.add('bg-[var(--accent)]', 'text-white', 'shadow-sm');
+          btnStudio.classList.remove('text-[var(--ink-muted)]');
+          btnBlog.classList.remove('bg-[var(--accent)]', 'text-white', 'shadow-sm');
+          btnBlog.classList.add('text-[var(--ink-muted)]');
+          editorStudio.updateMetrics();
+        } else {
+          studio.classList.add('hidden');
+          blog.classList.remove('hidden');
+          btnBlog.classList.add('bg-[var(--accent)]', 'text-white', 'shadow-sm');
+          btnBlog.classList.remove('text-[var(--ink-muted)]');
+          btnStudio.classList.remove('bg-[var(--accent)]', 'text-white', 'shadow-sm');
+          btnStudio.classList.add('text-[var(--ink-muted)]');
+          this.renderAllViews();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      switchBlogView(view) {
+        this.activeBlogView = view;
+        ['desk', 'magazine', 'stream'].forEach(v => {
+          document.getElementById(`view-${v}`).classList.add('hidden');
+          const btn = document.getElementById(`btn-blogview-${v}`);
+          btn.classList.remove('bg-[var(--accent)]', 'text-white');
+          btn.classList.add('text-[var(--ink-muted)]');
+        });
+
+        document.getElementById(`view-${view}`).classList.remove('hidden');
+        const curBtn = document.getElementById(`btn-blogview-${view}`);
+        curBtn.classList.add('bg-[var(--accent)]', 'text-white');
+        curBtn.classList.remove('text-[var(--ink-muted)]');
+
+        this.renderAllViews();
+      }
+
+      filterMood(mood) {
+        this.activeMood = mood;
+        document.querySelectorAll('.mood-stamp').forEach(btn => {
+          if (btn.innerText.includes(mood) || (mood === 'all' && btn.innerText.includes('Mọi'))) {
+            btn.classList.add('bg-[var(--accent)]', 'text-white');
+            btn.classList.remove('bg-[var(--paper-card)]', 'text-[var(--ink)]');
+          } else {
+            btn.classList.remove('bg-[var(--accent)]', 'text-white');
+            btn.classList.add('bg-[var(--paper-card)]', 'text-[var(--ink)]');
+          }
+        });
+        this.renderAllViews();
+      }
+
+      getFilteredArticles() {
+        if (this.activeMood === 'all') return this.articles;
+        return this.articles.filter(a => a.mood === this.activeMood);
+      }
+
+      renderAllViews() {
+        this.renderDesk();
+        this.renderMagazine();
+        this.renderStream();
+      }
+
+      renderDesk() {
+        const board = document.getElementById('desk-board');
+        board.innerHTML = '';
+        const list = this.getFilteredArticles();
+
+        list.forEach((art, index) => {
+          const card = document.createElement('div');
+          card.id = `desk-item-${art.id}`;
+          card.className = 'desk-card absolute p-5 rounded-2xl cursor-grab transition-shadow shadow-xl border border-[var(--border-ink)]';
+
+          const posX = Math.min(Math.max(10, art.deskX || (index * 130) % 500), window.innerWidth > 768 ? 680 : 20);
+          const posY = Math.min(Math.max(10, art.deskY || (index * 110)), 420);
+
+          card.style.left = `${posX}px`;
+          card.style.top = `${posY}px`;
+          card.style.transform = `rotate(${art.rotate || 0}deg)`;
+          card.style.zIndex = index + 10;
+          card.style.backgroundColor = 'var(--paper-card)';
+          card.style.width = window.innerWidth > 640 ? '290px' : '260px';
+
+          // Extract text snippet safely from HTML
+          const temp = document.createElement('div');
+          temp.innerHTML = art.contentHtml || '';
+          const snippet = temp.innerText.slice(0, 100) + '...';
+
+          card.innerHTML = `
+            <div class="washi-tape"></div>
+            ${art.coverImage ? `<img src="${art.coverImage}" class="w-full h-32 object-cover rounded-xl mb-3 shadow-sm">` : ''}
+            <div class="flex items-center justify-between text-[10px] font-sans text-[var(--ink-muted)] mb-2 mt-1">
+              <span class="px-2 py-0.5 rounded-full bg-[var(--accent)]/15 text-[var(--accent)] font-semibold">${art.category}</span>
+              <span>${art.mood}</span>
+            </div>
+            <h4 class="font-serif text-lg font-bold leading-snug text-[var(--ink)] hover:text-[var(--accent)] transition-colors mb-2">
+              ${art.title}
+            </h4>
+            <p class="font-serif text-xs text-[var(--ink-muted)] leading-relaxed italic mb-4">
+              "${snippet}"
+            </p>
+            <div class="flex items-center justify-between pt-3 border-t border-[var(--border-ink)] text-[11px] font-sans">
+              <span class="italic font-serif">— ${art.author}</span>
+              <button onclick="articleReader.open('${art.id}')" class="text-[var(--accent)] hover:underline font-semibold flex items-center gap-1">
+                Lật đọc <i class="fa-solid fa-arrow-right text-[9px]"></i>
+              </button>
+            </div>
+          `;
+
+          this.enableDragging(card, art);
+          board.appendChild(card);
+        });
+      }
+
+      enableDragging(el, article) {
+        let isDragging = false;
+        let startX, startY, origX, origY;
+
+        const onStart = (e) => {
+          if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A') return;
+          isDragging = true;
+          const pageX = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+          const pageY = e.type.includes('touch') ? e.touches[0].pageY : e.pageY;
+          startX = pageX;
+          startY = pageY;
+          origX = parseFloat(el.style.left) || 0;
+          origY = parseFloat(el.style.top) || 0;
+          document.querySelectorAll('.desk-card').forEach(c => c.style.zIndex = '10');
+          el.style.zIndex = '60';
+        };
+
+        const onMove = (e) => {
+          if (!isDragging) return;
+          e.preventDefault();
+          const pageX = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+          const pageY = e.type.includes('touch') ? e.touches[0].pageY : e.pageY;
+          el.style.left = `${origX + (pageX - startX)}px`;
+          el.style.top = `${origY + (pageY - startY)}px`;
+        };
+
+        const onEnd = () => {
+          if (!isDragging) return;
+          isDragging = false;
+          article.deskX = parseFloat(el.style.left);
+          article.deskY = parseFloat(el.style.top);
+          this.saveArticles();
+        };
+
+        el.addEventListener('mousedown', onStart);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onEnd);
+        el.addEventListener('touchstart', onStart, { passive: true });
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onEnd);
+      }
+
+      renderMagazine() {
+        const grid = document.getElementById('magazine-grid');
+        grid.innerHTML = '';
+        const list = this.getFilteredArticles();
+
+        list.forEach((art, index) => {
+          const colSpan = index === 0 ? 'md:col-span-8' : (index % 3 === 0 ? 'md:col-span-7' : 'md:col-span-5');
+          const isFeatured = index === 0;
+
+          const articleEl = document.createElement('article');
+          articleEl.className = `${colSpan} bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300`;
+
+          articleEl.innerHTML = `
+            ${art.coverImage ? `<img src="${art.coverImage}" class="w-full h-56 object-cover rounded-2xl mb-6 shadow-sm">` : ''}
+            <div class="flex items-center justify-between text-xs font-sans text-[var(--ink-muted)] pb-4 border-b border-[var(--border-ink)] mb-4">
+              <span class="tracking-widest uppercase font-bold text-[var(--accent)] font-cinzel">№ 0${index + 1} / ${art.category}</span>
+              <span>Tâm trạng: <em>${art.mood}</em></span>
+            </div>
+            
+            <h3 onclick="articleReader.open('${art.id}')" class="font-display ${isFeatured ? 'text-3xl sm:text-4xl' : 'text-2xl'} font-bold leading-tight mb-4 hover:text-[var(--accent)] cursor-pointer transition-colors">
+              ${art.title}
+            </h3>
+
+            <div class="prose-content font-serif text-base text-[var(--ink)] leading-relaxed mb-6 max-h-48 overflow-hidden relative">
+              ${art.contentHtml}
+              <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[var(--paper-card)] to-transparent"></div>
+            </div>
+
+            <div class="pt-4 border-t border-[var(--border-ink)] flex items-center justify-between text-xs font-sans">
+              <span class="font-serif italic text-sm text-[var(--ink-muted)]">${art.author} — ${art.date}</span>
+              <button onclick="articleReader.open('${art.id}')" class="px-4 py-1.5 rounded-full bg-[var(--bg)] border border-[var(--border-ink)] hover:border-[var(--accent)] font-semibold transition-all">
+                Đọc trọn vẹn <i class="fa-solid fa-arrow-right ml-1 text-[10px]"></i>
+              </button>
+            </div>
+          `;
+          grid.appendChild(articleEl);
+        });
+      }
+
+      renderStream() {
+        const stream = document.getElementById('stream-container');
+        stream.innerHTML = '';
+        const list = this.getFilteredArticles();
+
+        list.forEach((art) => {
+          const item = document.createElement('div');
+          item.className = 'bg-[var(--paper-card)] border border-[var(--border-ink)] rounded-3xl p-6 sm:p-10 shadow-lg text-center relative group hover:-translate-y-1 transition-all';
+
+          item.innerHTML = `
+            ${art.coverImage ? `<img src="${art.coverImage}" class="w-full max-w-md mx-auto h-48 object-cover rounded-2xl mb-4 shadow-sm">` : ''}
+            <div class="text-[10px] font-sans uppercase tracking-widest text-[var(--accent)] font-bold mb-2">
+              ${art.category} • ${art.mood}
+            </div>
+            <h3 onclick="articleReader.open('${art.id}')" class="font-display text-2xl font-bold mb-4 cursor-pointer hover:text-[var(--accent)] transition-colors">
+              ${art.title}
+            </h3>
+            <div class="prose-content font-serif italic text-base leading-relaxed max-w-lg mx-auto text-[var(--ink)] mb-4 max-h-36 overflow-hidden">
+              ${art.contentHtml}
+            </div>
+            <div class="text-xs font-sans text-[var(--ink-muted)]">
+              — ${art.author} • ${art.date} —
+            </div>
+            <div class="mt-4 flex justify-center">
+              <button onclick="articleReader.open('${art.id}')" class="text-xs font-sans px-5 py-2 rounded-full border border-[var(--border-ink)] hover:border-[var(--accent)] text-[var(--accent)]">
+                Lật mở trang đọc
+              </button>
+            </div>
+          `;
+          stream.appendChild(item);
+        });
+      }
+
+      setupCustomCursor() {
+        const brush = document.getElementById('cursor-brush');
+        window.addEventListener('mousemove', (e) => {
+          brush.style.left = `${e.clientX}px`;
+          brush.style.top = `${e.clientY}px`;
+        });
+      }
+
+      showToast(text) {
+        const toast = document.getElementById('app-toast');
+        document.getElementById('toast-text').innerText = text;
+        toast.style.opacity = '1';
+        setTimeout(() => toast.style.opacity = '0', 2500);
+      }
+    }
+
+    /**
+     * Immersive Reader Mode Controller
+     */
+    class ArticleReaderController {
+      constructor() {
+        this.modal = document.getElementById('article-modal');
+        this.currentArticle = null;
+        this.isSpotlight = false;
+      }
+
+      open(id) {
+        const art = app.articles.find(a => a.id === id);
+        if (!art) return;
+        this.currentArticle = art;
+
+        document.getElementById('read-title').innerText = art.title;
+        document.getElementById('read-category').innerText = art.category;
+        document.getElementById('read-author').innerText = `Tác giả: ${art.author}`;
+        document.getElementById('read-date').innerText = art.date;
+        document.getElementById('read-mood').innerText = art.mood;
+
+        // Cover
+        const coverBox = document.getElementById('read-cover-box');
+        if (art.coverImage) {
+          document.getElementById('read-cover-img').src = art.coverImage;
+          coverBox.classList.remove('hidden');
+        } else {
+          coverBox.classList.add('hidden');
+        }
+
+        // Body
+        document.getElementById('read-body').innerHTML = art.contentHtml;
+
+        // Reactions
+        art.claps = art.claps || { flower: 15, tear: 4, moon: 22 };
+        document.getElementById('count-flower').innerText = art.claps.flower;
+        document.getElementById('count-tear').innerText = art.claps.tear;
+        document.getElementById('count-moon').innerText = art.claps.moon;
+
+        this.modal.classList.remove('hidden');
+        this.modal.classList.add('flex');
+        this.modal.scrollTop = 0;
+      }
+
+      close() {
+        this.modal.classList.add('hidden');
+        this.modal.classList.remove('flex');
+        if (this.isSpotlight) this.toggleSpotlight();
+        this.currentArticle = null;
+      }
+
+      toggleSpotlight() {
+        this.isSpotlight = !this.isSpotlight;
+        const sheet = document.getElementById('reader-sheet');
+        const btn = document.getElementById('spotlight-btn');
+        if (this.isSpotlight) {
+          sheet.classList.add('spotlight-active');
+          btn.classList.add('bg-[var(--accent)]', 'text-white');
+        } else {
+          sheet.classList.remove('spotlight-active');
+          btn.classList.remove('bg-[var(--accent)]', 'text-white');
+        }
+      }
+
+      toggleBookmark() {
+        if (!this.currentArticle) return;
+        const id = this.currentArticle.id;
+        if (app.bookmarks.has(id)) {
+          app.bookmarks.delete(id);
+          app.showToast("Đã bỏ lưu bài viết");
+        } else {
+          app.bookmarks.add(id);
+          app.showToast("Đã lưu vào danh sách tâm đắc");
+        }
+        const isBkm = app.bookmarks.has(id);
+        document.getElementById('reader-bookmark-btn').innerHTML = `<i class="${isBkm ? 'fa-solid text-[var(--accent)]' : 'fa-regular'} fa-bookmark"></i>`;
+      }
+
+      sendReaction(emoji, evt) {
+        if (!this.currentArticle) return;
+        if (emoji === '🌸') this.currentArticle.claps.flower++;
+        if (emoji === '💧') this.currentArticle.claps.tear++;
+        if (emoji === '🌕') this.currentArticle.claps.moon++;
+
+        document.getElementById('count-flower').innerText = this.currentArticle.claps.flower;
+        document.getElementById('count-tear').innerText = this.currentArticle.claps.tear;
+        document.getElementById('count-moon').innerText = this.currentArticle.claps.moon;
+        app.saveArticles();
+
+        const particle = document.createElement('div');
+        particle.className = 'magic-particle text-2xl';
+        particle.innerText = emoji;
+        particle.style.left = `${evt.clientX}px`;
+        particle.style.top = `${evt.clientY}px`;
+        particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 80}px`);
+        particle.style.setProperty('--tr', `${(Math.random() - 0.5) * 90}deg`);
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 1400);
+      }
+    }
+
+    /**
+     * Visual Canvas Engine (Ink & Falling Petals)
+     */
+    class VisualCanvas {
+      constructor() {
+        this.canvas = document.getElementById('ambient-canvas');
+        if (!this.canvas) return;
+        this.ctx = this.canvas.getContext('2d');
+        this.particles = [];
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.resize();
+        this.initParticles();
+        this.bindEvents();
+        this.animate();
+      }
+
+      resize() {
+        this.width = this.canvas.width = window.innerWidth;
+        this.height = this.canvas.height = window.innerHeight;
+      }
+
+      bindEvents() {
+        window.addEventListener('resize', () => this.resize());
+        window.addEventListener('mousemove', (e) => {
+          if (Math.random() < 0.15) {
+            this.particles.push({
+              x: e.clientX,
+              y: e.clientY,
+              vx: (Math.random() - 0.5) * 1.5,
+              vy: Math.random() * 1.5 + 0.8,
+              size: Math.random() * 4 + 3,
+              alpha: 0.6,
+              decay: 0.008,
+              angle: Math.random() * Math.PI * 2,
+              spin: (Math.random() - 0.5) * 0.04
+            });
+          }
+        });
+      }
+
+      initParticles() {
+        const count = window.innerWidth < 768 ? 20 : 45;
+        for (let i = 0; i < count; i++) {
+          this.particles.push({
+            x: Math.random() * this.width,
+            y: Math.random() * this.height,
+            vx: (Math.random() - 0.5) * 0.8,
+            vy: Math.random() * 1.2 + 0.6,
+            size: Math.random() * 4 + 3,
+            alpha: Math.random() * 0.4 + 0.2,
+            decay: 0,
+            angle: Math.random() * Math.PI * 2,
+            spin: (Math.random() - 0.5) * 0.02
+          });
+        }
+      }
+
+      animate() {
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+          const p = this.particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.angle += p.spin;
+
+          if (p.decay > 0) {
+            p.alpha -= p.decay;
+            if (p.alpha <= 0) {
+              this.particles.splice(i, 1);
+              continue;
+            }
+          } else {
+            if (p.y > this.height) {
+              p.y = -10;
+              p.x = Math.random() * this.width;
+            }
+          }
+
+          this.ctx.save();
+          this.ctx.translate(p.x, p.y);
+          this.ctx.rotate(p.angle);
+          this.ctx.fillStyle = `rgba(196, 120, 60, ${p.alpha})`;
+          this.ctx.beginPath();
+          this.ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+          this.ctx.fill();
+          this.ctx.restore();
+        }
+
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    // Instantiation - Define globally immediately to prevent undefined onclick errors
+    let app, musicBox, visualCanvas, tarotDeck, articleReader, editorStudio, imageModal, authorAuth, githubSync;
+
+    function initAppServices() {
+      if (app) return; // Prevent double initialization
+      musicBox = new WebAudioMusicBox();
+      editorStudio = new CreativeEditorStudio();
+      imageModal = new ImageInsertionModal();
+      tarotDeck = new TarotSystem();
+      articleReader = new ArticleReaderController();
+      authorAuth = new AuthorAuth();
+      githubSync = new GitHubSyncCenter();
+      app = new MainApp();
+      visualCanvas = new VisualCanvas();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAppServices);
+    } else {
+      initAppServices();
+    }
+  </script>
+</body>
+</html>
