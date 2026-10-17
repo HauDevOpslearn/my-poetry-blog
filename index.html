@@ -118,19 +118,24 @@
         }
 
         /* Định dạng ảnh nhúng trong bài viết */
+        /* Khung ảnh độc lập, tự động căn giữa */
         .article-image-box {
-            margin: 2.5rem auto;
-            max-width: 100%;
-            text-align: center;
-        }
+    display: block;
+    clear: both;
+    margin: 2.5rem auto;
+    max-width: 100%;
+    text-align: center;
+}
 
-        .article-image-box img {
-            border-radius: 12px;
-            max-height: 520px;
-            width: auto;
-            margin: 0 auto;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-        }
+.article-image-box img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 480px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
 
         .article-image-caption {
             font-family: 'Newsreader', serif;
