@@ -117,7 +117,30 @@
             white-space: pre-wrap;
         }
 
-        /* Subtle film grain effect */
+        /* Định dạng ảnh nhúng trong bài viết */
+        .article-image-box {
+            margin: 2.5rem auto;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        .article-image-box img {
+            border-radius: 12px;
+            max-height: 520px;
+            width: auto;
+            margin: 0 auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .article-image-caption {
+            font-family: 'Newsreader', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 0.6rem;
+            text-align: center;
+        }
+
         .editorial-grain {
             background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
             background-size: 24px 24px;
@@ -137,10 +160,9 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased editorial-grain selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG SANG TRỌNG -->
+    <!-- THANH ĐIỀU HƯỚNG -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo tương tác mở Author Gate khi click 3 lần -->
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
                 <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
                     HIÊN VẮNG
@@ -148,7 +170,6 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)]"></span>
             </div>
 
-            <!-- Tùy chọn & Trạng thái tác giả -->
             <div class="flex items-center gap-4">
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
@@ -159,7 +180,6 @@
                     </button>
                 </div>
 
-                <!-- Chuyển đổi Sáng / Tối -->
                 <button onclick="app.toggleTheme()" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
                     <i id="themeIcon" class="fa-regular fa-moon text-sm"></i>
                 </button>
@@ -167,10 +187,9 @@
         </div>
     </header>
 
-    <!-- TRANG CHỦ MỚI (EDITORIAL HERO & SHOWCASE) -->
+    <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-24">
-        
-        <!-- HERO SECTION: BỐ CỤC TẠP CHÍ CAO CẤP -->
+        <!-- Hero Section -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-4 pb-8 border-b border-[var(--border-light)]">
             <div class="lg:col-span-7 space-y-6">
                 <div class="flex items-center gap-3 text-xs font-mono-meta text-[var(--accent-orange)] tracking-widest uppercase">
@@ -185,7 +204,6 @@
                     "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
                 </p>
                 
-                <!-- Quick Spark Widget: Câu thơ ngẫu hứng hôm nay -->
                 <div class="pt-4 flex items-center gap-4">
                     <button onclick="app.rollDailyPoem()" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
                         <i class="fa-solid fa-dice-five"></i> Rút câu thơ hôm nay
@@ -196,7 +214,6 @@
                 </div>
             </div>
 
-            <!-- Visual Art Box (Ảnh nghệ thuật tối giản điện ảnh) -->
             <div class="lg:col-span-5 relative">
                 <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[var(--bg-card)] border border-[var(--border-light)] shadow-sm">
                     <img id="heroCoverImg" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Hiên Vắng Mood" class="w-full h-full object-cover grayscale contrast-125 opacity-85 hover:grayscale-0 hover:opacity-100 transition duration-700">
@@ -208,7 +225,7 @@
             </div>
         </section>
 
-        <!-- BỘ LỌC DANH MỤC THIẾT KẾ ĐƯƠNG ĐẠI -->
+        <!-- Bộ Lọc -->
         <section class="space-y-10">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[var(--border-light)]">
                 <div>
@@ -223,14 +240,14 @@
                 </div>
             </div>
 
-            <!-- DANH SÁCH BÀI VIẾT (EDITORIAL CARDS) -->
+            <!-- Danh Sách Bài -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Render qua JS -->
+                <!-- Nạp qua JS -->
             </div>
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC CHUYÊN SÂU (ZEN READER) -->
+    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex items-center justify-between pb-8 mb-10 border-b border-[var(--border-light)]">
@@ -247,9 +264,7 @@
                 </div>
             </div>
 
-            <article id="readerContent" class="space-y-8">
-                <!-- Nội dung nạp qua JS -->
-            </article>
+            <article id="readerContent" class="space-y-8"></article>
 
             <!-- GỢI Ý ĐỌC TIẾP -->
             <section id="recommendationsSection" class="mt-28 pt-12 border-t border-[var(--border-light)]">
@@ -302,13 +317,14 @@
                     </div>
                 </div>
 
-                <!-- TOOLBAR -->
+                <!-- THANH CÔNG CỤ ĐỊNH DẠNG (ĐÃ BỔ SUNG MỤC CHÈN ẢNH) -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-1.5 p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
                     <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
                     <button onclick="editor.format('underline')" title="Gạch chân" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
 
+                    <!-- Khổ thơ đối xứng -->
                     <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="px-2.5 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
                         <i class="fa-solid fa-align-left text-[10px]"></i> Khổ 1 (Trái)
                     </button>
@@ -320,13 +336,20 @@
                     </button>
 
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
+
+                    <!-- NÚT CHÈN ẢNH VÀO BÀI VIẾT -->
+                    <button onclick="editor.openImageModal()" title="Chèn hình ảnh vào bài viết" class="px-3 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)] border border-[var(--border-light)]">
+                        <i class="fa-regular fa-image text-[12px] text-[var(--accent-orange)]"></i> Chèn Ảnh
+                    </button>
+
+                    <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
                     <button onclick="editor.removeFormat()" title="Xóa định dạng đoạn chọn" class="w-8 h-8 rounded hover:bg-red-50 hover:text-red-500 text-xs flex items-center justify-center">
                         <i class="fa-solid fa-eraser text-[10px]"></i>
                     </button>
                 </div>
 
-                <!-- WYSIWYG EDITOR -->
-                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc quét chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
+                <!-- KHUNG SOẠN NỘI DUNG -->
+                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, chèn ảnh, hoặc chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
                 </div>
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
                     <i class="fa-regular fa-lightbulb text-[var(--accent-orange)]"></i>
@@ -336,24 +359,66 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE -->
+    <!-- MODAL CHÈN HÌNH ẢNH -->
+    <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
+                <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
+                    <i class="fa-regular fa-image text-[var(--accent-orange)]"></i> Chèn Ảnh Nghệ Thuật
+                </h3>
+                <button onclick="editor.closeImageModal()" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="space-y-4 text-xs font-mono-meta">
+                <!-- Chọn tải từ máy tính -->
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">1. Tải ảnh trực tiếp từ máy tính:</label>
+                    <input id="imageFileInput" type="file" accept="image/*" class="w-full text-xs text-[var(--text-secondary)] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-mono-meta file:bg-[var(--accent-orange)] file:text-white hover:file:opacity-90 cursor-pointer">
+                </div>
+
+                <div class="flex items-center gap-2 text-[var(--text-muted)]">
+                    <div class="flex-grow h-[1px] bg-[var(--border-light)]"></div>
+                    <span>HOẶC</span>
+                    <div class="flex-grow h-[1px] bg-[var(--border-light)]"></div>
+                </div>
+
+                <!-- Dán link URL ảnh -->
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">2. Dán link URL hình ảnh:</label>
+                    <input id="imageUrlInput" type="text" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                </div>
+
+                <!-- Chú thích ảnh -->
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1.5">Chú thích ảnh (không bắt buộc):</label>
+                    <input id="imageCaptionInput" type="text" placeholder="Vạt nắng chiều trên hiên..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end gap-2">
+                <button type="button" onclick="editor.closeImageModal()" class="px-3.5 py-2 rounded border border-[var(--border-light)] text-xs font-mono-meta hover:bg-[var(--accent-soft)]">Hủy</button>
+                <button type="button" onclick="editor.insertImageToContent()" class="px-4 py-2 rounded bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90">Chèn Vào Bài</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AUTHOR GATE (KHÔNG CÒN GỢI Ý MẬT KHẨU HIENVANG TRÊN PUBLIC) -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
                 <i class="fa-solid fa-feather-pointed"></i>
             </div>
             <div>
-                <h3 class="font-serif-title text-2xl text-[var(--text-primary)]">Xác Nhận Tác Giả</h3>
-                <p class="font-mono-meta text-xs text-[var(--text-secondary)] mt-1">Dành riêng cho chủ nhân trang blog</p>
+                <h3 id="authModalTitle" class="font-serif-title text-2xl text-[var(--text-primary)]">Xác Nhận Tác Giả</h3>
+                <p id="authModalSubtitle" class="font-mono-meta text-xs text-[var(--text-secondary)] mt-1">Dành riêng cho chủ nhân trang blog</p>
             </div>
             <form onsubmit="auth.verify(event)" class="space-y-4">
                 <input id="authPasswordInput" type="password" placeholder="Nhập mật khẩu..." class="w-full px-4 py-2.5 rounded-lg border border-[var(--border-light)] bg-transparent text-center font-mono-meta text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 <div class="flex gap-2">
                     <button type="button" onclick="auth.closeModal()" class="flex-1 py-2 rounded-lg border border-[var(--border-light)] text-xs font-mono-meta text-[var(--text-secondary)] hover:bg-[var(--accent-soft)] transition">Đóng</button>
-                    <button type="submit" class="flex-1 py-2 rounded-lg bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90 transition">Mở Khóa</button>
+                    <button id="authSubmitBtn" type="submit" class="flex-1 py-2 rounded-lg bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90 transition">Mở Khóa</button>
                 </div>
             </form>
-            <button onclick="auth.resetDefault()" class="text-[11px] font-mono-meta text-[var(--text-muted)] hover:underline">Khôi phục mật mã gốc (hienvang)</button>
         </div>
     </div>
 
@@ -437,7 +502,7 @@
             "Chữ rơi xuống giấy, hóa thành vệt ký ức không tên."
         ];
 
-        // --- AUTH SERVICE ---
+        // --- AUTH SERVICE (BẢO MẬT TUYỆT ĐỐI - KHÔNG PUBLIC MẬT MÃ TRONG CODE) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -445,6 +510,13 @@
                 this.logoTimer = null;
                 this.bindEvents();
                 this.updateUI();
+            }
+
+            async sha256(str) {
+                const buffer = new TextEncoder().encode(str);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
             }
 
             bindEvents() {
@@ -467,19 +539,54 @@
             }
 
             openModal() {
+                const storedHash = localStorage.getItem('author_hash');
+                const title = document.getElementById('authModalTitle');
+                const subtitle = document.getElementById('authModalSubtitle');
+                const btn = document.getElementById('authSubmitBtn');
+                const input = document.getElementById('authPasswordInput');
+
+                if (!storedHash) {
+                    title.innerText = 'Thiết Lập Mật Khẩu';
+                    subtitle.innerText = 'Tạo mật mã bí mật của riêng bạn cho lần đầu sử dụng';
+                    btn.innerText = 'Tạo Mật Khẩu';
+                    input.placeholder = 'Nhập mật khẩu bạn muốn đặt...';
+                } else {
+                    title.innerText = 'Xác Nhận Tác Giả';
+                    subtitle.innerText = 'Dành riêng cho chủ nhân trang blog';
+                    btn.innerText = 'Mở Khóa';
+                    input.placeholder = 'Nhập mật khẩu...';
+                }
+
+                input.value = '';
                 document.getElementById('authModal').classList.remove('hidden');
-                document.getElementById('authPasswordInput').focus();
+                input.focus();
             }
 
             closeModal() {
                 document.getElementById('authModal').classList.add('hidden');
             }
 
-            verify(e) {
+            async verify(e) {
                 e.preventDefault();
                 const pwd = document.getElementById('authPasswordInput').value.trim();
-                const storedPwd = localStorage.getItem('author_pwd') || 'hienvang';
-                if (pwd === storedPwd) {
+                if (!pwd) return app.notify('Vui lòng nhập mật khẩu');
+
+                const storedHash = localStorage.getItem('author_hash');
+                const hashedInput = await this.sha256(pwd);
+
+                // Lần đầu thiết lập mật khẩu
+                if (!storedHash) {
+                    localStorage.setItem('author_hash', hashedInput);
+                    this.isAuthor = true;
+                    localStorage.setItem('is_author_session', 'true');
+                    this.closeModal();
+                    this.updateUI();
+                    app.notify('Đã thiết lập mật khẩu tác giả thành công!');
+                    return;
+                }
+
+                // Đăng nhập các lần sau
+                if (hashedInput === storedHash) {
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
                     this.closeModal();
@@ -495,12 +602,6 @@
                 localStorage.removeItem('is_author_session');
                 this.updateUI();
                 app.notify('Đã khóa Xưởng Viết.');
-            }
-
-            resetDefault() {
-                localStorage.setItem('author_pwd', 'hienvang');
-                document.getElementById('authPasswordInput').value = 'hienvang';
-                app.notify('Đã khôi phục mật khẩu gốc: hienvang');
             }
 
             updateUI() {
@@ -602,7 +703,7 @@
             }
         }
 
-        // --- CREATIVE EDITOR ---
+        // --- CREATIVE EDITOR (ĐÃ TÍCH HỢP CHÈN ẢNH VÀO BÀI VIẾT) ---
         class EditorService {
             constructor() {
                 this.currentEditingId = null;
@@ -686,6 +787,46 @@
                 document.execCommand('insertHTML', false, html);
             }
 
+            // --- QUẢN LÝ CHÈN ẢNH ---
+            openImageModal() {
+                document.getElementById('imageFileInput').value = '';
+                document.getElementById('imageUrlInput').value = '';
+                document.getElementById('imageCaptionInput').value = '';
+                document.getElementById('imageModal').classList.remove('hidden');
+            }
+
+            closeImageModal() {
+                document.getElementById('imageModal').classList.add('hidden');
+            }
+
+            insertImageToContent() {
+                const fileInput = document.getElementById('imageFileInput');
+                const urlInput = document.getElementById('imageUrlInput');
+                const captionInput = document.getElementById('imageCaptionInput');
+                const caption = captionInput.value.trim();
+
+                const applyHtml = (src) => {
+                    const captionHtml = caption ? `<div class="article-image-caption">${caption}</div>` : '';
+                    const html = `<div class="article-image-box"><img src="${src}" alt="${caption || 'Hình ảnh bài viết'}">${captionHtml}</div><p><br></p>`;
+                    document.getElementById('editorContent').focus();
+                    document.execCommand('insertHTML', false, html);
+                    this.closeImageModal();
+                    app.notify('Đã chèn hình ảnh vào bài viết');
+                };
+
+                // Nếu người dùng chọn file từ máy
+                if (fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (e) => applyHtml(e.target.result);
+                    reader.readAsDataURL(file);
+                } else if (urlInput.value.trim()) {
+                    applyHtml(urlInput.value.trim());
+                } else {
+                    app.notify('Vui lòng chọn file ảnh hoặc dán link URL');
+                }
+            }
+
             clearDraft() {
                 if (confirm('Làm sạch ô soạn thảo để viết bài mới?')) {
                     document.getElementById('postTitleInput').value = '';
@@ -740,7 +881,6 @@
         class BlogApp {
             constructor() {
                 const local = localStorage.getItem('my_blog_posts');
-                // Nếu chưa có bài nào hoặc mảng rỗng thì luôn nạp các bài mẫu mặc định
                 this.posts = (local && JSON.parse(local).length > 0) ? JSON.parse(local) : DEFAULT_POSTS;
                 this.activeCategory = 'all';
                 this.currentPostId = null;
