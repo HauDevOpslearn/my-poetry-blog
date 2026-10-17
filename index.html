@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiên Vắng — Nhật Ký online của Dã</title>
+    <title>Hiên Vắng — Nhật ký online của Hiên vắng.</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts tuyển chọn -->
@@ -52,15 +52,14 @@
         .font-mono-meta { font-family: 'Space Mono', monospace; }
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* Lớp các phông chữ nội dung có thể tùy biến */
+        /* Lớp phông chữ nội dung */
         .font-style-newsreader { font-family: 'Newsreader', Georgia, serif; }
         .font-style-playfair { font-family: 'Playfair Display', Georgia, serif; }
         .font-style-lora { font-family: 'Lora', Georgia, serif; }
         .font-style-dancing { font-family: 'Dancing Script', cursive; font-size: 1.45rem !important; }
         .font-style-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH (INITIAL DROPCAP) ================= */
-        /* 1. Kiểu Cổ Điển Tạp Chí (Classic Editorial Dropcap) */
+        /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH ================= */
         .initial-classic {
             float: left;
             font-family: 'Instrument Serif', serif;
@@ -73,7 +72,6 @@
             font-weight: 500;
         }
 
-        /* 2. Kiểu Ấn Triện Mộc Hoàng Hôn (Sealed Stamp) */
         .initial-seal {
             float: left;
             display: inline-flex;
@@ -94,7 +92,6 @@
             line-height: 1;
         }
 
-        /* 3. Kiểu Bút Lông Thư Pháp (Calligraphy Ribbon) */
         .initial-calligraphy {
             float: left;
             font-family: 'Dancing Script', cursive;
@@ -105,7 +102,6 @@
             font-weight: 700;
         }
 
-        /* 4. Kiểu Khung Tròn Tối Giản (Minimal Frame) */
         .initial-minimal {
             float: left;
             display: inline-flex;
@@ -291,7 +287,7 @@
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC (ZEN READER - TÍCH HỢP ĐỔI PHÔNG ĐỌC NHANH) -->
+    <!-- MÀN HÌNH ĐỌC (ZEN READER - ĐỔI PHÔNG ĐỌC NHANH) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-10 border-b border-[var(--border-light)]">
@@ -299,7 +295,6 @@
                     <i class="fa-solid fa-arrow-left"></i> Quay lại tuyển tập
                 </button>
                 
-                <!-- Bộ chọn phông chữ khi đọc -->
                 <div class="flex items-center gap-3">
                     <div class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)]">
                         <i class="fa-solid fa-font text-[10px]"></i>
@@ -338,7 +333,7 @@
         </div>
     </div>
 
-    <!-- XƯỞNG VIẾT BÀI (CREATIVE STUDIO - ĐA PHÔNG CHỮ & KÝ TỰ ĐẦU ĐỈNH) -->
+    <!-- XƯỞNG VIẾT BÀI (CREATIVE STUDIO) -->
     <div id="editorView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-4xl mx-auto px-6 py-10">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[var(--border-light)]">
@@ -398,29 +393,29 @@
                     </div>
                 </div>
 
-                <!-- THANH CÔNG CỤ SOẠN THẢO MỞ RỘNG (PHÔNG CHỮ & KÝ TỰ ĐẦU ĐỈNH) -->
+                <!-- THANH CÔNG CỤ SOẠN THẢO MỞ RỘNG -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     
-                    <!-- BỘ CHỌN PHÔNG CHỮ BÀI VIẾT -->
+                    <!-- BỘ CHỌN PHÔNG CHỮ -->
                     <div class="flex items-center gap-1.5 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg px-2 py-1">
                         <i class="fa-solid fa-font text-[11px] text-[var(--accent-orange)]"></i>
                         <select id="editorFontSelector" onchange="editor.changeFontFamily(this.value)" class="bg-transparent text-xs font-mono-meta text-[var(--text-primary)] outline-none cursor-pointer">
-                            <option value="font-style-newsreader">Newsreader (Sách báo cổ điển)</option>
-                            <option value="font-style-playfair">Playfair (Tạp chí sang trọng)</option>
-                            <option value="font-style-lora">Lora (Hoài niệm lãng mạn)</option>
-                            <option value="font-style-dancing">Dancing Script (Bút viết tay)</option>
-                            <option value="font-style-sans">Jakarta (Hiện đại tối giản)</option>
+                            <option value="font-style-newsreader">Newsreader (Sách báo)</option>
+                            <option value="font-style-playfair">Playfair (Tạp chí)</option>
+                            <option value="font-style-lora">Lora (Hoài niệm)</option>
+                            <option value="font-style-dancing">Dancing Script (Thư pháp)</option>
+                            <option value="font-style-sans">Jakarta (Hiện đại)</option>
                         </select>
                     </div>
 
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
-                    <!-- BỘ CHÈN KÝ TỰ ĐẦU ĐỈNH (INITIAL DROPCAP) -->
+                    <!-- BỘ CHÈN KÝ TỰ ĐẦU ĐỈNH -->
                     <div class="flex items-center gap-1 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg p-0.5">
                         <span class="text-[10px] font-mono-meta text-[var(--text-muted)] px-1.5">Ký tự đầu:</span>
-                        <button onclick="editor.insertInitial('classic')" title="Drop-Cap Cổ Điển Báo Chí" class="px-2 py-1 rounded text-xs font-serif font-bold text-[var(--accent-orange)] hover:bg-[var(--accent-soft)]">A</button>
+                        <button onclick="editor.insertInitial('classic')" title="Drop-Cap Cổ Điển" class="px-2 py-1 rounded text-xs font-serif font-bold text-[var(--accent-orange)] hover:bg-[var(--accent-soft)]">A</button>
                         <button onclick="editor.insertInitial('seal')" title="Ấn Triện Mộc Hoàng Hôn" class="px-2 py-0.5 rounded text-xs font-cinzel font-bold bg-[var(--accent-orange)] text-white hover:opacity-90">A</button>
-                        <button onclick="editor.insertInitial('calligraphy')" title="Chữ Đầu Bút Thư Pháp Bay Bổng" class="px-2 py-0.5 rounded text-xs font-['Dancing_Script'] font-bold text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] text-sm">A</button>
+                        <button onclick="editor.insertInitial('calligraphy')" title="Chữ Thư Pháp Bay Bổng" class="px-2 py-0.5 rounded text-xs font-['Dancing_Script'] font-bold text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] text-sm">A</button>
                         <button onclick="editor.insertInitial('minimal')" title="Khung Tròn Tối Giản" class="px-1.5 py-0.5 rounded-full text-[10px] font-mono border border-[var(--accent-orange)] text-[var(--accent-orange)] hover:bg-[var(--accent-soft)]">A</button>
                     </div>
 
@@ -458,13 +453,13 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG CHÍNH (ĐỒNG BỘ THEO PHÔNG ĐÃ CHỌN) -->
+                <!-- KHUNG SOẠN NỘI DUNG CHÍNH -->
                 <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen ký tự đầu tiên để thử các kiểu Ký tự đầu đỉnh bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-style-newsreader text-[var(--text-primary)] leading-[2] space-y-4">
                 </div>
                 
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
                     <i class="fa-regular fa-lightbulb text-[var(--accent-orange)]"></i>
-                    <span>Mẹo: Quét chọn ký tự đầu tiên của bài văn/khổ thơ ➔ Bấm vào 1 trong 4 nút <b>A</b> ở mục [Ký tự đầu] để biến hóa thành chữ đỉnh nghệ thuật.</span>
+                    <span>Mẹo: Quét chọn ký tự đầu tiên ➔ Bấm vào nút <b>A</b> ở mục [Ký tự đầu] để tạo chữ đầu dòng nổi bật.</span>
                 </div>
             </div>
         </div>
@@ -510,7 +505,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (BẢO MẬT) -->
+    <!-- MODAL AUTHOR GATE (TÍCH HỢP NÚT ĐẶT LẠI MẬT KHẨU TIỆN LỢI) -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -527,6 +522,12 @@
                     <button id="authSubmitBtn" type="submit" class="flex-1 py-2 rounded-lg bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90 transition">Mở Khóa</button>
                 </div>
             </form>
+            
+            <div class="pt-2">
+                <button onclick="auth.resetPasswordDirect()" type="button" class="text-[11px] font-mono-meta text-[var(--text-muted)] hover:text-[var(--accent-orange)] transition underline">
+                    Quên hoặc muốn đặt lại mật khẩu mới?
+                </button>
+            </div>
         </div>
     </div>
 
@@ -605,7 +606,7 @@
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- AUTH SERVICE ---
+        // --- AUTH SERVICE (BẢO MẬT & ĐẶT LẠI MẬT KHẨU TIỆN DỤNG) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -650,7 +651,7 @@
 
                 if (!storedHash) {
                     title.innerText = 'Thiết Lập Mật Khẩu';
-                    subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn cho lần đầu';
+                    subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn';
                     btn.innerText = 'Tạo Mật Khẩu';
                     input.placeholder = 'Nhập mật khẩu bạn muốn đặt...';
                 } else {
@@ -667,6 +668,15 @@
 
             closeModal() {
                 document.getElementById('authModal').classList.add('hidden');
+            }
+
+            resetPasswordDirect() {
+                if (confirm('Bạn muốn đặt lại mật khẩu mới cho trang blog này?')) {
+                    localStorage.removeItem('author_hash');
+                    localStorage.removeItem('is_author_session');
+                    this.openModal();
+                    app.notify('Hãy nhập mật khẩu mới mà bạn muốn đặt!');
+                }
             }
 
             async verify(e) {
@@ -854,7 +864,6 @@
                 });
             }
 
-            // Thay đổi phông chữ bài viết
             changeFontFamily(fontClass) {
                 this.currentFontFamily = fontClass;
                 const ed = document.getElementById('editorContent');
@@ -862,7 +871,6 @@
                 ed.classList.add(fontClass);
             }
 
-            // Chèn Ký Tự Đầu Đỉnh (Drop-Cap Styles)
             insertInitial(type) {
                 const selection = window.getSelection();
                 const selectedText = selection.toString();
@@ -1337,7 +1345,7 @@
             }
         }
 
-        // Khởi tạo toàn bộ ứng dụng
+        // Khởi tạo các dịch vụ
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
