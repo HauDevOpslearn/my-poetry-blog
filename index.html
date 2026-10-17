@@ -53,15 +53,7 @@
         .font-mono-meta { font-family: 'Space Mono', monospace; }
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* Định dạng khổ thơ đối xứng */
-        .poetry-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            margin: 2rem 0;
-            width: 100%;
-        }
-
+        /* Khổ đối xứng: Khổ 1 bên trái */
         .poetry-stanza-left {
             position: relative;
             max-width: 82%;
@@ -79,6 +71,7 @@
             white-space: pre-wrap;
         }
 
+        /* Khổ đối xứng: Khổ 2 bên phải */
         .poetry-stanza-right {
             position: relative;
             max-width: 82%;
@@ -96,6 +89,7 @@
             white-space: pre-wrap;
         }
 
+        /* Khổ thơ căn giữa tự do */
         .poetry-block {
             display: block;
             margin: 2.2rem auto;
@@ -117,6 +111,7 @@
             line-height: inherit !important;
         }
 
+        /* Khung ảnh bài viết */
         .article-image-box {
             display: block;
             clear: both;
@@ -144,19 +139,6 @@
             text-align: center;
         }
 
-        /* Đĩa than xoay */
-        .vinyl-disc {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
-            background: repeating-radial-gradient(circle at center, #111, #111 2px, #1a1a1a 3px, #111 4px);
-        }
-        .vinyl-spinning {
-            animation: spinVinyl 5s linear infinite;
-        }
-        @keyframes spinVinyl {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         [contenteditable]:empty:before {
             content: attr(data-placeholder);
             color: var(--text-muted);
@@ -171,9 +153,10 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG -->
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Nhấp 3 lần vào logo để mở Author Gate bí mật -->
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
                 <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
                     HIÊN VẮNG
@@ -199,77 +182,40 @@
     </header>
 
     <!-- TRANG CHỦ -->
-    <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-20">
+    <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
         
-        <!-- HERO SECTION: MÁY ĐĨA THAN SOUNDSCAPE -->
-        <section class="p-8 md:p-12 rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <!-- HERO HEADER: THOÁNG ĐÃNG, TINH TẾ -->
+        <section class="text-center max-w-3xl mx-auto space-y-6 pt-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest">
+                <span>Tuyển tập thi ca & tản mạn</span>
+            </div>
             
-            <div class="lg:col-span-7 space-y-5">
-                <div class="flex items-center gap-3 text-xs font-mono-meta text-[var(--accent-orange)] tracking-widest uppercase">
-                    <span>Tuyển tập thi ca & tản mạn</span>
-                    <span>•</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Không gian mở</span>
-                </div>
-                <h1 class="font-serif-title text-4xl sm:text-6xl font-normal leading-[1.1] text-[var(--text-primary)]">
-                    Nơi gửi lại <br><span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
-                </h1>
-                <p class="font-serif-content text-lg text-[var(--text-secondary)] italic leading-relaxed">
-                    "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
-                </p>
+            <h1 class="font-serif-title text-5xl sm:text-7xl font-normal leading-[1.08] text-[var(--text-primary)]">
+                Nơi gửi lại <span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
+            </h1>
+            
+            <p class="font-serif-content text-xl text-[var(--text-secondary)] italic leading-relaxed max-w-xl mx-auto">
+                "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
+            </p>
 
-                <!-- Bộ điều khiển âm thanh -->
-                <div class="pt-3 flex flex-wrap items-center gap-3">
-                    <button id="vinylPlayBtn" onclick="soundMachine.toggle()" class="px-5 py-2.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
-                        <i id="vinylPlayIcon" class="fa-solid fa-play text-[10px]"></i> <span id="vinylPlayText">Phát tiếng mưa ngâu</span>
-                    </button>
-                    
-                    <button onclick="soundMachine.switchSound()" class="px-4 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] transition">
-                        <i class="fa-solid fa-shuffle text-[10px]"></i> <span id="currentSoundName">Mưa rơi hiên vắng</span>
-                    </button>
-
-                    <button onclick="app.rollDailyPoem()" class="px-4 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] transition">
-                        <i class="fa-solid fa-dice text-[10px]"></i> Rút câu thơ
-                    </button>
-                </div>
-
-                <div class="pt-2 text-xs font-serif-content italic text-[var(--text-muted)] flex items-center gap-2">
+            <!-- Widget rút câu thơ chiêm nghiệm -->
+            <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="app.rollDailyPoem()" class="px-5 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
+                    <i class="fa-solid fa-dice text-[11px]"></i> Rút câu thơ hôm nay
+                </button>
+                <div class="text-xs font-serif-content italic text-[var(--text-muted)] flex items-center gap-2 max-w-md truncate">
                     <i class="fa-solid fa-quote-left text-[var(--accent-orange)] text-[10px]"></i>
                     <span id="dailyPoemText">Tôi thích được tự do như những ngày xưa cũ...</span>
-                </div>
-            </div>
-
-            <!-- Cỗ máy đĩa than tương tác -->
-            <div class="lg:col-span-5 flex justify-center">
-                <div onclick="soundMachine.toggle()" class="group cursor-pointer relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-light)] p-5 flex items-center justify-center shadow-inner hover:border-[var(--accent-orange)] transition-all duration-500">
-                    
-                    <div id="vinylDisc" class="vinyl-disc w-48 h-48 sm:w-56 sm:h-56 rounded-full flex items-center justify-center relative transition-transform duration-700">
-                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[var(--accent-orange)] flex flex-col items-center justify-center text-center p-1 text-white border-2 border-amber-900/40 shadow-md">
-                            <span class="font-cinzel text-[8px] tracking-wider uppercase opacity-80">HIÊN VẮNG</span>
-                            <i id="centerVinylIcon" class="fa-solid fa-record-vinyl text-sm my-0.5"></i>
-                            <span class="font-mono-meta text-[7px] uppercase">LO-FI AMBIENCE</span>
-                        </div>
-                        <div class="w-2.5 h-2.5 rounded-full bg-white absolute"></div>
-                    </div>
-
-                    <div id="tonearm" class="absolute top-4 right-6 w-16 h-28 pointer-events-none transition-transform duration-500 origin-top-right transform -rotate-12">
-                        <div class="w-3 h-3 rounded-full bg-neutral-400 absolute top-0 right-0 border border-neutral-600"></div>
-                        <div class="w-1 h-20 bg-neutral-300 absolute top-2 right-1 rounded-full shadow"></div>
-                        <div class="w-3 h-5 bg-neutral-700 absolute bottom-5 -left-1 rounded"></div>
-                    </div>
-
-                    <div class="absolute bottom-3 text-[10px] font-mono-meta text-[var(--text-muted)] group-hover:text-[var(--accent-orange)] transition">
-                        <span id="vinylPromptText">Nhấp vào đĩa than để nghe âm thanh</span>
-                    </div>
                 </div>
             </div>
         </section>
 
         <!-- BỘ LỌC BÀI VIẾT -->
-        <section class="space-y-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[var(--border-light)]">
+        <section class="space-y-8 pt-6 border-t border-[var(--border-light)]">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
                     <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Tuyển tập tác phẩm</span>
-                    <h2 class="font-serif-title text-3xl md:text-4xl text-[var(--text-primary)] mt-1">Các sáng tác tuyển chọn</h2>
+                    <h2 class="font-serif-title text-3xl text-[var(--text-primary)] mt-1">Các sáng tác chọn lọc</h2>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -365,6 +311,7 @@
                     <button onclick="editor.format('underline')" title="Gạch chân" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
 
+                    <!-- Khổ thơ đối xứng -->
                     <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="px-2.5 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
                         <i class="fa-solid fa-align-left text-[10px]"></i> Khổ 1 (Trái)
                     </button>
@@ -409,7 +356,7 @@
             
             <div class="space-y-4 text-xs font-mono-meta">
                 <div>
-                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">1. Dán link URL hình ảnh (Khuyên dùng, ảnh luôn tải nhanh):</label>
+                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">1. Dán link URL hình ảnh:</label>
                     <input id="imageUrlInput" type="text" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                     <p class="text-[10px] text-[var(--text-muted)] mt-1">* Nhấp chuột phải vào ảnh trên mạng -> chọn "Sao chép địa chỉ hình ảnh".</p>
                 </div>
@@ -438,7 +385,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE -->
+    <!-- MODAL AUTHOR GATE (BẢO MẬT) -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -488,7 +435,7 @@
         </div>
     </div>
 
-    <!-- TOAST THÔNG BÁO -->
+    <!-- TOAST -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
     <script>
@@ -529,87 +476,6 @@
             "Gió qua hiên vắng, lòng người nhẹ như mây trôi.",
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
-
-        // --- CỖ MÁY PHÁT ÂM THANH CDN MP3 (ĐÃ SỬA TRIỆT ĐỂ LỖI KHÔNG PHÁT ĐƯỢC) ---
-        class RealAmbientMachine {
-            constructor() {
-                this.audio = new Audio();
-                this.audio.loop = true;
-                this.audio.preload = 'auto';
-                this.isPlaying = false;
-                this.soundIndex = 0;
-                
-                // CDN ổn định, không chặn CORS, dung lượng nhẹ
-                this.sounds = [
-                    { 
-                        name: "Mưa rơi hiên vắng", 
-                        src: "https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/Rain.mp3" 
-                    },
-                    { 
-                        name: "Lửa sưởi tí tách", 
-                        src: "https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/Campfire.mp3" 
-                    }
-                ];
-            }
-
-            toggle() {
-                if (!this.audio.src || this.audio.src === window.location.href) {
-                    this.audio.src = this.sounds[this.soundIndex].src;
-                    this.audio.load();
-                }
-
-                if (this.isPlaying) {
-                    this.audio.pause();
-                    this.isPlaying = false;
-                    app.notify('Đã dừng âm thanh.');
-                } else {
-                    this.audio.play().then(() => {
-                        this.isPlaying = true;
-                        app.notify('Đang phát: ' + this.sounds[this.soundIndex].name);
-                    }).catch(err => {
-                        console.error('Audio play error:', err);
-                        app.notify('Vui lòng thử lại một lần nữa!');
-                    });
-                }
-                this.updateUI();
-            }
-
-            switchSound() {
-                this.soundIndex = (this.soundIndex + 1) % this.sounds.length;
-                this.audio.src = this.sounds[this.soundIndex].src;
-                this.audio.load();
-                document.getElementById('currentSoundName').innerText = this.sounds[this.soundIndex].name;
-                
-                if (this.isPlaying) {
-                    this.audio.play().then(() => {
-                        app.notify('Đổi sang: ' + this.sounds[this.soundIndex].name);
-                    });
-                }
-                this.updateUI();
-            }
-
-            updateUI() {
-                const vinyl = document.getElementById('vinylDisc');
-                const tonearm = document.getElementById('tonearm');
-                const playBtnText = document.getElementById('vinylPlayText');
-                const playIcon = document.getElementById('vinylPlayIcon');
-                const prompt = document.getElementById('vinylPromptText');
-
-                if (this.isPlaying) {
-                    vinyl.classList.add('vinyl-spinning');
-                    tonearm.style.transform = 'rotate(18deg)';
-                    playBtnText.innerText = 'Dừng âm thanh';
-                    playIcon.className = 'fa-solid fa-pause text-[10px]';
-                    prompt.innerText = 'Đang phát: ' + this.sounds[this.soundIndex].name;
-                } else {
-                    vinyl.classList.remove('vinyl-spinning');
-                    tonearm.style.transform = 'rotate(-12deg)';
-                    playBtnText.innerText = 'Phát tiếng mưa ngâu';
-                    playIcon.className = 'fa-solid fa-play text-[10px]';
-                    prompt.innerText = 'Nhấp vào đĩa than để nghe âm thanh';
-                }
-            }
-        }
 
         // --- AUTH SERVICE (BẢO MẬT) ---
         class AuthService {
@@ -1234,7 +1100,6 @@
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
-        const soundMachine = new RealAmbientMachine();
         const app = new BlogApp();
     </script>
 </body>
