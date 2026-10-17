@@ -215,6 +215,20 @@
             <article id="readerContent" class="space-y-8">
                 <!-- Nội dung nạp qua JS -->
             </article>
+
+            <!-- MỤC GỢI Ý BÀI VIẾT TIẾP THEO (RECOMMENDATIONS) -->
+            <section id="recommendationsSection" class="mt-28 pt-12 border-t border-[var(--border-light)]">
+                <div class="flex items-center justify-between mb-8">
+                    <div>
+                        <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Gợi ý đọc tiếp</span>
+                        <h3 class="font-serif-title text-2xl text-[var(--text-primary)] mt-1">Những trang viết đồng điệu</h3>
+                    </div>
+                    <span class="w-8 h-[1px] bg-[var(--border-light)]"></span>
+                </div>
+                <div id="recommendationsList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Nạp gợi ý qua JS -->
+                </div>
+            </section>
         </div>
     </div>
 
@@ -283,7 +297,7 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG (ĐÃ SỬA LỖI ENTER NHÂN BẢN KHỔ) -->
+                <!-- KHUNG SOẠN NỘI DUNG -->
                 <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc quét chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
                 </div>
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
@@ -361,6 +375,27 @@
                         <div class="poetry-stanza-left">Tôi thích được tự do<br>Như những ngày xưa cũ</div>
                         <div class="poetry-stanza-right">Nơi ngọn đèn không ngủ<br>Nơi tủ bếp không thưa</div>
                         <div class="poetry-stanza-left">Nơi triệu những hạt mưa<br>chưa bao giờ tìm đến</div>
+                    </div>
+                `
+            },
+            {
+                id: 'post-2',
+                title: 'Gió Qua Hiên Vắng',
+                category: 'tan-van',
+                author: 'Hậu',
+                date: '15/10/2026',
+                content: `<p>Có những buổi chiều chỉ muốn ngồi im lặng ngắm nhìn vạt nắng buông xuống thềm nhà. Vị trà nhạt dần theo thời gian, nhưng lòng người lại đầy thêm những khoảng trống bình yên khó gọi tên...</p>`
+            },
+            {
+                id: 'post-3',
+                title: 'Tiếng Đêm',
+                category: 'tho',
+                author: 'Hậu',
+                date: '14/10/2026',
+                content: `
+                    <div class="poetry-symmetric-container">
+                        <div class="poetry-stanza-left">Đêm buông màn tĩnh lặng<br>Gió khẽ chạm cành cây</div>
+                        <div class="poetry-stanza-right">Nghe tiếng lòng sâu lắng<br>Rơi giữa cõi mê say</div>
                     </div>
                 `
             }
@@ -538,7 +573,6 @@
                 this.bindEditorEvents();
             }
 
-            // Xử lý bàn phím thông minh để Enter không bị sinh thêm khối mới
             bindEditorEvents() {
                 const ed = document.getElementById('editorContent');
                 ed.addEventListener('keydown', (e) => {
@@ -546,7 +580,6 @@
                         const selection = window.getSelection();
                         if (!selection.rangeCount) return;
 
-                        // Tìm thẻ cha xem có đang nằm trong khổ thơ không
                         let node = selection.anchorNode;
                         let stanza = null;
                         while (node && node !== ed) {
@@ -559,7 +592,6 @@
 
                         if (stanza) {
                             if (e.shiftKey) {
-                                // Shift + Enter: Thoát ra ngoài khổ thơ để viết đoạn mới
                                 e.preventDefault();
                                 const p = document.createElement('p');
                                 p.innerHTML = '<br>';
@@ -574,7 +606,6 @@
                                 selection.removeAllRanges();
                                 selection.addRange(range);
                             } else {
-                                // Enter bình thường: Chèn <br> ngắt câu, không nhân bản thẻ div!
                                 e.preventDefault();
                                 const range = selection.getRangeAt(0);
                                 const br = document.createElement('br');
@@ -598,7 +629,6 @@
                 document.execCommand('removeFormat', false, null);
             }
 
-            // Chèn khổ 1 bên trái (thanh cam bên trái)
             insertStanzaLeft() {
                 const selectedText = window.getSelection().toString();
                 const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Dòng thơ thứ nhất<br>Dòng thơ thứ hai';
@@ -606,7 +636,6 @@
                 document.execCommand('insertHTML', false, html);
             }
 
-            // Chèn khổ 2 bên phải (thanh cam bên phải đối xứng)
             insertStanzaRight() {
                 const selectedText = window.getSelection().toString();
                 const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Khổ đối xứng thứ hai<br>Nghiêng theo vạt nắng';
@@ -757,6 +786,63 @@
                 this.renderPosts();
             }
 
+            // Gợi ý bài viết liên quan
+            renderRecommendations(currentPost) {
+                const recList = document.getElementById('recommendationsList');
+                recList.innerHTML = '';
+
+                // Lọc bỏ bài hiện tại
+                let candidates = this.posts.filter(p => p.id !== currentPost.id);
+
+                if (candidates.length === 0) {
+                    document.getElementById('recommendationsSection').classList.add('hidden');
+                    return;
+                }
+                document.getElementById('recommendationsSection').classList.remove('hidden');
+
+                // Sắp xếp ưu tiên: cùng thể loại lên đầu
+                candidates.sort((a, b) => {
+                    if (a.category === currentPost.category && b.category !== currentPost.category) return -1;
+                    if (a.category !== currentPost.category && b.category === currentPost.category) return 1;
+                    return 0;
+                });
+
+                // Lấy tối đa 2 bài gợi ý
+                const suggested = candidates.slice(0, 2);
+
+                suggested.forEach(post => {
+                    const card = document.createElement('div');
+                    card.className = 'group p-6 rounded-xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition-all cursor-pointer bg-[var(--bg-surface)] flex flex-col justify-between';
+                    card.onclick = () => {
+                        this.openReader(post.id);
+                        document.getElementById('readerView').scrollTo({ top: 0, behavior: 'smooth' });
+                    };
+
+                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 100);
+
+                    card.innerHTML = `
+                        <div class="space-y-2.5">
+                            <div class="flex items-center gap-2 text-[11px] font-mono-meta text-[var(--accent-orange)]">
+                                <span>${post.category === 'tho' ? 'Thơ' : 'Tản văn'}</span>
+                                <span class="text-[var(--text-muted)]">•</span>
+                                <span class="text-[var(--text-secondary)]">${post.date}</span>
+                            </div>
+                            <h4 class="font-serif-title text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors leading-snug">
+                                ${post.title}
+                            </h4>
+                            <p class="font-serif-content text-sm text-[var(--text-secondary)] italic line-clamp-2 leading-relaxed">
+                                "${plainText}..."
+                            </p>
+                        </div>
+                        <div class="pt-4 flex items-center gap-1.5 text-xs font-mono-meta text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition">
+                            <span>Đọc tiếp</span>
+                            <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
+                        </div>
+                    `;
+                    recList.appendChild(card);
+                });
+            }
+
             openReader(id) {
                 const post = this.posts.find(p => p.id === id);
                 if (!post) return;
@@ -773,6 +859,9 @@
                         ${post.content}
                     </div>
                 `;
+
+                // Render mục bài viết gợi ý
+                this.renderRecommendations(post);
 
                 document.getElementById('readerView').classList.remove('hidden');
                 auth.updateUI();
