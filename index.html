@@ -53,7 +53,7 @@
         .font-mono-meta { font-family: 'Space Mono', monospace; }
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* ================= BẢN ĐỊNH DẠNG KHỔ THƠ ĐỐI XỨNG CHUẨN ================= */
+        /* Định dạng khổ thơ đối xứng */
         .poetry-container {
             display: flex;
             flex-direction: column;
@@ -62,7 +62,6 @@
             width: 100%;
         }
 
-        /* Khổ 1: lệch trái, viền cam bên trái */
         .poetry-stanza-left {
             position: relative;
             max-width: 82%;
@@ -80,7 +79,6 @@
             white-space: pre-wrap;
         }
 
-        /* Khổ 2: lệch phải đối xứng, viền cam bên phải */
         .poetry-stanza-right {
             position: relative;
             max-width: 82%;
@@ -98,7 +96,6 @@
             white-space: pre-wrap;
         }
 
-        /* Khổ thơ căn giữa tự do */
         .poetry-block {
             display: block;
             margin: 2.2rem auto;
@@ -112,7 +109,6 @@
             white-space: pre-wrap;
         }
 
-        /* Triệt tiêu margin rác do trình duyệt tự sinh */
         .poetry-stanza-left p, .poetry-stanza-left div,
         .poetry-stanza-right p, .poetry-stanza-right div,
         .poetry-block p, .poetry-block div {
@@ -121,7 +117,6 @@
             line-height: inherit !important;
         }
 
-        /* Khung ảnh bài viết */
         .article-image-box {
             display: block;
             clear: both;
@@ -149,7 +144,7 @@
             text-align: center;
         }
 
-        /* Đĩa than xoay tương tác */
+        /* Đĩa than xoay */
         .vinyl-disc {
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
             background: repeating-radial-gradient(circle at center, #111, #111 2px, #1a1a1a 3px, #111 4px);
@@ -176,10 +171,9 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
+    <!-- THANH ĐIỀU HƯỚNG -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Nhấp 3 lần để mở Author Gate bí mật -->
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
                 <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
                     HIÊN VẮNG
@@ -187,7 +181,6 @@
                 <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)]"></span>
             </div>
 
-            <!-- Tùy chọn & Trạng thái tác giả -->
             <div class="flex items-center gap-4">
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
@@ -198,7 +191,6 @@
                     </button>
                 </div>
 
-                <!-- Chuyển đổi Sáng / Tối -->
                 <button onclick="app.toggleTheme()" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
                     <i id="themeIcon" class="fa-regular fa-moon text-sm"></i>
                 </button>
@@ -206,10 +198,10 @@
         </div>
     </header>
 
-    <!-- TRANG CHỦ (TƯƠNG TÁC CAO - ĐĨA THAN SOUNDSCAPE & BÀI VIẾT) -->
+    <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-20">
         
-        <!-- HERO SECTION: MÁY ĐĨA THAN THỰC VÀ ÂM THANH MÔI TRƯỜNG -->
+        <!-- HERO SECTION: MÁY ĐĨA THAN SOUNDSCAPE -->
         <section class="p-8 md:p-12 rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             <div class="lg:col-span-7 space-y-5">
@@ -225,7 +217,7 @@
                     "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
                 </p>
 
-                <!-- Bộ nút điều khiển âm thanh tương tác -->
+                <!-- Bộ điều khiển âm thanh -->
                 <div class="pt-3 flex flex-wrap items-center gap-3">
                     <button id="vinylPlayBtn" onclick="soundMachine.toggle()" class="px-5 py-2.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
                         <i id="vinylPlayIcon" class="fa-solid fa-play text-[10px]"></i> <span id="vinylPlayText">Phát tiếng mưa ngâu</span>
@@ -246,11 +238,10 @@
                 </div>
             </div>
 
-            <!-- Cỗ máy đĩa than tương tác (Interactive Vinyl Deck) -->
+            <!-- Cỗ máy đĩa than tương tác -->
             <div class="lg:col-span-5 flex justify-center">
                 <div onclick="soundMachine.toggle()" class="group cursor-pointer relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-light)] p-5 flex items-center justify-center shadow-inner hover:border-[var(--accent-orange)] transition-all duration-500">
                     
-                    <!-- Đĩa than xoay -->
                     <div id="vinylDisc" class="vinyl-disc w-48 h-48 sm:w-56 sm:h-56 rounded-full flex items-center justify-center relative transition-transform duration-700">
                         <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[var(--accent-orange)] flex flex-col items-center justify-center text-center p-1 text-white border-2 border-amber-900/40 shadow-md">
                             <span class="font-cinzel text-[8px] tracking-wider uppercase opacity-80">HIÊN VẮNG</span>
@@ -260,7 +251,6 @@
                         <div class="w-2.5 h-2.5 rounded-full bg-white absolute"></div>
                     </div>
 
-                    <!-- Kim đĩa than -->
                     <div id="tonearm" class="absolute top-4 right-6 w-16 h-28 pointer-events-none transition-transform duration-500 origin-top-right transform -rotate-12">
                         <div class="w-3 h-3 rounded-full bg-neutral-400 absolute top-0 right-0 border border-neutral-600"></div>
                         <div class="w-1 h-20 bg-neutral-300 absolute top-2 right-1 rounded-full shadow"></div>
@@ -290,13 +280,11 @@
             </div>
 
             <!-- DANH SÁCH BÀI VIẾT -->
-            <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Render qua JS -->
-            </div>
+            <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC CHUYÊN SÂU (ZEN READER) -->
+    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex items-center justify-between pb-8 mb-10 border-b border-[var(--border-light)]">
@@ -313,7 +301,6 @@
                 </div>
             </div>
 
-            <!-- NỘI DUNG BÀI VIẾT ĐỌC -->
             <article id="readerContent" class="space-y-8"></article>
 
             <!-- GỢI Ý ĐỌC TIẾP -->
@@ -351,10 +338,8 @@
             </div>
 
             <div class="space-y-6">
-                <!-- Tiêu đề -->
                 <input id="postTitleInput" type="text" placeholder="Tiêu đề bài viết..." class="w-full text-4xl font-serif-title font-medium bg-transparent border-none outline-none text-[var(--text-primary)] placeholder-[var(--text-muted)]">
                 
-                <!-- Thuộc tính & Ảnh bìa -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono-meta pb-4 border-b border-[var(--border-light)]">
                     <div class="flex items-center gap-2">
                         <span class="text-[var(--text-secondary)]">Thể loại:</span>
@@ -380,7 +365,6 @@
                     <button onclick="editor.format('underline')" title="Gạch chân" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
 
-                    <!-- Khổ thơ đối xứng -->
                     <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="px-2.5 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
                         <i class="fa-solid fa-align-left text-[10px]"></i> Khổ 1 (Trái)
                     </button>
@@ -393,7 +377,6 @@
 
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
 
-                    <!-- NÚT CHÈN ẢNH VÀO NỘI DUNG -->
                     <button onclick="editor.openImageModal()" title="Chèn hình ảnh vào bài viết" class="px-3 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)] border border-[var(--border-light)]">
                         <i class="fa-regular fa-image text-[12px] text-[var(--accent-orange)]"></i> Chèn Ảnh
                     </button>
@@ -404,7 +387,6 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG CHÍNH -->
                 <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2] space-y-4">
                 </div>
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
@@ -456,7 +438,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (BẢO MẬT TUYỆT ĐỐI - KHÔNG PUBLIC MẬT MÃ TRONG SOURCE) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -510,7 +492,6 @@
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
     <script>
-        // DỮ LIỆU BAN ĐẦU
         const DEFAULT_POSTS = [
             {
                 id: 'post-1',
@@ -549,34 +530,32 @@
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- CỖ MÁY PHÁT ÂM THANH MÔI TRƯỜNG THỰC (HTML5 AUDIO STREAM) ---
+        // --- CỖ MÁY PHÁT ÂM THANH CDN MP3 (ĐÃ SỬA TRIỆT ĐỂ LỖI KHÔNG PHÁT ĐƯỢC) ---
         class RealAmbientMachine {
             constructor() {
                 this.audio = new Audio();
                 this.audio.loop = true;
+                this.audio.preload = 'auto';
                 this.isPlaying = false;
                 this.soundIndex = 0;
                 
-                // Nguồn âm thanh thực tế, êm dịu, không bị lỗi câm tiếng
+                // CDN ổn định, không chặn CORS, dung lượng nhẹ
                 this.sounds = [
                     { 
                         name: "Mưa rơi hiên vắng", 
-                        src: "https://actions.google.com/sounds/v1/weather/rain_heavy.ogg" 
+                        src: "https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/Rain.mp3" 
                     },
                     { 
                         name: "Lửa sưởi tí tách", 
-                        src: "https://actions.google.com/sounds/v1/ambiences/campfire.ogg" 
-                    },
-                    { 
-                        name: "Gió thoảng đầu thu", 
-                        src: "https://actions.google.com/sounds/v1/weather/wind_breeze.ogg" 
+                        src: "https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/Campfire.mp3" 
                     }
                 ];
             }
 
             toggle() {
-                if (!this.audio.src) {
+                if (!this.audio.src || this.audio.src === window.location.href) {
                     this.audio.src = this.sounds[this.soundIndex].src;
+                    this.audio.load();
                 }
 
                 if (this.isPlaying) {
@@ -589,7 +568,7 @@
                         app.notify('Đang phát: ' + this.sounds[this.soundIndex].name);
                     }).catch(err => {
                         console.error('Audio play error:', err);
-                        app.notify('Vui lòng chạm vào màn hình trước để cho phép phát âm thanh');
+                        app.notify('Vui lòng thử lại một lần nữa!');
                     });
                 }
                 this.updateUI();
@@ -598,6 +577,7 @@
             switchSound() {
                 this.soundIndex = (this.soundIndex + 1) % this.sounds.length;
                 this.audio.src = this.sounds[this.soundIndex].src;
+                this.audio.load();
                 document.getElementById('currentSoundName').innerText = this.sounds[this.soundIndex].name;
                 
                 if (this.isPlaying) {
@@ -631,7 +611,7 @@
             }
         }
 
-        // --- AUTH SERVICE (BẢO MẬT TUYỆT ĐỐI) ---
+        // --- AUTH SERVICE (BẢO MẬT) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -1250,7 +1230,7 @@
             }
         }
 
-        // Khởi tạo toàn bộ ứng dụng
+        // Khởi tạo các dịch vụ
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
