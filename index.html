@@ -15,29 +15,29 @@
     
     <style>
         :root {
-            --bg-canvas: #fcfbf9;
+            --bg-canvas: #faf8f5;
             --bg-surface: #ffffff;
-            --bg-card: #f8f6f0;
-            --text-primary: #1c1b18;
-            --text-secondary: #57554f;
+            --bg-card: #f4f0e8;
+            --text-primary: #191816;
+            --text-secondary: #5a5852;
             --text-muted: #9c9990;
-            --border-light: #eae6dd;
-            --border-subtle: #f0ebe1;
+            --border-light: #e8e3d8;
+            --border-subtle: #f0ebe0;
             --accent-orange: #d95d39;
-            --accent-soft: #faeee7;
+            --accent-soft: #fcf1eb;
         }
 
         .theme-dark {
             --bg-canvas: #121211;
-            --bg-surface: #181816;
-            --bg-card: #1e1e1b;
-            --text-primary: #ece9e2;
-            --text-secondary: #a3a096;
+            --bg-surface: #191816;
+            --bg-card: #201f1b;
+            --text-primary: #edeae2;
+            --text-secondary: #a3a095;
             --text-muted: #64625b;
-            --border-light: #2b2a26;
-            --border-subtle: #23221e;
+            --border-light: #2c2b26;
+            --border-subtle: #22211e;
             --accent-orange: #e56d48;
-            --accent-soft: #2a201c;
+            --accent-soft: #281d18;
         }
 
         body {
@@ -53,75 +53,61 @@
         .font-mono-meta { font-family: 'Space Mono', monospace; }
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* Khổ thơ đối xứng có thanh màu cam */
-        .poetry-symmetric-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2.8rem;
-            margin: 2.5rem 0;
-            width: 100%;
+        /* ================= BẢN ĐỊNH DẠNG THƠ CHUẨN MỰC ================= */
+        /* Triệt tiêu triệt để mọi lỗi margin nhảy cóc của trình duyệt */
+        .poetry-content, .poetry-block, .poetry-stanza-left, .poetry-stanza-right {
+            font-family: 'Newsreader', Georgia, serif;
+            font-style: italic;
+            font-size: 1.32rem;
+            letter-spacing: 0.015em;
+            color: var(--text-primary);
+            white-space: pre-wrap;
         }
 
+        /* Khổ đối xứng: Khổ 1 bên trái */
         .poetry-stanza-left {
             position: relative;
-            max-width: 85%;
-            margin-right: auto;
-            margin-left: 0;
-            padding: 0.6rem 0 0.6rem 2.2rem;
+            max-width: 82%;
+            margin: 2.2rem auto 2.2rem 0 !important;
+            padding: 0.5rem 0 0.5rem 2.2rem !important;
             border-left: 3px solid var(--accent-orange);
-            font-family: 'Newsreader', serif;
-            font-style: italic;
-            font-size: 1.35rem;
-            line-height: 2.3 !important;
-            letter-spacing: 0.02em;
-            color: var(--text-primary);
+            line-height: 1.95 !important;
             text-align: left;
-            white-space: pre-wrap;
         }
 
+        /* Khổ đối xứng: Khổ 2 bên phải */
         .poetry-stanza-right {
             position: relative;
-            max-width: 85%;
-            margin-left: auto;
-            margin-right: 0;
-            padding: 0.6rem 2.2rem 0.6rem 0;
+            max-width: 82%;
+            margin: 2.2rem 0 2.2rem auto !important;
+            padding: 0.5rem 2.2rem 0.5rem 0 !important;
             border-right: 3px solid var(--accent-orange);
-            font-family: 'Newsreader', serif;
-            font-style: italic;
-            font-size: 1.35rem;
-            line-height: 2.3 !important;
-            letter-spacing: 0.02em;
-            color: var(--text-primary);
+            line-height: 1.95 !important;
             text-align: right;
-            white-space: pre-wrap;
         }
 
-        .poetry-stanza-left p, .poetry-stanza-left div,
-        .poetry-stanza-right p, .poetry-stanza-right div,
-        .poetry-block p, .poetry-block div {
+        /* Khổ thơ căn giữa */
+        .poetry-block {
+            display: block;
+            margin: 2.5rem auto !important;
+            max-width: 36rem;
+            text-align: center;
+            line-height: 1.95 !important;
+        }
+
+        /* TẤT CẢ CÁC DÒNG BÊN TRONG KHÔNG ĐƯỢC CÓ MARGIN LỘN XỘN */
+        .poetry-stanza-left *, .poetry-stanza-right *, .poetry-block * {
             margin: 0 !important;
             padding: 0 !important;
             line-height: inherit !important;
+            font-size: inherit !important;
         }
 
-        .poetry-block {
-            display: block;
-            margin: 2.5rem auto;
-            max-width: 38rem;
-            font-family: 'Newsreader', serif;
-            font-style: italic;
-            font-size: 1.32rem;
-            line-height: 2.2 !important;
-            text-align: center;
-            color: var(--text-primary);
-            white-space: pre-wrap;
-        }
-
-        /* Định dạng ảnh nhúng trong bài viết */
+        /* Định dạng ảnh nhúng bài viết */
         .article-image-box {
             display: block;
             clear: both;
-            margin: 2.5rem auto;
+            margin: 2.8rem auto;
             max-width: 100%;
             text-align: center;
         }
@@ -141,13 +127,21 @@
             font-style: italic;
             font-size: 0.95rem;
             color: var(--text-muted);
-            margin-top: 0.6rem;
+            margin-top: 0.7rem;
             text-align: center;
         }
 
-        .editorial-grain {
-            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
-            background-size: 24px 24px;
+        /* Đĩa than xoay tương tác */
+        .vinyl-disc {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+            background: repeating-radial-gradient(circle at center, #111, #111 2px, #1a1a1a 3px, #111 4px);
+        }
+        .vinyl-spinning {
+            animation: spinVinyl 6s linear infinite;
+        }
+        @keyframes spinVinyl {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         [contenteditable]:empty:before {
@@ -162,9 +156,9 @@
         .theme-dark ::-webkit-scrollbar-thumb { background: #383733; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased editorial-grain selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG -->
+    <!-- THANH ĐIỀU HƯỚNG SANG TRỌNG -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
@@ -191,50 +185,84 @@
         </div>
     </header>
 
-    <!-- TRANG CHỦ -->
-    <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-24">
-        <!-- Hero Section -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-4 pb-8 border-b border-[var(--border-light)]">
-            <div class="lg:col-span-7 space-y-6">
+    <!-- TRANG CHỦ MỚI (TƯƠNG TÁC CAO - ĐĨA THAN SOUNDSCAPE & SHOWCASE) -->
+    <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-20">
+        
+        <!-- HERO TƯƠNG TÁC: ĐĨA THAN LO-FI SOUNDSCAPE THAY THẾ ẢNH TĨNH BIỂN -->
+        <section class="p-8 md:p-12 rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            <!-- Cột lời ngỏ -->
+            <div class="lg:col-span-7 space-y-5">
                 <div class="flex items-center gap-3 text-xs font-mono-meta text-[var(--accent-orange)] tracking-widest uppercase">
-                    <span>Số 01</span>
+                    <span>Tuyển tập thi ca & tản mạn</span>
                     <span>•</span>
-                    <span>Thư Viện Ký Ức</span>
+                    <span id="soundStatusBadge" class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Không gian mở</span>
                 </div>
-                <h1 class="font-serif-title text-5xl md:text-7xl font-normal leading-[1.08] text-[var(--text-primary)]">
-                    Nơi giữ lại <br><span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
+                <h1 class="font-serif-title text-4xl sm:text-6xl font-normal leading-[1.1] text-[var(--text-primary)]">
+                    Nơi gửi lại <br><span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
                 </h1>
-                <p class="font-serif-content text-xl text-[var(--text-secondary)] italic max-w-lg leading-relaxed">
+                <p class="font-serif-content text-lg text-[var(--text-secondary)] italic leading-relaxed">
                     "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
                 </p>
-                
-                <div class="pt-4 flex items-center gap-4">
-                    <button onclick="app.rollDailyPoem()" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
-                        <i class="fa-solid fa-dice-five"></i> Rút câu thơ hôm nay
+
+                <!-- Bộ điều khiển máy phát âm thanh tương tác -->
+                <div class="pt-3 flex flex-wrap items-center gap-3">
+                    <button id="vinylPlayBtn" onclick="soundMachine.toggle()" class="px-5 py-2.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
+                        <i id="vinylPlayIcon" class="fa-solid fa-play text-[10px]"></i> <span id="vinylPlayText">Nghe mưa rỉ rả</span>
                     </button>
-                    <span id="dailyPoemText" class="text-xs font-serif-content italic text-[var(--text-muted)] truncate max-w-xs md:max-w-md">
-                        "Tôi thích được tự do như những ngày xưa cũ..."
-                    </span>
+                    
+                    <button onclick="soundMachine.switchSound()" class="px-4 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] transition">
+                        <i class="fa-solid fa-shuffle text-[10px]"></i> <span id="currentSoundName">Mưa rơi hiên vắng</span>
+                    </button>
+
+                    <button onclick="app.rollDailyPoem()" class="px-4 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] transition">
+                        <i class="fa-solid fa-dice text-[10px]"></i> Rút thơ ngẫu hứng
+                    </button>
+                </div>
+
+                <div class="pt-2 text-xs font-serif-content italic text-[var(--text-muted)] flex items-center gap-2">
+                    <i class="fa-solid fa-quote-left text-[var(--accent-orange)] text-[10px]"></i>
+                    <span id="dailyPoemText">Tôi thích được tự do như những ngày xưa cũ...</span>
                 </div>
             </div>
 
-            <div class="lg:col-span-5 relative">
-                <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[var(--bg-card)] border border-[var(--border-light)] shadow-sm">
-                    <img id="heroCoverImg" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Hiên Vắng Mood" class="w-full h-full object-cover grayscale contrast-125 opacity-85 hover:grayscale-0 hover:opacity-100 transition duration-700">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
-                        <span class="font-mono-meta text-[11px] uppercase tracking-widest opacity-80">Góc chiêm nghiệm</span>
-                        <p class="font-serif-title text-2xl mt-1">Mùa thu trên hiên vắng</p>
+            <!-- Cột cỗ máy đĩa than tương tác (Interactive Vinyl Deck) -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div onclick="soundMachine.toggle()" class="group cursor-pointer relative w-64 h-64 sm:w-72 sm:h-72 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-light)] p-5 flex items-center justify-center shadow-inner hover:border-[var(--accent-orange)] transition-all duration-500">
+                    
+                    <!-- Đĩa than -->
+                    <div id="vinylDisc" class="vinyl-disc w-48 h-48 sm:w-56 sm:h-56 rounded-full flex items-center justify-center relative transition-transform duration-700">
+                        <!-- Nhãn đĩa ở tâm -->
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[var(--accent-orange)] flex flex-col items-center justify-center text-center p-1 text-white border-2 border-amber-900/40 shadow-md">
+                            <span class="font-cinzel text-[8px] tracking-wider uppercase opacity-80">HIÊN VẮNG</span>
+                            <i id="centerVinylIcon" class="fa-solid fa-record-vinyl text-sm my-0.5"></i>
+                            <span class="font-mono-meta text-[7px] uppercase">SIDE A</span>
+                        </div>
+                        <!-- Lỗ tâm đĩa -->
+                        <div class="w-2.5 h-2.5 rounded-full bg-white absolute"></div>
+                    </div>
+
+                    <!-- Cần kim đĩa than (Tonearm) -->
+                    <div id="tonearm" class="absolute top-4 right-6 w-16 h-28 pointer-events-none transition-transform duration-500 origin-top-right transform -rotate-12">
+                        <div class="w-3 h-3 rounded-full bg-neutral-400 absolute top-0 right-0 border border-neutral-600"></div>
+                        <div class="w-1 h-20 bg-neutral-300 absolute top-2 right-1 rounded-full shadow"></div>
+                        <div class="w-3 h-5 bg-neutral-700 absolute bottom-5 -left-1 rounded"></div>
+                    </div>
+
+                    <!-- Gợi ý tương tác khi hover -->
+                    <div class="absolute bottom-3 text-[10px] font-mono-meta text-[var(--text-muted)] group-hover:text-[var(--accent-orange)] transition">
+                        <span id="vinylPromptText">Nhấp vào đĩa than để phát nhạc</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Bộ Lọc -->
-        <section class="space-y-10">
+        <!-- BỘ LỌC BÀI VIẾT -->
+        <section class="space-y-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[var(--border-light)]">
                 <div>
-                    <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Tuyển tập chọn lọc</span>
-                    <h2 class="font-serif-title text-3xl md:text-4xl text-[var(--text-primary)] mt-1">Các tác phẩm mới nhất</h2>
+                    <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Tuyển tập tác phẩm</span>
+                    <h2 class="font-serif-title text-3xl md:text-4xl text-[var(--text-primary)] mt-1">Các sáng tác tuyển chọn</h2>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -244,14 +272,14 @@
                 </div>
             </div>
 
-            <!-- Danh Sách Bài -->
+            <!-- DANH SÁCH BÀI VIẾT (EDITORIAL CARDS) -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Nạp qua JS -->
             </div>
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
+    <!-- MÀN HÌNH ĐỌC CHUYÊN SÂU (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex items-center justify-between pb-8 mb-10 border-b border-[var(--border-light)]">
@@ -283,7 +311,7 @@
         </div>
     </div>
 
-    <!-- XƯỞNG VIẾT BÀI (CREATIVE STUDIO) -->
+    <!-- XƯỞNG VIẾT BÀI (CREATIVE STUDIO - ĐÃ CẢI TIẾN TRÌNH SOẠN THƠ) -->
     <div id="editorView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-4xl mx-auto px-6 py-10">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[var(--border-light)]">
@@ -353,17 +381,17 @@
                 </div>
 
                 <!-- KHUNG SOẠN NỘI DUNG -->
-                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, chèn ảnh, hoặc chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
+                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, chèn ảnh, hoặc chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.1] space-y-4">
                 </div>
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
                     <i class="fa-regular fa-lightbulb text-[var(--accent-orange)]"></i>
-                    <span>Mẹo: Trong khổ thơ, nhấn <b>Enter</b> để xuống câu tiếp theo; nhấn <b>Shift + Enter</b> để thoát hẳn khỏi khổ thơ.</span>
+                    <span>Quy tắc ngắt câu: Trong khổ thơ, nhấn <b>Enter</b> chỉ xuống đúng một dòng đều đặn. Nhấn <b>Shift + Enter</b> để kết thúc khổ thơ.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL CHÈN HÌNH ẢNH (CÓ BỘ KIỂM TRA LINK THÔNG MINH) -->
+    <!-- MODAL CHÈN HÌNH ẢNH (BỘ KIỂM TRA THÔNG MINH) -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
@@ -454,57 +482,191 @@
         </div>
     </div>
 
-    <!-- TOAST -->
+    <!-- TOAST THÔNG BÁO -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
     <script>
+        // DỮ LIỆU MẪU ĐƯỢC ĐỊNH DẠNG CHUẨN THƠ ĐỐI XỨNG
         const DEFAULT_POSTS = [
             {
                 id: 'post-1',
                 title: 'Mộng',
                 category: 'tho',
                 author: 'Hậu',
-                date: '16/10/2026',
-                content: `
-                    <div class="poetry-symmetric-container">
-                        <div class="poetry-stanza-left">Tôi thích được tự do<br>Như những ngày xưa cũ</div>
-                        <div class="poetry-stanza-right">Nơi ngọn đèn không ngủ<br>Nơi tủ bếp không thưa</div>
-                        <div class="poetry-stanza-left">Nơi triệu những hạt mưa<br>chưa bao giờ tìm đến</div>
-                    </div>
-                `
+                date: '17/10/2026',
+                content: `<div class="poetry-stanza-left">Tôi thích được tự do\nNhư những ngày xưa cũ</div><div class="poetry-stanza-right">Nơi ngọn đèn không ngủ\nNơi tủ bếp không thưa</div><div class="poetry-stanza-left">Nơi triệu những hạt mưa\nchưa bao giờ tìm đến.</div>`
             },
             {
                 id: 'post-2',
+                title: 'Ký Ức Tuổi Thơ',
+                category: 'tho',
+                author: 'Hậu',
+                date: '16/10/2026',
+                content: `<div class="poetry-stanza-left">Nhớ ngày xưa bé nhỏ\nChỉ muốn được rong chơi\nMuốn được làm chú Cuội\nNgồi hát tận cung trăng</div><div class="poetry-stanza-right">Muốn được làm bướm trắng\nThỏa sức được tung tăng\nRồi một ngày đã lớn\nBao dỗi hờn bon chen\nCứ vậy mà lệ hoen.</div>`
+            },
+            {
+                id: 'post-3',
                 title: 'Gió Qua Hiên Vắng',
                 category: 'tan-van',
                 author: 'Hậu',
                 date: '15/10/2026',
-                content: `<p>Có những buổi chiều chỉ muốn ngồi im lặng ngắm nhìn vạt nắng buông xuống thềm nhà. Vị trà nhạt dần theo thời gian, nhưng lòng người lại đầy thêm những khoảng trống bình yên khó gọi tên. Cuộc đời suy cho cùng là những lần gom nhặt mảnh vỡ của sự tĩnh lặng.</p>`
-            },
-            {
-                id: 'post-3',
-                title: 'Tiếng Đêm',
-                category: 'tho',
-                author: 'Hậu',
-                date: '14/10/2026',
-                content: `
-                    <div class="poetry-symmetric-container">
-                        <div class="poetry-stanza-left">Đêm buông màn tĩnh lặng<br>Gió khẽ chạm cành cây</div>
-                        <div class="poetry-stanza-right">Nghe tiếng lòng sâu lắng<br>Rơi giữa cõi mê say</div>
-                    </div>
-                `
+                content: `<p>Có những buổi chiều chỉ muốn ngồi im lặng ngắm nhìn vạt nắng buông xuống thềm nhà. Vị trà nhạt dần theo thời gian, nhưng lòng người lại đầy thêm những khoảng trống bình yên khó gọi tên. Cuộc đời suy cho cùng là những lần gom nhặt mảnh vỡ của sự tĩnh lặng để nuôi dưỡng lại chính mình.</p>`
             }
         ];
 
         const POETIC_QUOTES = [
             "Tôi thích được tự do như những ngày xưa cũ...",
             "Nơi ngọn đèn không ngủ, nơi tủ bếp không thưa.",
+            "Muốn được làm bướm trắng, thỏa sức được tung tăng.",
             "Gió qua hiên vắng, lòng người nhẹ như mây trôi.",
-            "Có những ngày bình yên chỉ gói gọn trong một tách trà.",
-            "Chữ rơi xuống giấy, hóa thành vệt ký ức không tên."
+            "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- AUTH SERVICE ---
+        // --- CỖ MÁY ÂM THANH MÔI TRƯỜNG WEB AUDIO API (KHÔNG CẦN FILE NGOÀI) ---
+        class AmbientSoundMachine {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.soundIndex = 0;
+                this.sounds = [
+                    { name: "Mưa rơi hiên vắng", type: "rain" },
+                    { name: "Lửa sưởi tí tách", type: "fire" },
+                    { name: "Gió thoảng đầu thu", type: "wind" }
+                ];
+                this.nodes = [];
+            }
+
+            initContext() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+            }
+
+            createNoiseBuffer() {
+                const bufferSize = this.ctx.sampleRate * 2;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const output = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                return buffer;
+            }
+
+            startSound() {
+                this.initContext();
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+
+                this.stopSound();
+
+                const soundType = this.sounds[this.soundIndex].type;
+                const noiseBuffer = this.createNoiseBuffer();
+                const whiteNoise = this.ctx.createBufferSource();
+                whiteNoise.buffer = noiseBuffer;
+                whiteNoise.loop = true;
+
+                if (soundType === 'rain') {
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(800, this.ctx.currentTime);
+
+                    const gain = this.ctx.createGain();
+                    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+
+                    whiteNoise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    this.nodes = [whiteNoise, filter, gain];
+                } else if (soundType === 'fire') {
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.setValueAtTime(400, this.ctx.currentTime);
+
+                    const gain = this.ctx.createGain();
+                    gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+
+                    whiteNoise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    this.nodes = [whiteNoise, filter, gain];
+                } else {
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(300, this.ctx.currentTime);
+
+                    const gain = this.ctx.createGain();
+                    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+
+                    whiteNoise.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    this.nodes = [whiteNoise, filter, gain];
+                }
+
+                whiteNoise.start(0);
+                this.isPlaying = true;
+                this.updateUI();
+            }
+
+            stopSound() {
+                if (this.nodes && this.nodes.length > 0) {
+                    try {
+                        this.nodes[0].stop();
+                    } catch(e) {}
+                    this.nodes = [];
+                }
+                this.isPlaying = false;
+                this.updateUI();
+            }
+
+            toggle() {
+                if (this.isPlaying) {
+                    this.stopSound();
+                    app.notify('Đã dừng âm thanh.');
+                } else {
+                    this.startSound();
+                    app.notify('Đang phát âm thanh: ' + this.sounds[this.soundIndex].name);
+                }
+            }
+
+            switchSound() {
+                this.soundIndex = (this.soundIndex + 1) % this.sounds.length;
+                document.getElementById('currentSoundName').innerText = this.sounds[this.soundIndex].name;
+                if (this.isPlaying) {
+                    this.startSound();
+                    app.notify('Đổi sang: ' + this.sounds[this.soundIndex].name);
+                }
+            }
+
+            updateUI() {
+                const vinyl = document.getElementById('vinylDisc');
+                const tonearm = document.getElementById('tonearm');
+                const playBtnText = document.getElementById('vinylPlayText');
+                const playIcon = document.getElementById('vinylPlayIcon');
+                const prompt = document.getElementById('vinylPromptText');
+
+                if (this.isPlaying) {
+                    vinyl.classList.add('vinyl-spinning');
+                    tonearm.style.transform = 'rotate(18deg)';
+                    playBtnText.innerText = 'Dừng âm thanh';
+                    playIcon.className = 'fa-solid fa-pause text-[10px]';
+                    prompt.innerText = 'Đang phát: ' + this.sounds[this.soundIndex].name;
+                } else {
+                    vinyl.classList.remove('vinyl-spinning');
+                    tonearm.style.transform = 'rotate(-12deg)';
+                    playBtnText.innerText = 'Nghe mưa rỉ rả';
+                    playIcon.className = 'fa-solid fa-play text-[10px]';
+                    prompt.innerText = 'Nhấp vào đĩa than để phát nhạc';
+                }
+            }
+        }
+
+        // --- AUTH SERVICE (BẢO MẬT TUYỆT ĐỐI) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -549,7 +711,7 @@
 
                 if (!storedHash) {
                     title.innerText = 'Thiết Lập Mật Khẩu';
-                    subtitle.innerText = 'Tạo mật mã bí mật của riêng bạn cho lần đầu sử dụng';
+                    subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn cho lần đầu';
                     btn.innerText = 'Tạo Mật Khẩu';
                     input.placeholder = 'Nhập mật khẩu bạn muốn đặt...';
                 } else {
@@ -729,6 +891,7 @@
 
                         if (stanza) {
                             if (e.shiftKey) {
+                                // Shift + Enter: Thoát ra ngoài khổ thơ để viết đoạn mới
                                 e.preventDefault();
                                 const p = document.createElement('p');
                                 p.innerHTML = '<br>';
@@ -743,15 +906,9 @@
                                 selection.removeAllRanges();
                                 selection.addRange(range);
                             } else {
+                                // Enter bình thường: Chèn đúng một dấu xuống dòng \n khít khao, không nhân bản thẻ
                                 e.preventDefault();
-                                const range = selection.getRangeAt(0);
-                                const br = document.createElement('br');
-                                range.deleteContents();
-                                range.insertNode(br);
-                                range.setStartAfter(br);
-                                range.setEndAfter(br);
-                                selection.removeAllRanges();
-                                selection.addRange(range);
+                                document.execCommand('insertLineBreak');
                             }
                         }
                     }
@@ -768,21 +925,21 @@
 
             insertStanzaLeft() {
                 const selectedText = window.getSelection().toString();
-                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Dòng thơ thứ nhất<br>Dòng thơ thứ hai';
+                const content = selectedText ? selectedText.trim() : 'Dòng thơ thứ nhất\nDòng thơ thứ hai';
                 const html = `<div class="poetry-stanza-left">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
 
             insertStanzaRight() {
                 const selectedText = window.getSelection().toString();
-                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Khổ đối xứng thứ hai<br>Nghiêng theo vạt nắng';
+                const content = selectedText ? selectedText.trim() : 'Khổ đối xứng thứ hai\nNghiêng theo vạt nắng';
                 const html = `<div class="poetry-stanza-right">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
 
             insertPoetryBlock() {
                 const selectedText = window.getSelection().toString();
-                const content = selectedText ? selectedText.replace(/\n/g, '<br>') : 'Câu thơ căn giữa tự do';
+                const content = selectedText ? selectedText.trim() : 'Câu thơ căn giữa tự do\nNgân vang giữa đất trời';
                 const html = `<div class="poetry-block">${content}</div><p><br></p>`;
                 document.execCommand('insertHTML', false, html);
             }
@@ -842,13 +999,23 @@
                 }
             }
 
+            cleanHtmlContent(raw) {
+                // Tự động làm sạch các thẻ rỗng nhảy dòng lung tung
+                return raw
+                    .replace(/<p><br\s*\/?><\/p>/gi, '')
+                    .replace(/<div><br\s*\/?><\/div>/gi, '')
+                    .replace(/(<br\s*\/?>\s*){3,}/gi, '<br><br>');
+            }
+
             async publish() {
                 const title = document.getElementById('postTitleInput').value.trim();
-                const content = document.getElementById('editorContent').innerHTML.trim();
+                let content = document.getElementById('editorContent').innerHTML.trim();
                 const category = document.getElementById('postCatInput').value;
-                const author = document.getElementById('postAuthorInput').value.trim() || 'Tác giả';
+                const author = document.getElementById('postAuthorInput').value.trim() || 'Hậu';
 
                 if (!title || !content) return app.notify('Vui lòng nhập tiêu đề và nội dung');
+
+                content = this.cleanHtmlContent(content);
 
                 const posts = app.posts;
                 const today = new Date().toLocaleDateString('vi-VN');
@@ -918,7 +1085,7 @@
 
             rollDailyPoem() {
                 const quote = POETIC_QUOTES[Math.floor(Math.random() * POETIC_QUOTES.length)];
-                document.getElementById('dailyPoemText').innerText = `"${quote}"`;
+                document.getElementById('dailyPoemText').innerText = quote;
                 this.notify('Đã rút một câu thơ ngẫu hứng!');
             }
 
@@ -940,11 +1107,11 @@
                     el.className = 'group p-7 rounded-2xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between';
                     el.onclick = () => this.openReader(post.id);
 
-                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 140);
+                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 130);
                     const issueNumber = String(index + 1).padStart(2, '0');
 
                     el.innerHTML = `
-                        <div class="space-y-5">
+                        <div class="space-y-4">
                             <div class="flex items-center justify-between text-xs font-mono-meta text-[var(--text-muted)]">
                                 <span class="font-cinzel text-[var(--accent-orange)] font-semibold">NO. ${issueNumber}</span>
                                 <span>${post.date}</span>
@@ -959,7 +1126,7 @@
                             </p>
                         </div>
 
-                        <div class="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono-meta">
+                        <div class="pt-5 mt-5 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono-meta">
                             <span class="text-[var(--text-secondary)]">${post.category === 'tho' ? 'Thơ ca' : 'Tản văn'}</span>
                             <span class="text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition flex items-center gap-1.5">
                                 Đọc bài <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
@@ -1010,7 +1177,7 @@
                         document.getElementById('readerView').scrollTo({ top: 0, behavior: 'smooth' });
                     };
 
-                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 100);
+                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 90);
 
                     card.innerHTML = `
                         <div class="space-y-2.5">
@@ -1047,7 +1214,7 @@
                         <h1 class="font-serif-title text-4xl md:text-5xl text-[var(--text-primary)] font-normal">${post.title}</h1>
                         <p class="font-mono-meta text-xs text-[var(--text-secondary)]">${post.author} • ${post.date}</p>
                     </div>
-                    <div class="font-serif-content text-lg leading-[2.3] text-[var(--text-primary)] pt-4">
+                    <div class="font-serif-content text-lg leading-[2.1] text-[var(--text-primary)] pt-4">
                         ${post.content}
                     </div>
                 `;
@@ -1111,10 +1278,11 @@
             }
         }
 
-        // Khởi tạo các dịch vụ
+        // Khởi tạo các dịch vụ toàn cục
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
+        const soundMachine = new AmbientSoundMachine();
         const app = new BlogApp();
     </script>
 </body>
