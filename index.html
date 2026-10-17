@@ -118,24 +118,23 @@
         }
 
         /* Định dạng ảnh nhúng trong bài viết */
-        /* Khung ảnh độc lập, tự động căn giữa */
         .article-image-box {
-    display: block;
-    clear: both;
-    margin: 2.5rem auto;
-    max-width: 100%;
-    text-align: center;
-}
+            display: block;
+            clear: both;
+            margin: 2.5rem auto;
+            max-width: 100%;
+            text-align: center;
+        }
 
-.article-image-box img {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 480px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
+        .article-image-box img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
 
         .article-image-caption {
             font-family: 'Newsreader', serif;
@@ -322,7 +321,7 @@
                     </div>
                 </div>
 
-                <!-- THANH CÔNG CỤ ĐỊNH DẠNG (ĐÃ BỔ SUNG MỤC CHÈN ẢNH) -->
+                <!-- THANH CÔNG CỤ ĐỊNH DẠNG -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-1.5 p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
                     <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
@@ -364,20 +363,19 @@
         </div>
     </div>
 
-    <!-- MODAL CHÈN HÌNH ẢNH -->
+    <!-- MODAL CHÈN HÌNH ẢNH (CÓ BỘ KIỂM TRA LINK THÔNG MINH) -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
-                    <i class="fa-regular fa-image text-[var(--accent-orange)]"></i> Chèn Ảnh Nghệ Thuật
+                    <i class="fa-regular fa-image text-[var(--accent-orange)]"></i> Chèn Ảnh Vào Bài
                 </h3>
                 <button onclick="editor.closeImageModal()" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <div class="space-y-4 text-xs font-mono-meta">
-                <!-- Chọn tải từ máy tính -->
                 <div>
-                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">1. Tải ảnh trực tiếp từ máy tính:</label>
+                    <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">1. Tải ảnh trực tiếp từ máy tính (Khuyên dùng):</label>
                     <input id="imageFileInput" type="file" accept="image/*" class="w-full text-xs text-[var(--text-secondary)] file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-mono-meta file:bg-[var(--accent-orange)] file:text-white hover:file:opacity-90 cursor-pointer">
                 </div>
 
@@ -387,13 +385,12 @@
                     <div class="flex-grow h-[1px] bg-[var(--border-light)]"></div>
                 </div>
 
-                <!-- Dán link URL ảnh -->
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">2. Dán link URL hình ảnh:</label>
                     <input id="imageUrlInput" type="text" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                    <p class="text-[10px] text-[var(--text-muted)] mt-1">* Phải là link file ảnh (.jpg, .png...) hoặc link ảnh trực tiếp.</p>
                 </div>
 
-                <!-- Chú thích ảnh -->
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1.5">Chú thích ảnh (không bắt buộc):</label>
                     <input id="imageCaptionInput" type="text" placeholder="Vạt nắng chiều trên hiên..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
@@ -407,7 +404,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (KHÔNG CÒN GỢI Ý MẬT KHẨU HIENVANG TRÊN PUBLIC) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -507,7 +504,7 @@
             "Chữ rơi xuống giấy, hóa thành vệt ký ức không tên."
         ];
 
-        // --- AUTH SERVICE (BẢO MẬT TUYỆT ĐỐI - KHÔNG PUBLIC MẬT MÃ TRONG CODE) ---
+        // --- AUTH SERVICE ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -579,7 +576,6 @@
                 const storedHash = localStorage.getItem('author_hash');
                 const hashedInput = await this.sha256(pwd);
 
-                // Lần đầu thiết lập mật khẩu
                 if (!storedHash) {
                     localStorage.setItem('author_hash', hashedInput);
                     this.isAuthor = true;
@@ -590,7 +586,6 @@
                     return;
                 }
 
-                // Đăng nhập các lần sau
                 if (hashedInput === storedHash) {
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
@@ -708,7 +703,7 @@
             }
         }
 
-        // --- CREATIVE EDITOR (ĐÃ TÍCH HỢP CHÈN ẢNH VÀO BÀI VIẾT) ---
+        // --- CREATIVE EDITOR ---
         class EditorService {
             constructor() {
                 this.currentEditingId = null;
@@ -792,7 +787,6 @@
                 document.execCommand('insertHTML', false, html);
             }
 
-            // --- QUẢN LÝ CHÈN ẢNH ---
             openImageModal() {
                 document.getElementById('imageFileInput').value = '';
                 document.getElementById('imageUrlInput').value = '';
@@ -810,23 +804,31 @@
                 const captionInput = document.getElementById('imageCaptionInput');
                 const caption = captionInput.value.trim();
 
-                const applyHtml = (src) => {
+                const renderImageBlock = (src) => {
                     const captionHtml = caption ? `<div class="article-image-caption">${caption}</div>` : '';
-                    const html = `<div class="article-image-box"><img src="${src}" alt="${caption || 'Hình ảnh bài viết'}">${captionHtml}</div><p><br></p>`;
-                    document.getElementById('editorContent').focus();
+                    const html = `<div class="article-image-box"><img src="${src}" alt="${caption || 'Hình ảnh'}">${captionHtml}</div><p><br></p>`;
+                    
+                    const ed = document.getElementById('editorContent');
+                    ed.focus();
                     document.execCommand('insertHTML', false, html);
                     this.closeImageModal();
-                    app.notify('Đã chèn hình ảnh vào bài viết');
+                    app.notify('Đã chèn ảnh thành công!');
                 };
 
-                // Nếu người dùng chọn file từ máy
                 if (fileInput.files && fileInput.files[0]) {
                     const file = fileInput.files[0];
                     const reader = new FileReader();
-                    reader.onload = (e) => applyHtml(e.target.result);
+                    reader.onload = (e) => renderImageBlock(e.target.result);
                     reader.readAsDataURL(file);
                 } else if (urlInput.value.trim()) {
-                    applyHtml(urlInput.value.trim());
+                    const url = urlInput.value.trim();
+                    app.notify('Đang kiểm tra liên kết hình ảnh...');
+                    const testImg = new Image();
+                    testImg.onload = () => renderImageBlock(url);
+                    testImg.onerror = () => {
+                        app.notify('Link ảnh không hợp lệ hoặc bị trang web nguồn chặn. Hãy thử tải ảnh về máy rồi upload lên!');
+                    };
+                    testImg.src = url;
                 } else {
                     app.notify('Vui lòng chọn file ảnh hoặc dán link URL');
                 }
