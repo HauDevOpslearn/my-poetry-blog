@@ -9,31 +9,35 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --bg-canvas: #faf9f5;
+            --bg-canvas: #fcfbf9;
             --bg-surface: #ffffff;
-            --text-primary: #181816;
-            --text-secondary: #6e6d68;
-            --text-muted: #a3a29b;
-            --border-light: #eae8e1;
+            --bg-card: #f8f6f0;
+            --text-primary: #1c1b18;
+            --text-secondary: #57554f;
+            --text-muted: #9c9990;
+            --border-light: #eae6dd;
+            --border-subtle: #f0ebe1;
             --accent-orange: #d95d39;
-            --accent-soft: #f4efe6;
+            --accent-soft: #faeee7;
         }
 
         .theme-dark {
             --bg-canvas: #121211;
-            --bg-surface: #1a1a18;
-            --text-primary: #eae8e3;
-            --text-secondary: #9e9c96;
-            --text-muted: #5e5d59;
-            --border-light: #282825;
-            --accent-orange: #e06c48;
-            --accent-soft: #23221e;
+            --bg-surface: #181816;
+            --bg-card: #1e1e1b;
+            --text-primary: #ece9e2;
+            --text-secondary: #a3a096;
+            --text-muted: #64625b;
+            --border-light: #2b2a26;
+            --border-subtle: #23221e;
+            --accent-orange: #e56d48;
+            --accent-soft: #2a201c;
         }
 
         body {
@@ -47,6 +51,7 @@
         .font-serif-title { font-family: 'Instrument Serif', Georgia, serif; }
         .font-serif-content { font-family: 'Newsreader', Georgia, serif; }
         .font-mono-meta { font-family: 'Space Mono', monospace; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
 
         /* Khổ thơ đối xứng có thanh màu cam */
         .poetry-symmetric-container {
@@ -57,7 +62,6 @@
             width: 100%;
         }
 
-        /* Khổ 1: lệch trái, thanh cam bên trái */
         .poetry-stanza-left {
             position: relative;
             max-width: 85%;
@@ -75,7 +79,6 @@
             white-space: pre-wrap;
         }
 
-        /* Khổ 2: lệch phải đối xứng, thanh cam bên phải */
         .poetry-stanza-right {
             position: relative;
             max-width: 85%;
@@ -93,15 +96,14 @@
             white-space: pre-wrap;
         }
 
-        /* Triệt tiêu margin thừa của các dòng bên trong khổ thơ để khoảng cách luôn đều */
         .poetry-stanza-left p, .poetry-stanza-left div,
-        .poetry-stanza-right p, .poetry-stanza-right div {
+        .poetry-stanza-right p, .poetry-stanza-right div,
+        .poetry-block p, .poetry-block div {
             margin: 0 !important;
             padding: 0 !important;
             line-height: inherit !important;
         }
 
-        /* Khổ thơ tự do căn giữa truyền thống */
         .poetry-block {
             display: block;
             margin: 2.5rem auto;
@@ -115,13 +117,12 @@
             white-space: pre-wrap;
         }
 
-        .poetry-block p, .poetry-block div {
-            margin: 0 !important;
-            padding: 0 !important;
-            line-height: inherit !important;
+        /* Subtle film grain effect */
+        .editorial-grain {
+            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+            background-size: 24px 24px;
         }
 
-        /* Trình soạn thảo */
         [contenteditable]:empty:before {
             content: attr(data-placeholder);
             color: var(--text-muted);
@@ -129,31 +130,28 @@
             display: block;
         }
 
-        /* Tùy chỉnh thanh cuộn */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #d1cfc7; border-radius: 3px; }
-        .theme-dark ::-webkit-scrollbar-thumb { background: #3a3935; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #dcd8cc; border-radius: 4px; }
+        .theme-dark ::-webkit-scrollbar-thumb { background: #383733; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
+<body class="min-h-screen flex flex-col antialiased editorial-grain selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
-    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/90 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
+    <!-- THANH ĐIỀU HƯỚNG SANG TRỌNG -->
+    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <!-- Logo tương tác mở Author Gate khi click 3 lần -->
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
-                <span class="font-serif-title text-3xl tracking-wider uppercase font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
+                <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
                     HIÊN VẮNG
                 </span>
-                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)] opacity-80"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)]"></span>
             </div>
 
             <!-- Tùy chọn & Trạng thái tác giả -->
             <div class="flex items-center gap-4">
-                <!-- Nút Xưởng Viết (chỉ hiển thị khi đã đăng nhập tác giả) -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
-                    <button onclick="app.openEditor()" class="px-3.5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
+                    <button onclick="app.openEditor()" class="px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
                     </button>
                     <button onclick="auth.logout()" title="Đăng xuất tác giả" class="w-8 h-8 rounded-full border border-[var(--border-light)] text-[var(--text-secondary)] hover:text-red-500 hover:border-red-400 flex items-center justify-center transition">
@@ -162,37 +160,74 @@
                 </div>
 
                 <!-- Chuyển đổi Sáng / Tối -->
-                <button onclick="app.toggleTheme()" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--text-secondary)] transition">
+                <button onclick="app.toggleTheme()" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
                     <i id="themeIcon" class="fa-regular fa-moon text-sm"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- KHÔNG GIAN BÀI VIẾT (TRANG CHỦ) -->
-    <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full transition-opacity duration-300">
-        <!-- Đầu trang nghệ thuật -->
-        <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
-            <p class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Tuyển tập thi ca & tản mạn</p>
-            <h1 class="font-serif-title text-5xl md:text-6xl text-[var(--text-primary)] font-normal leading-tight">
-                Nơi ghi lại những điều tĩnh lặng
-            </h1>
-            <p class="font-serif-content text-lg italic text-[var(--text-secondary)]">
-                "Thả rơi vài dòng chữ giữa những ngày chông chênh."
-            </p>
-        </div>
+    <!-- TRANG CHỦ MỚI (EDITORIAL HERO & SHOWCASE) -->
+    <main id="mainView" class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-24">
+        
+        <!-- HERO SECTION: BỐ CỤC TẠP CHÍ CAO CẤP -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center pt-4 pb-8 border-b border-[var(--border-light)]">
+            <div class="lg:col-span-7 space-y-6">
+                <div class="flex items-center gap-3 text-xs font-mono-meta text-[var(--accent-orange)] tracking-widest uppercase">
+                    <span>Số 01</span>
+                    <span>•</span>
+                    <span>Thư Viện Ký Ức</span>
+                </div>
+                <h1 class="font-serif-title text-5xl md:text-7xl font-normal leading-[1.08] text-[var(--text-primary)]">
+                    Nơi giữ lại <br><span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
+                </h1>
+                <p class="font-serif-content text-xl text-[var(--text-secondary)] italic max-w-lg leading-relaxed">
+                    "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
+                </p>
+                
+                <!-- Quick Spark Widget: Câu thơ ngẫu hứng hôm nay -->
+                <div class="pt-4 flex items-center gap-4">
+                    <button onclick="app.rollDailyPoem()" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
+                        <i class="fa-solid fa-dice-five"></i> Rút câu thơ hôm nay
+                    </button>
+                    <span id="dailyPoemText" class="text-xs font-serif-content italic text-[var(--text-muted)] truncate max-w-xs md:max-w-md">
+                        "Tôi thích được tự do như những ngày xưa cũ..."
+                    </span>
+                </div>
+            </div>
 
-        <!-- Bộ lọc danh mục -->
-        <div class="flex justify-center items-center gap-3 mb-16 overflow-x-auto pb-2">
-            <button onclick="app.filterCategory('all')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--accent-orange)] bg-[var(--accent-orange)] text-white transition" data-cat="all">Tất cả</button>
-            <button onclick="app.filterCategory('tho')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tho">Thơ</button>
-            <button onclick="app.filterCategory('tan-van')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tan-van">Tản văn</button>
-        </div>
+            <!-- Visual Art Box (Ảnh nghệ thuật tối giản điện ảnh) -->
+            <div class="lg:col-span-5 relative">
+                <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-[var(--bg-card)] border border-[var(--border-light)] shadow-sm">
+                    <img id="heroCoverImg" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Hiên Vắng Mood" class="w-full h-full object-cover grayscale contrast-125 opacity-85 hover:grayscale-0 hover:opacity-100 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                        <span class="font-mono-meta text-[11px] uppercase tracking-widest opacity-80">Góc chiêm nghiệm</span>
+                        <p class="font-serif-title text-2xl mt-1">Mùa thu trên hiên vắng</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- Danh sách bài viết -->
-        <div id="postsList" class="space-y-24">
-            <!-- Render qua JavaScript -->
-        </div>
+        <!-- BỘ LỌC DANH MỤC THIẾT KẾ ĐƯƠNG ĐẠI -->
+        <section class="space-y-10">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[var(--border-light)]">
+                <div>
+                    <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Tuyển tập chọn lọc</span>
+                    <h2 class="font-serif-title text-3xl md:text-4xl text-[var(--text-primary)] mt-1">Các tác phẩm mới nhất</h2>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="app.filterCategory('all')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--accent-orange)] bg-[var(--accent-orange)] text-white transition" data-cat="all">Tất cả</button>
+                    <button onclick="app.filterCategory('tho')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tho">Thơ</button>
+                    <button onclick="app.filterCategory('tan-van')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tan-van">Tản văn</button>
+                </div>
+            </div>
+
+            <!-- DANH SÁCH BÀI VIẾT (EDITORIAL CARDS) -->
+            <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Render qua JS -->
+            </div>
+        </section>
     </main>
 
     <!-- MÀN HÌNH ĐỌC CHUYÊN SÂU (ZEN READER) -->
@@ -200,7 +235,7 @@
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex items-center justify-between pb-8 mb-10 border-b border-[var(--border-light)]">
                 <button onclick="app.closeReader()" class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
-                    <i class="fa-solid fa-arrow-left"></i> Quay lại
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại tuyển tập
                 </button>
                 <div id="readerAuthorActions" class="hidden items-center gap-3">
                     <button onclick="app.editCurrentPost()" class="text-xs font-mono-meta px-3 py-1 rounded border border-[var(--border-light)] hover:bg-[var(--accent-soft)] transition">
@@ -216,18 +251,15 @@
                 <!-- Nội dung nạp qua JS -->
             </article>
 
-            <!-- MỤC GỢI Ý BÀI VIẾT TIẾP THEO (RECOMMENDATIONS) -->
+            <!-- GỢI Ý ĐỌC TIẾP -->
             <section id="recommendationsSection" class="mt-28 pt-12 border-t border-[var(--border-light)]">
                 <div class="flex items-center justify-between mb-8">
                     <div>
                         <span class="font-mono-meta text-xs uppercase tracking-widest text-[var(--accent-orange)]">Gợi ý đọc tiếp</span>
                         <h3 class="font-serif-title text-2xl text-[var(--text-primary)] mt-1">Những trang viết đồng điệu</h3>
                     </div>
-                    <span class="w-8 h-[1px] bg-[var(--border-light)]"></span>
                 </div>
-                <div id="recommendationsList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Nạp gợi ý qua JS -->
-                </div>
+                <div id="recommendationsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </section>
         </div>
     </div>
@@ -235,7 +267,6 @@
     <!-- XƯỞNG VIẾT BÀI (CREATIVE STUDIO) -->
     <div id="editorView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-4xl mx-auto px-6 py-10">
-            <!-- Thanh tác vụ trên cùng -->
             <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[var(--border-light)]">
                 <button onclick="app.closeEditor()" class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
                     <i class="fa-solid fa-xmark"></i> Đóng Xưởng Viết
@@ -254,9 +285,7 @@
                 </div>
             </div>
 
-            <!-- Form Soạn Thảo -->
             <div class="space-y-6">
-                <!-- Tiêu đề & Thuộc tính -->
                 <input id="postTitleInput" type="text" placeholder="Tiêu đề bài viết..." class="w-full text-4xl font-serif-title font-medium bg-transparent border-none outline-none text-[var(--text-primary)] placeholder-[var(--text-muted)]">
                 
                 <div class="flex flex-wrap items-center gap-4 text-xs font-mono-meta pb-4 border-b border-[var(--border-light)]">
@@ -273,14 +302,13 @@
                     </div>
                 </div>
 
-                <!-- THANH CÔNG CỤ ĐỊNH DẠNG -->
+                <!-- TOOLBAR -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-1.5 p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
                     <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
                     <button onclick="editor.format('underline')" title="Gạch chân" class="w-8 h-8 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
                     <div class="w-[1px] h-4 bg-[var(--border-light)] mx-1"></div>
 
-                    <!-- Nút Khổ Thơ Đối Xứng Với Thanh Cam -->
                     <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="px-2.5 h-8 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
                         <i class="fa-solid fa-align-left text-[10px]"></i> Khổ 1 (Trái)
                     </button>
@@ -297,7 +325,7 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG -->
+                <!-- WYSIWYG EDITOR -->
                 <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc quét chọn câu thơ rồi bấm nút [Khổ 1 / Khổ 2] bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-serif-content text-[var(--text-primary)] leading-[2.2] space-y-4">
                 </div>
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
@@ -384,7 +412,7 @@
                 category: 'tan-van',
                 author: 'Hậu',
                 date: '15/10/2026',
-                content: `<p>Có những buổi chiều chỉ muốn ngồi im lặng ngắm nhìn vạt nắng buông xuống thềm nhà. Vị trà nhạt dần theo thời gian, nhưng lòng người lại đầy thêm những khoảng trống bình yên khó gọi tên...</p>`
+                content: `<p>Có những buổi chiều chỉ muốn ngồi im lặng ngắm nhìn vạt nắng buông xuống thềm nhà. Vị trà nhạt dần theo thời gian, nhưng lòng người lại đầy thêm những khoảng trống bình yên khó gọi tên. Cuộc đời suy cho cùng là những lần gom nhặt mảnh vỡ của sự tĩnh lặng.</p>`
             },
             {
                 id: 'post-3',
@@ -399,6 +427,14 @@
                     </div>
                 `
             }
+        ];
+
+        const POETIC_QUOTES = [
+            "Tôi thích được tự do như những ngày xưa cũ...",
+            "Nơi ngọn đèn không ngủ, nơi tủ bếp không thưa.",
+            "Gió qua hiên vắng, lòng người nhẹ như mây trôi.",
+            "Có những ngày bình yên chỉ gói gọn trong một tách trà.",
+            "Chữ rơi xuống giấy, hóa thành vệt ký ức không tên."
         ];
 
         // --- AUTH SERVICE ---
@@ -703,7 +739,9 @@
         // --- MAIN APPLICATION ---
         class BlogApp {
             constructor() {
-                this.posts = JSON.parse(localStorage.getItem('my_blog_posts') || 'null') || DEFAULT_POSTS;
+                const local = localStorage.getItem('my_blog_posts');
+                // Nếu chưa có bài nào hoặc mảng rỗng thì luôn nạp các bài mẫu mặc định
+                this.posts = (local && JSON.parse(local).length > 0) ? JSON.parse(local) : DEFAULT_POSTS;
                 this.activeCategory = 'all';
                 this.currentPostId = null;
                 this.init();
@@ -731,6 +769,12 @@
                 localStorage.setItem('my_blog_posts', JSON.stringify(posts));
             }
 
+            rollDailyPoem() {
+                const quote = POETIC_QUOTES[Math.floor(Math.random() * POETIC_QUOTES.length)];
+                document.getElementById('dailyPoemText').innerText = `"${quote}"`;
+                this.notify('Đã rút một câu thơ ngẫu hứng!');
+            }
+
             renderPosts() {
                 const list = document.getElementById('postsList');
                 list.innerHTML = '';
@@ -740,34 +784,39 @@
                     : this.posts.filter(p => p.category === this.activeCategory);
 
                 if (filtered.length === 0) {
-                    list.innerHTML = `<div class="text-center py-20 text-[var(--text-muted)] font-mono-meta text-sm">Chưa có bài viết nào trong mục này.</div>`;
+                    list.innerHTML = `<div class="col-span-full text-center py-20 text-[var(--text-muted)] font-mono-meta text-sm">Chưa có bài viết nào trong mục này.</div>`;
                     return;
                 }
 
-                filtered.forEach(post => {
+                filtered.forEach((post, index) => {
                     const el = document.createElement('article');
-                    el.className = 'cursor-pointer group';
+                    el.className = 'group p-7 rounded-2xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between';
                     el.onclick = () => this.openReader(post.id);
+
+                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 140);
+                    const issueNumber = String(index + 1).padStart(2, '0');
+
                     el.innerHTML = `
-                        <div class="space-y-4">
-                            <div class="flex items-center gap-3 text-xs font-mono-meta text-[var(--text-secondary)]">
-                                <span class="text-[var(--accent-orange)]">${post.category === 'tho' ? 'Thơ ca' : 'Tản văn'}</span>
-                                <span>•</span>
+                        <div class="space-y-5">
+                            <div class="flex items-center justify-between text-xs font-mono-meta text-[var(--text-muted)]">
+                                <span class="font-cinzel text-[var(--accent-orange)] font-semibold">NO. ${issueNumber}</span>
                                 <span>${post.date}</span>
-                                <span>•</span>
-                                <span>${post.author}</span>
                             </div>
-                            <h2 class="font-serif-title text-3xl md:text-4xl text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
+                            
+                            <h3 class="font-serif-title text-3xl text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors leading-tight">
                                 ${post.title}
-                            </h2>
-                            <div class="font-serif-content text-base text-[var(--text-secondary)] line-clamp-3 leading-relaxed">
-                                ${post.content.replace(/<[^>]*>/g, ' ').substring(0, 180)}...
-                            </div>
-                            <div class="pt-2">
-                                <span class="text-xs font-mono-meta text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition flex items-center gap-1.5">
-                                    Thưởng ngoạn <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
-                                </span>
-                            </div>
+                            </h3>
+
+                            <p class="font-serif-content text-base text-[var(--text-secondary)] italic line-clamp-3 leading-relaxed">
+                                "${plainText}..."
+                            </p>
+                        </div>
+
+                        <div class="pt-6 mt-6 border-t border-[var(--border-subtle)] flex items-center justify-between text-xs font-mono-meta">
+                            <span class="text-[var(--text-secondary)]">${post.category === 'tho' ? 'Thơ ca' : 'Tản văn'}</span>
+                            <span class="text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition flex items-center gap-1.5">
+                                Đọc bài <i class="fa-solid fa-arrow-right-long text-[10px]"></i>
+                            </span>
                         </div>
                     `;
                     list.appendChild(el);
@@ -786,12 +835,10 @@
                 this.renderPosts();
             }
 
-            // Gợi ý bài viết liên quan
             renderRecommendations(currentPost) {
                 const recList = document.getElementById('recommendationsList');
                 recList.innerHTML = '';
 
-                // Lọc bỏ bài hiện tại
                 let candidates = this.posts.filter(p => p.id !== currentPost.id);
 
                 if (candidates.length === 0) {
@@ -800,14 +847,12 @@
                 }
                 document.getElementById('recommendationsSection').classList.remove('hidden');
 
-                // Sắp xếp ưu tiên: cùng thể loại lên đầu
                 candidates.sort((a, b) => {
                     if (a.category === currentPost.category && b.category !== currentPost.category) return -1;
                     if (a.category !== currentPost.category && b.category === currentPost.category) return 1;
                     return 0;
                 });
 
-                // Lấy tối đa 2 bài gợi ý
                 const suggested = candidates.slice(0, 2);
 
                 suggested.forEach(post => {
@@ -860,9 +905,7 @@
                     </div>
                 `;
 
-                // Render mục bài viết gợi ý
                 this.renderRecommendations(post);
-
                 document.getElementById('readerView').classList.remove('hidden');
                 auth.updateUI();
             }
