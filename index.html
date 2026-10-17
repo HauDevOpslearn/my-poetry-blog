@@ -25,20 +25,19 @@
             --border-subtle: #f0ebe0;
             --accent-orange: #d95d39;
             --accent-soft: #fcf1eb;
-            --font-scale: 1; /* Hệ số co giãn cỡ chữ */
+            --font-scale: 1;
         }
 
-        /* Chế độ ban đêm: Nâng sáng màu chữ để rõ ràng, không bị tối mờ */
         .theme-dark {
             --bg-canvas: #121211;
             --bg-surface: #1a1917;
             --bg-card: #23221e;
-            --text-primary: #f8f7f2;      /* Trắng ngà sáng rõ */
-            --text-secondary: #c5c2b8;    /* Sáng rõ rệt hơn, không bị chìm */
-            --text-muted: #9e9b92;        /* Ngày tháng và metadata dễ đọc */
-            --border-light: #36342e;      /* Viền nổi rõ */
+            --text-primary: #f8f7f2;
+            --text-secondary: #c5c2b8;
+            --text-muted: #9e9b92;
+            --border-light: #36342e;
             --border-subtle: #292824;
-            --accent-orange: #ff7e5a;     /* Cam san hô sáng ấm cúng */
+            --accent-orange: #ff7e5a;
             --accent-soft: #2e241f;
         }
 
@@ -217,7 +216,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN (KÈM BỘ NÚT CHỈNH CỠ CHỮ A- / A+) -->
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
@@ -228,7 +227,6 @@
             </div>
 
             <div class="flex items-center gap-3 sm:gap-4">
-                <!-- Nút tác giả -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="px-3.5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
@@ -238,7 +236,7 @@
                     </button>
                 </div>
 
-                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ A- / A+ ĐẶT CẠNH NÚT BAN ĐÊM -->
+                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ -->
                 <div class="flex items-center border border-[var(--border-light)] rounded-full bg-[var(--bg-surface)] p-0.5 shadow-sm">
                     <button onclick="app.adjustFontSize(-0.08)" title="Giảm cỡ chữ" class="w-8 h-8 rounded-full text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] transition flex items-center justify-center">
                         A⁻
@@ -251,7 +249,7 @@
                     </button>
                 </div>
 
-                <!-- Nút chuyển đổi Sáng / Ban đêm -->
+                <!-- Nút chuyển đổi Ngày / Đêm -->
                 <button onclick="app.toggleTheme()" title="Chuyển chế độ ngày/đêm" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition bg-[var(--bg-surface)] shadow-sm">
                     <i id="themeIcon" class="fa-regular fa-moon text-sm"></i>
                 </button>
@@ -262,7 +260,7 @@
     <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
         
-        <!-- HERO HEADER (CHỮ SÁNG RÕ TRÊN NỀN ĐÊM) -->
+        <!-- HERO HEADER -->
         <section class="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest shadow-sm">
                 <span>Nhật ký online</span>
@@ -303,7 +301,7 @@
                 </div>
             </div>
 
-            <!-- DANH SÁCH BÀI VIẾT (CARD SÁNG RÕ TRÊN NỀN ĐÊM) -->
+            <!-- DANH SÁCH BÀI VIẾT -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
@@ -416,7 +414,6 @@
                 <!-- THANH CÔNG CỤ SOẠN THẢO -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     
-                    <!-- BỘ CHỌN PHÔNG CHỮ VIỆT HÓA -->
                     <div class="flex items-center gap-1.5 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg px-2 py-1">
                         <i class="fa-solid fa-font text-[11px] text-[var(--accent-orange)]"></i>
                         <select id="editorFontSelector" onchange="editor.changeFontFamily(this.value)" class="bg-transparent text-xs font-mono-meta text-[var(--text-primary)] outline-none cursor-pointer">
@@ -440,7 +437,6 @@
 
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
-                    <!-- ĐỊNH DẠNG CƠ BẢN -->
                     <div class="flex items-center gap-1">
                         <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-7 h-7 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
                         <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-7 h-7 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
@@ -1115,7 +1111,6 @@
                 this.activeCategory = 'all';
                 this.currentPostId = null;
                 
-                // Khôi phục tỉ lệ cỡ chữ đã lưu
                 this.fontScale = parseFloat(localStorage.getItem('user_font_scale')) || 1.0;
                 this.applyFontScale();
 
@@ -1139,7 +1134,14 @@
                 this.renderPosts();
             }
 
-            // Quản lý cỡ chữ A- / A+
+            // Hàm bóc tách nội dung thuần túy, tuyệt đối không làm đứt chữ cái đầu
+            getCleanPreviewText(htmlContent, maxLength = 130) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                const text = (tempDiv.textContent || tempDiv.innerText || '').replace(/\s+/g, ' ').trim();
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            }
+
             adjustFontSize(delta) {
                 this.fontScale = Math.min(Math.max(this.fontScale + delta, 0.8), 1.45);
                 localStorage.setItem('user_font_scale', this.fontScale.toFixed(2));
@@ -1191,7 +1193,8 @@
                     el.className = 'group p-7 rounded-2xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between';
                     el.onclick = () => this.openReader(post.id);
 
-                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 130);
+                    // Trích xuất văn bản mượt mà, không bị tách rời chữ cái đầu
+                    const plainText = this.getCleanPreviewText(post.content, 120);
                     const issueNumber = String(index + 1).padStart(2, '0');
                     const coverHtml = post.cover ? `<div class="mb-4 h-44 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"><img src="${post.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>` : '';
 
@@ -1208,7 +1211,7 @@
                             </h3>
 
                             <p class="${post.fontFamily || 'font-style-lora'} text-base text-[var(--text-secondary)] italic line-clamp-3 leading-relaxed">
-                                "${plainText}..."
+                                "${plainText}"
                             </p>
                         </div>
 
@@ -1263,7 +1266,7 @@
                         document.getElementById('readerView').scrollTo({ top: 0, behavior: 'smooth' });
                     };
 
-                    const plainText = post.content.replace(/<[^>]*>/g, ' ').trim().substring(0, 90);
+                    const plainText = this.getCleanPreviewText(post.content, 85);
 
                     card.innerHTML = `
                         <div class="space-y-2.5">
@@ -1276,7 +1279,7 @@
                                 ${post.title}
                             </h4>
                             <p class="${post.fontFamily || 'font-style-lora'} text-sm text-[var(--text-secondary)] italic line-clamp-2 leading-relaxed">
-                                "${plainText}..."
+                                "${plainText}"
                             </p>
                         </div>
                         <div class="pt-4 flex items-center gap-1.5 text-xs font-mono-meta text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition font-medium">
@@ -1392,7 +1395,7 @@
             }
         }
 
-        // Khởi tạo các dịch vụ
+        // Khởi tạo toàn bộ ứng dụng
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
