@@ -6,10 +6,10 @@
     <title>Hiên Vắng — Nhật ký online của Hiên vắng.</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts tuyển chọn -->
+    <!-- Google Fonts CHUẨN TIẾNG VIỆT 100% (subset=vietnamese) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Dancing+Script:wght@500;700&family=Instrument+Serif:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -48,12 +48,12 @@
             overflow-x: hidden;
         }
 
-        .font-serif-title { font-family: 'Instrument Serif', Georgia, serif; }
+        /* Font tiêu đề chuẩn tiếng Việt */
+        .font-serif-title { font-family: 'Playfair Display', Georgia, serif; }
         .font-mono-meta { font-family: 'Space Mono', monospace; }
         .font-cinzel { font-family: 'Cinzel', serif; }
 
-        /* Lớp phông chữ nội dung */
-        .font-style-newsreader { font-family: 'Newsreader', Georgia, serif; }
+        /* Font nội dung hoàn toàn hỗ trợ tiếng Việt không vỡ dấu */
         .font-style-playfair { font-family: 'Playfair Display', Georgia, serif; }
         .font-style-lora { font-family: 'Lora', Georgia, serif; }
         .font-style-dancing { font-family: 'Dancing Script', cursive; font-size: 1.45rem !important; }
@@ -62,14 +62,13 @@
         /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH ================= */
         .initial-classic {
             float: left;
-            font-family: 'Instrument Serif', serif;
-            font-size: 4.2rem;
-            line-height: 0.8;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 4rem;
+            line-height: 0.82;
             padding-top: 4px;
             padding-right: 12px;
-            padding-bottom: 2px;
             color: var(--accent-orange);
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .initial-seal {
@@ -130,9 +129,9 @@
             padding: 0.5rem 0 0.5rem 2rem;
             border-left: 3px solid var(--accent-orange);
             font-style: italic;
-            font-size: 1.32rem;
+            font-size: 1.3rem;
             line-height: 2 !important;
-            letter-spacing: 0.015em;
+            letter-spacing: 0.01em;
             color: var(--text-primary);
             text-align: left;
             white-space: pre-wrap;
@@ -146,9 +145,9 @@
             padding: 0.5rem 2rem 0.5rem 0;
             border-right: 3px solid var(--accent-orange);
             font-style: italic;
-            font-size: 1.32rem;
+            font-size: 1.3rem;
             line-height: 2 !important;
-            letter-spacing: 0.015em;
+            letter-spacing: 0.01em;
             color: var(--text-primary);
             text-align: right;
             white-space: pre-wrap;
@@ -159,7 +158,7 @@
             margin: 2.2rem auto;
             max-width: 36rem;
             font-style: italic;
-            font-size: 1.32rem;
+            font-size: 1.3rem;
             line-height: 2 !important;
             text-align: center;
             color: var(--text-primary);
@@ -243,16 +242,19 @@
 
     <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
-        <section class="text-center max-w-3xl mx-auto space-y-6 pt-6">
+        
+        <!-- HERO HEADER (TIÊU ĐỀ CHUẨN TIẾNG VIỆT & NÉT CHỮ MƯỢT MÀ) -->
+        <section class="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest">
-                <span>Tuyển tập thi ca & tản mạn</span>
+                <span>Nhật ký online</span>
             </div>
             
-            <h1 class="font-serif-title text-5xl sm:text-7xl font-normal leading-[1.08] text-[var(--text-primary)]">
-                Nơi gửi lại <span class="italic text-[var(--accent-orange)]">những điều tĩnh lặng</span>
+            <h1 class="font-serif-title text-4xl sm:text-6xl font-normal leading-[1.2] text-[var(--text-primary)]">
+                Hiên Vắng <br>
+                <span class="italic text-[var(--accent-orange)] text-3xl sm:text-5xl font-normal">Nhật ký online của Hiên vắng.</span>
             </h1>
             
-            <p class="font-style-newsreader text-xl text-[var(--text-secondary)] italic leading-relaxed max-w-xl mx-auto">
+            <p class="font-style-lora text-lg sm:text-xl text-[var(--text-secondary)] italic leading-relaxed max-w-xl mx-auto">
                 "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
             </p>
 
@@ -260,7 +262,7 @@
                 <button onclick="app.rollDailyPoem()" class="px-5 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
                     <i class="fa-solid fa-dice text-[11px]"></i> Rút câu thơ hôm nay
                 </button>
-                <div class="text-xs font-style-newsreader italic text-[var(--text-muted)] flex items-center gap-2 max-w-md truncate">
+                <div class="text-xs font-style-lora italic text-[var(--text-muted)] flex items-center gap-2 max-w-md truncate">
                     <i class="fa-solid fa-quote-left text-[var(--accent-orange)] text-[10px]"></i>
                     <span id="dailyPoemText">Tôi thích được tự do như những ngày xưa cũ...</span>
                 </div>
@@ -287,7 +289,7 @@
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC (ZEN READER - ĐỔI PHÔNG ĐỌC NHANH) -->
+    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-10 border-b border-[var(--border-light)]">
@@ -299,11 +301,10 @@
                     <div class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)]">
                         <i class="fa-solid fa-font text-[10px]"></i>
                         <select id="readerFontSwitcher" onchange="app.switchReaderFont(this.value)" class="bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1 text-[var(--text-primary)] outline-none text-xs">
-                            <option value="font-style-newsreader">Newsreader (Sách báo)</option>
-                            <option value="font-style-playfair">Playfair Display (Tạp chí)</option>
-                            <option value="font-style-lora">Lora (Hoài niệm)</option>
-                            <option value="font-style-dancing">Dancing Script (Thư pháp)</option>
-                            <option value="font-style-sans">Jakarta (Hiện đại)</option>
+                            <option value="font-style-lora">Lora (Hoài niệm, êm dịu)</option>
+                            <option value="font-style-playfair">Playfair Display (Tạp chí sang trọng)</option>
+                            <option value="font-style-dancing">Dancing Script (Viết tay thi vị)</option>
+                            <option value="font-style-sans">Jakarta (Hiện đại tối giản)</option>
                         </select>
                     </div>
 
@@ -318,7 +319,7 @@
                 </div>
             </div>
 
-            <article id="readerContent" class="space-y-8 font-style-newsreader"></article>
+            <article id="readerContent" class="space-y-8 font-style-lora"></article>
 
             <!-- GỢI Ý ĐỌC TIẾP -->
             <section id="recommendationsSection" class="mt-28 pt-12 border-t border-[var(--border-light)]">
@@ -393,24 +394,23 @@
                     </div>
                 </div>
 
-                <!-- THANH CÔNG CỤ SOẠN THẢO MỞ RỘNG -->
+                <!-- THANH CÔNG CỤ SOẠN THẢO -->
                 <div class="sticky top-4 z-20 flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     
-                    <!-- BỘ CHỌN PHÔNG CHỮ -->
+                    <!-- BỘ CHỌN PHÔNG CHỮ VIỆT HÓA -->
                     <div class="flex items-center gap-1.5 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg px-2 py-1">
                         <i class="fa-solid fa-font text-[11px] text-[var(--accent-orange)]"></i>
                         <select id="editorFontSelector" onchange="editor.changeFontFamily(this.value)" class="bg-transparent text-xs font-mono-meta text-[var(--text-primary)] outline-none cursor-pointer">
-                            <option value="font-style-newsreader">Newsreader (Sách báo)</option>
-                            <option value="font-style-playfair">Playfair (Tạp chí)</option>
-                            <option value="font-style-lora">Lora (Hoài niệm)</option>
-                            <option value="font-style-dancing">Dancing Script (Thư pháp)</option>
+                            <option value="font-style-lora">Lora (Mềm mại, chuẩn Việt)</option>
+                            <option value="font-style-playfair">Playfair Display (Sang trọng)</option>
+                            <option value="font-style-dancing">Dancing Script (Viết tay)</option>
                             <option value="font-style-sans">Jakarta (Hiện đại)</option>
                         </select>
                     </div>
 
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
-                    <!-- BỘ CHÈN KÝ TỰ ĐẦU ĐỈNH -->
+                    <!-- BỘ KÝ TỰ ĐẦU ĐỈNH -->
                     <div class="flex items-center gap-1 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg p-0.5">
                         <span class="text-[10px] font-mono-meta text-[var(--text-muted)] px-1.5">Ký tự đầu:</span>
                         <button onclick="editor.insertInitial('classic')" title="Drop-Cap Cổ Điển" class="px-2 py-1 rounded text-xs font-serif font-bold text-[var(--accent-orange)] hover:bg-[var(--accent-soft)]">A</button>
@@ -453,8 +453,8 @@
                     </button>
                 </div>
 
-                <!-- KHUNG SOẠN NỘI DUNG CHÍNH -->
-                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen ký tự đầu tiên để thử các kiểu Ký tự đầu đỉnh bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-style-newsreader text-[var(--text-primary)] leading-[2] space-y-4">
+                <!-- KHUNG SOẠN NỘI DUNG CHÍNH (ĐỒNG BỘ FONT LORA MỀM MẠI) -->
+                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen ký tự đầu tiên để thử các kiểu Ký tự đầu đỉnh bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-style-lora text-[var(--text-primary)] leading-[2] space-y-4">
                 </div>
                 
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
@@ -505,7 +505,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (TÍCH HỢP NÚT ĐẶT LẠI MẬT KHẨU TIỆN LỢI) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -572,7 +572,7 @@
                 category: 'tho',
                 author: 'Hậu',
                 date: '17/10/2026',
-                fontFamily: 'font-style-newsreader',
+                fontFamily: 'font-style-lora',
                 cover: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1200&q=80',
                 content: `<div class="poetry-stanza-left"><span class="initial-seal">T</span>ôi thích được tự do\nNhư những ngày xưa cũ</div><div class="poetry-stanza-right">Nơi ngọn đèn không ngủ\nNơi tủ bếp không thưa</div><div class="poetry-stanza-left">Nơi triệu những hạt mưa\nchưa bao giờ tìm đến.</div>`
             },
@@ -606,7 +606,7 @@
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- AUTH SERVICE (BẢO MẬT & ĐẶT LẠI MẬT KHẨU TIỆN DỤNG) ---
+        // --- AUTH SERVICE ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -819,7 +819,7 @@
             constructor() {
                 this.currentEditingId = null;
                 this.coverData = '';
-                this.currentFontFamily = 'font-style-newsreader';
+                this.currentFontFamily = 'font-style-lora';
                 this.bindEditorEvents();
             }
 
@@ -867,7 +867,7 @@
             changeFontFamily(fontClass) {
                 this.currentFontFamily = fontClass;
                 const ed = document.getElementById('editorContent');
-                ed.classList.remove('font-style-newsreader', 'font-style-playfair', 'font-style-lora', 'font-style-dancing', 'font-style-sans');
+                ed.classList.remove('font-style-lora', 'font-style-playfair', 'font-style-dancing', 'font-style-sans');
                 ed.classList.add(fontClass);
             }
 
@@ -1160,7 +1160,7 @@
                                 ${post.title}
                             </h3>
 
-                            <p class="${post.fontFamily || 'font-style-newsreader'} text-base text-[var(--text-secondary)] italic line-clamp-3 leading-relaxed">
+                            <p class="${post.fontFamily || 'font-style-lora'} text-base text-[var(--text-secondary)] italic line-clamp-3 leading-relaxed">
                                 "${plainText}..."
                             </p>
                         </div>
@@ -1228,7 +1228,7 @@
                             <h4 class="font-serif-title text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors leading-snug">
                                 ${post.title}
                             </h4>
-                            <p class="${post.fontFamily || 'font-style-newsreader'} text-sm text-[var(--text-secondary)] italic line-clamp-2 leading-relaxed">
+                            <p class="${post.fontFamily || 'font-style-lora'} text-sm text-[var(--text-secondary)] italic line-clamp-2 leading-relaxed">
                                 "${plainText}..."
                             </p>
                         </div>
@@ -1243,7 +1243,7 @@
 
             switchReaderFont(fontClass) {
                 const content = document.getElementById('readerContent');
-                content.classList.remove('font-style-newsreader', 'font-style-playfair', 'font-style-lora', 'font-style-dancing', 'font-style-sans');
+                content.classList.remove('font-style-lora', 'font-style-playfair', 'font-style-dancing', 'font-style-sans');
                 content.classList.add(fontClass);
             }
 
@@ -1255,7 +1255,7 @@
                 const coverHtml = post.cover ? `<div class="w-full h-72 md:h-96 rounded-2xl overflow-hidden mb-8 shadow-sm"><img src="${post.cover}" class="w-full h-full object-cover"></div>` : '';
 
                 const content = document.getElementById('readerContent');
-                const font = post.fontFamily || 'font-style-newsreader';
+                const font = post.fontFamily || 'font-style-lora';
                 
                 content.className = `space-y-8 ${font}`;
                 document.getElementById('readerFontSwitcher').value = font;
@@ -1299,7 +1299,7 @@
                     editor.removeCover();
                 }
 
-                const font = post.fontFamily || 'font-style-newsreader';
+                const font = post.fontFamily || 'font-style-lora';
                 editor.changeFontFamily(font);
                 document.getElementById('editorFontSelector').value = font;
 
