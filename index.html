@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="h-full">
+<html lang="vi" class="h-full scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,6 +43,7 @@
 
         html {
             font-size: calc(16px * var(--font-scale));
+            scroll-behavior: smooth;
         }
 
         body {
@@ -306,8 +307,11 @@
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
-    <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
+    <!-- MÀN HÌNH ĐỌC (ZEN READER KÈM THANH TIẾN TRÌNH & CUỘN MƯỢT) -->
+    <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto scroll-smooth hidden">
+        <!-- Vạch tiến trình đọc bài (Reading Progress Bar) -->
+        <div id="readingProgressBar" class="fixed top-0 left-0 h-1 bg-[var(--accent-orange)] transition-all duration-150 z-50" style="width: 0%;"></div>
+
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-10 border-b border-[var(--border-light)]">
                 <button onclick="app.closeReader()" class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
@@ -1103,7 +1107,7 @@
             }
         }
 
-        // --- MAIN APPLICATION ---
+        // --- MAIN APPLICATION (URL HASH ROUTING & SMOOTH PROGRESS BAR) ---
         class BlogApp {
             constructor() {
                 const local = localStorage.getItem('my_blog_posts');
@@ -1132,9 +1136,44 @@
                 }
 
                 this.renderPosts();
+                this.initProgressBar();
+
+                // Kiểm tra nếu URL đang có mã bài viết (ví dụ khi nhấn F5)
+                this.checkInitialHash();
+
+                // Lắng nghe nút quay lại/tiến tới của trình duyệt (Back/Forward)
+                window.addEventListener('hashchange', () => {
+                    const hashId = window.location.hash.replace('#', '');
+                    if (hashId) {
+                        this.openReader(hashId, false);
+                    } else {
+                        this.closeReader(false);
+                    }
+                });
             }
 
-            // Hàm bóc tách nội dung thuần túy, tuyệt đối không làm đứt chữ cái đầu
+            initProgressBar() {
+                const readerView = document.getElementById('readerView');
+                const progressBar = document.getElementById('readingProgressBar');
+                readerView.addEventListener('scroll', () => {
+                    const totalHeight = readerView.scrollHeight - readerView.clientHeight;
+                    if (totalHeight > 0) {
+                        const progress = (readerView.scrollTop / totalHeight) * 100;
+                        progressBar.style.width = `${progress}%`;
+                    }
+                });
+            }
+
+            checkInitialHash() {
+                const hashId = window.location.hash.replace('#', '');
+                if (hashId) {
+                    const exist = this.posts.find(p => p.id === hashId);
+                    if (exist) {
+                        this.openReader(hashId, false);
+                    }
+                }
+            }
+
             getCleanPreviewText(htmlContent, maxLength = 130) {
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = htmlContent;
@@ -1193,7 +1232,6 @@
                     el.className = 'group p-7 rounded-2xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between';
                     el.onclick = () => this.openReader(post.id);
 
-                    // Trích xuất văn bản mượt mà, không bị tách rời chữ cái đầu
                     const plainText = this.getCleanPreviewText(post.content, 120);
                     const issueNumber = String(index + 1).padStart(2, '0');
                     const coverHtml = post.cover ? `<div class="mb-4 h-44 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"><img src="${post.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>` : '';
@@ -1263,7 +1301,6 @@
                     card.className = 'group p-6 rounded-xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition-all cursor-pointer bg-[var(--bg-surface)] flex flex-col justify-between';
                     card.onclick = () => {
                         this.openReader(post.id);
-                        document.getElementById('readerView').scrollTo({ top: 0, behavior: 'smooth' });
                     };
 
                     const plainText = this.getCleanPreviewText(post.content, 85);
@@ -1297,10 +1334,15 @@
                 content.classList.add(fontClass);
             }
 
-            openReader(id) {
+            // Mở bài đọc, cập nhật URL hash và cuộn mượt lên đỉnh
+            openReader(id, updateHash = true) {
                 const post = this.posts.find(p => p.id === id);
                 if (!post) return;
                 this.currentPostId = id;
+
+                if (updateHash) {
+                    window.location.hash = id;
+                }
 
                 const coverHtml = post.cover ? `<div class="w-full h-72 md:h-96 rounded-2xl overflow-hidden mb-8 shadow-sm"><img src="${post.cover}" class="w-full h-full object-cover"></div>` : '';
 
@@ -1323,13 +1365,23 @@
                 `;
 
                 this.renderRecommendations(post);
-                document.getElementById('readerView').classList.remove('hidden');
+                
+                const readerView = document.getElementById('readerView');
+                readerView.classList.remove('hidden');
+                
+                // Hiệu ứng cuộn mượt mà lên đầu trang
+                readerView.scrollTo({ top: 0, behavior: 'smooth' });
+                document.getElementById('readingProgressBar').style.width = '0%';
+
                 auth.updateUI();
             }
 
-            closeReader() {
+            closeReader(updateHash = true) {
                 document.getElementById('readerView').classList.add('hidden');
                 this.currentPostId = null;
+                if (updateHash && window.location.hash) {
+                    history.pushState("", document.title, window.location.pathname + window.location.search);
+                }
             }
 
             editCurrentPost() {
