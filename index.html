@@ -63,90 +63,48 @@
         .font-style-dancing { font-family: 'Dancing Script', cursive; font-size: 1.45rem !important; }
         .font-style-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-        /* ================= HIỆU ỨNG TRÁNG GƯƠNG & PHÁT SÁNG THEO CHUỘT KIỂU APPLE iOS ================= */
+        /* ================= HIỆU ỨNG TRÁNG GƯƠNG APPLE iOS CHO NÚT ================= */
         .ios-glass {
             position: relative;
-            background: rgba(255, 255, 255, 0.55);
-            backdrop-filter: blur(24px) saturate(190%);
-            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid rgba(255, 255, 255, 0.7);
             box-shadow: 
-                0 4px 20px rgba(0, 0, 0, 0.03),
-                inset 0 1px 1.5px rgba(255, 255, 255, 0.9),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.04);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                0 4px 15px rgba(0, 0, 0, 0.03),
+                inset 0 1px 1px rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
         }
 
         .theme-dark .ios-glass {
-            background: rgba(30, 29, 26, 0.58);
+            background: rgba(30, 29, 26, 0.65);
             border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: 
-                0 8px 30px rgba(0, 0, 0, 0.5),
-                inset 0 1px 1.5px rgba(255, 255, 255, 0.22),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.35);
-        }
-
-        .ios-glass::before {
-            content: '';
-            position: absolute;
-            top: var(--glow-y, -150%);
-            left: var(--glow-x, -150%);
-            transform: translate(-50%, -50%);
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(
-                circle, 
-                rgba(255, 255, 255, 0.85) 0%, 
-                rgba(217, 93, 57, 0.28) 40%, 
-                transparent 70%
-            );
-            border-radius: 50%;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            mix-blend-mode: overlay;
-            z-index: 1;
-        }
-
-        .theme-dark .ios-glass::before {
-            background: radial-gradient(
-                circle, 
-                rgba(255, 126, 90, 0.5) 0%, 
-                rgba(255, 255, 255, 0.18) 45%, 
-                transparent 70%
-            );
-            mix-blend-mode: screen;
+                0 6px 20px rgba(0, 0, 0, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
         }
 
         .ios-glass:hover {
-            transform: translateY(-2px) scale(1.015);
-            border-color: rgba(217, 93, 57, 0.45);
-            box-shadow: 
-                0 10px 28px rgba(217, 93, 57, 0.12),
-                inset 0 1px 2px rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            border-color: rgba(217, 93, 57, 0.4);
+            box-shadow: 0 8px 24px rgba(217, 93, 57, 0.12);
         }
 
         .theme-dark .ios-glass:hover {
-            border-color: rgba(255, 126, 90, 0.48);
-            box-shadow: 
-                0 12px 32px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(255, 126, 90, 0.2),
-                inset 0 1px 2px rgba(255, 255, 255, 0.35);
-        }
-
-        .ios-glass:hover::before {
-            opacity: 1;
+            border-color: rgba(255, 126, 90, 0.45);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
         }
 
         .ios-glass:active {
-            transform: scale(0.965);
-            transition: transform 0.1s ease;
+            transform: scale(0.96);
         }
 
-        .ios-glass > * {
-            position: relative;
-            z-index: 2;
+        /* Modal Card Tác Giả Sang Trọng - Không Bị Xuyên Thấu Lem Nhem */
+        .author-card-modal {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
         }
 
         /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH ================= */
@@ -304,7 +262,7 @@
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
     <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
-    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/85 backdrop-blur-xl border-b border-[var(--border-light)] transition-colors">
+    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/90 backdrop-blur-xl border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
                 <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
@@ -320,7 +278,7 @@
                     <span>Tác giả</span>
                 </button>
 
-                <!-- Nút tác giả -->
+                <!-- Nút tác giả (khi đã mở khóa) -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="ios-glass px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 shadow-sm border-none">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
@@ -353,8 +311,6 @@
 
     <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
-        
-        <!-- HERO HEADER -->
         <section class="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest shadow-sm">
                 <span>Nhật ký online</span>
@@ -385,7 +341,6 @@
                 </div>
             </div>
 
-            <!-- DANH SÁCH BÀI VIẾT -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
@@ -437,48 +392,58 @@
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - ĐÃ LOẠI BỎ LIÊN KẾT GITHUB) -->
-    <div id="aboutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ios-glass max-w-lg w-full p-8 rounded-3xl space-y-6 relative border-none">
-            <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-base text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/10 transition z-30 cursor-pointer pointer-events-auto">
-    <i class="fa-solid fa-xmark pointer-events-none"></i>
-</button>
+    <!-- MODAL VỀ TÁC GIẢ THIẾT KẾ MỚI SANG TRỌNG (EDITORIAL PORTRAIT CARD) -->
+    <div id="aboutModal" onclick="if(event.target === this) aboutAuthor.closeModal()" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="author-card-modal max-w-2xl w-full rounded-3xl overflow-hidden relative transition-all">
+            
+            <!-- Nút đóng 1 chạm góc trên nổi bật, không bị che -->
+            <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 hover:bg-[var(--accent-orange)] hover:text-white flex items-center justify-center text-sm text-[var(--text-secondary)] transition z-30 cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
 
-            <!-- Chế độ xem thông tin tác giả -->
-            <div id="aboutViewMode" class="space-y-6 text-center">
-                <div class="relative w-32 h-32 mx-auto">
-                    <img id="authorAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Tác giả" class="w-full h-full object-cover rounded-full border-2 border-[var(--accent-orange)] shadow-md">
-                    <span class="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-[var(--accent-orange)] border-2 border-[var(--bg-surface)]"></span>
+            <!-- Chế độ hiển thị: Layout Tạp Chí 2 Cột Đẹp Mắt -->
+            <div id="aboutViewMode" class="grid grid-cols-1 md:grid-cols-12 items-center">
+                
+                <!-- Cột trái: Ảnh chân dung dọc nghệ thuật không bị ép tròn cụt lủn -->
+                <div class="md:col-span-5 h-72 md:h-full relative overflow-hidden bg-neutral-900">
+                    <img id="authorAvatarImg" src="https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/images/author-avatar.jpg" alt="Tác giả" class="w-full h-full object-cover object-center filter contrast-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:hidden"></div>
                 </div>
 
-                <div class="space-y-2">
-                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)]">Người ghi lại những khoảng lặng</span>
-                    <h3 id="authorNameText" class="font-serif-title text-3xl text-[var(--text-primary)]">Hậu</h3>
-                    <p id="authorBioText" class="font-style-lora text-base text-[var(--text-secondary)] italic leading-relaxed px-2">
+                <!-- Cột phải: Nội dung tự sự & Thông tin liên hệ -->
+                <div class="md:col-span-7 p-6 sm:p-8 space-y-5 text-left">
+                    <div>
+                        <span class="text-[10px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)] font-semibold">Tác giả & Chủ bút</span>
+                        <h3 id="authorNameText" class="font-serif-title text-3xl sm:text-4xl text-[var(--text-primary)] mt-1 font-semibold">Hậu</h3>
+                    </div>
+
+                    <p id="authorBioText" class="font-style-lora text-sm sm:text-base text-[var(--text-secondary)] italic leading-relaxed">
                         "Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình."
                     </p>
-                </div>
 
-                <!-- Các liên kết mạng xã hội chính thức (Chỉ giữ lại Facebook và Email) -->
-                <div class="pt-2 flex justify-center items-center gap-5 text-[var(--text-secondary)]">
-                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook cá nhân" class="ios-glass w-11 h-11 rounded-full flex items-center justify-center">
-                        <i class="fa-brands fa-facebook-f text-base text-[#1877f2]"></i>
-                    </a>
-                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư liên hệ" class="ios-glass w-11 h-11 rounded-full flex items-center justify-center">
-                        <i class="fa-regular fa-envelope text-base text-[var(--accent-orange)]"></i>
-                    </a>
-                </div>
+                    <!-- Kênh liên hệ chính thức -->
+                    <div class="pt-2 flex items-center gap-3">
+                        <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[#1877f2] hover:text-[#1877f2] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
+                            <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
+                            <i class="fa-regular fa-envelope text-sm text-[var(--accent-orange)]"></i>
+                            <span>Gửi thư</span>
+                        </a>
+                    </div>
 
-                <!-- Nút chỉnh sửa cho Tác giả khi đã đăng nhập -->
-                <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
-                    <button onclick="aboutAuthor.openEditMode()" class="ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--accent-orange)]">
-                        <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
-                    </button>
+                    <!-- Nút chỉnh sửa cho Tác giả khi mở quyền -->
+                    <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
+                        <button onclick="aboutAuthor.openEditMode()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
+                            <i class="fa-solid fa-pen text-[10px]"></i> Sửa thông tin này
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- Chế độ sửa thông tin tác giả -->
-            <div id="aboutEditMode" class="hidden space-y-4 text-xs font-mono-meta text-left">
+            <div id="aboutEditMode" class="hidden p-6 sm:p-8 space-y-4 text-xs font-mono-meta text-left">
                 <div class="pb-2 border-b border-[var(--border-light)] font-bold text-sm text-[var(--text-primary)]">
                     Chỉnh Sửa Thông Tin Tác Giả
                 </div>
@@ -509,8 +474,8 @@
                     </div>
                 </div>
                 <div class="pt-3 flex justify-end gap-2">
-                    <button onclick="aboutAuthor.cancelEdit()" type="button" class="ios-glass px-3.5 py-1.5 rounded-full">Hủy</button>
-                    <button onclick="aboutAuthor.saveAuthorInfo()" type="button" class="ios-glass px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white border-none">Lưu Thông Tin</button>
+                    <button onclick="aboutAuthor.cancelEdit()" type="button" class="px-4 py-1.5 rounded-full border border-[var(--border-light)] hover:bg-[var(--accent-soft)]">Hủy</button>
+                    <button onclick="aboutAuthor.saveAuthorInfo()" type="button" class="px-5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white hover:opacity-90">Lưu Thông Tin</button>
                 </div>
             </div>
         </div>
@@ -650,7 +615,7 @@
 
     <!-- MODAL QUẢN LÝ BÀI VIẾT -->
     <div id="managePostsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ios-glass max-w-xl w-full p-6 rounded-3xl space-y-5 border-none">
+        <div class="author-card-modal max-w-xl w-full p-6 rounded-3xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-solid fa-list-check text-[var(--accent-orange)]"></i> Danh Sách Bài Đang Lưu
@@ -662,14 +627,14 @@
 
             <div class="pt-3 border-t border-[var(--border-light)] flex justify-between items-center text-xs font-mono-meta">
                 <button onclick="app.clearAllPostsDirect()" class="text-red-500 hover:underline">Xóa tất cả bài viết (về trang trắng)</button>
-                <button onclick="editor.closeManageModal()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white border-none">Đóng</button>
+                <button onclick="editor.closeManageModal()" class="px-5 py-2 rounded-full bg-[var(--accent-orange)] text-white hover:opacity-90">Đóng</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL CHÈN HÌNH ẢNH -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ios-glass max-w-md w-full p-6 rounded-3xl space-y-5 border-none">
+        <div class="author-card-modal max-w-md w-full p-6 rounded-3xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-regular fa-image text-[var(--accent-orange)]"></i> Chèn Ảnh Vào Bài
@@ -701,15 +666,15 @@
             </div>
 
             <div class="pt-2 flex justify-end gap-2">
-                <button type="button" onclick="editor.closeImageModal()" class="ios-glass px-3.5 py-2 rounded-full">Hủy</button>
-                <button type="button" onclick="editor.insertImageToContent()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white border-none">Chèn Vào Bài</button>
+                <button type="button" onclick="editor.closeImageModal()" class="px-4 py-2 rounded-full border border-[var(--border-light)]">Hủy</button>
+                <button type="button" onclick="editor.insertImageToContent()" class="px-5 py-2 rounded-full bg-[var(--accent-orange)] text-white hover:opacity-90">Chèn Vào Bài</button>
             </div>
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (ĐÃ XÓA NÚT RESET MẬT KHẨU CÔNG KHAI ĐỂ BẢO VỆ BÀI VIẾT) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ios-glass max-w-sm w-full p-8 rounded-3xl space-y-6 text-center border-none">
+        <div class="author-card-modal max-w-sm w-full p-8 rounded-3xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
                 <i class="fa-solid fa-feather-pointed"></i>
             </div>
@@ -721,8 +686,8 @@
             <form id="authForm" onsubmit="auth.handleFormSubmit(event)" class="space-y-4">
                 <input id="authPasswordInput" type="password" placeholder="Nhập mật khẩu..." autocomplete="current-password" class="w-full px-4 py-2.5 rounded-lg border border-[var(--border-light)] bg-transparent text-center font-mono-meta text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 <div class="flex gap-2">
-                    <button type="button" onclick="auth.closeModal()" class="ios-glass flex-1 py-2 rounded-full text-xs font-mono-meta">Đóng</button>
-                    <button id="authSubmitBtn" type="submit" class="ios-glass flex-1 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta border-none">Mở Khóa</button>
+                    <button type="button" onclick="auth.closeModal()" class="flex-1 py-2 rounded-full text-xs font-mono-meta border border-[var(--border-light)]">Đóng</button>
+                    <button id="authSubmitBtn" type="submit" class="flex-1 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90">Mở Khóa</button>
                 </div>
             </form>
         </div>
@@ -730,7 +695,7 @@
 
     <!-- MODAL GITHUB CONFIG -->
     <div id="githubModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="ios-glass max-w-md w-full p-6 rounded-3xl space-y-5 border-none">
+        <div class="author-card-modal max-w-md w-full p-6 rounded-3xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-brands fa-github"></i> Kết Nối GitHub Database
@@ -752,14 +717,14 @@
                 </div>
             </div>
             <div class="pt-2 flex justify-end gap-2">
-                <button onclick="githubSync.testConnection()" class="ios-glass px-3 py-2 rounded-full text-xs font-mono-meta">Kiểm Tra</button>
-                <button onclick="githubSync.save()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta border-none">Lưu Cấu Hình</button>
+                <button onclick="githubSync.testConnection()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-light)] text-xs font-mono-meta">Kiểm Tra</button>
+                <button onclick="githubSync.save()" class="px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90">Lưu Cấu Hình</button>
             </div>
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-2xl ios-glass shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-2xl author-card-modal shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
     <script>
         const DEFAULT_POSTS = [
@@ -800,7 +765,7 @@
             constructor() {
                 const defaultInfo = {
                     name: 'Hậu',
-                    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+                    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
                     bio: 'Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình.',
                     email: 'contact@hauhuynh.io.vn',
                     facebook: 'https://www.facebook.com/KrisMao20'
@@ -837,7 +802,7 @@
                 
                 const avatarEl = document.getElementById('authorAvatarImg');
                 avatarEl.onerror = () => {
-                    avatarEl.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
+                    avatarEl.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';
                 };
                 avatarEl.src = this.info.avatar;
 
@@ -866,7 +831,7 @@
                 const file = event.target.files[0];
                 if (!file) return;
                 app.notify('Đang tối ưu ảnh đại diện...');
-                const base64 = await editor.compressImage(file, 600, 0.85);
+                const base64 = await editor.compressImage(file, 800, 0.85);
                 this.info.avatar = base64;
                 document.getElementById('editAuthorAvatarInput').value = '';
                 document.getElementById('authorAvatarImg').src = base64;
@@ -890,7 +855,7 @@
             }
         }
 
-        // --- AUTH SERVICE (BẢO VỆ CHẶT CHẼ, KHÔNG CÓ NÚT RESET LỘ LIỄU) ---
+        // --- AUTH SERVICE ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -976,7 +941,6 @@
                 const hashedInput = await this.secureHash(pwd);
                 const storedHash = localStorage.getItem('author_hash');
 
-                // Lần đầu thiết lập mật khẩu
                 if (!storedHash) {
                     localStorage.setItem('author_hash', hashedInput);
                     this.isAuthor = true;
@@ -987,7 +951,6 @@
                     return;
                 }
 
-                // Kiểm tra mật khẩu các lần sau
                 if (hashedInput === storedHash) {
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
@@ -1326,7 +1289,7 @@
                 } else {
                     app.posts.forEach((post, index) => {
                         const item = document.createElement('div');
-                        item.className = 'ios-glass flex items-center justify-between p-3.5 rounded-2xl';
+                        item.className = 'flex items-center justify-between p-3.5 rounded-2xl border border-[var(--border-light)] bg-[var(--bg-canvas)]';
                         item.innerHTML = `
                             <div class="flex items-center gap-3 truncate">
                                 <span class="font-mono-meta text-xs text-[var(--accent-orange)] font-bold">#${index + 1}</span>
@@ -1336,10 +1299,10 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <button onclick="editor.loadPostToEdit('${post.id}')" class="ios-glass px-3 py-1 rounded-full text-xs font-mono-meta">
+                                <button onclick="editor.loadPostToEdit('${post.id}')" class="px-3 py-1 rounded-full text-xs font-mono-meta border border-[var(--border-light)] hover:bg-[var(--accent-soft)] transition">
                                     Sửa
                                 </button>
-                                <button onclick="editor.deletePostDirect('${post.id}')" class="ios-glass px-3 py-1 rounded-full text-xs font-mono-meta text-red-500">
+                                <button onclick="editor.deletePostDirect('${post.id}')" class="px-3 py-1 rounded-full text-xs font-mono-meta text-red-500 border border-red-200 hover:bg-red-50 transition">
                                     Xóa
                                 </button>
                             </div>
@@ -1795,25 +1758,6 @@
                 }, 3500);
             }
         }
-
-        // --- BẮT TỌA ĐỘ CON TRỎ CHUỘT CHO HIỆU ỨNG PHÁT SÁNG TRÁNG GƯƠNG APPLE IOS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const bindGlassGlow = () => {
-                document.querySelectorAll('.ios-glass').forEach(btn => {
-                    btn.addEventListener('mousemove', (e) => {
-                        const rect = btn.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        btn.style.setProperty('--glow-x', `${x}px`);
-                        btn.style.setProperty('--glow-y', `${y}px`);
-                    });
-                });
-            };
-
-            bindGlassGlow();
-            const observer = new MutationObserver(bindGlassGlow);
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
 
         // Khởi tạo toàn bộ ứng dụng
         const auth = new AuthService();
