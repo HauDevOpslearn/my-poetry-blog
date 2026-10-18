@@ -260,6 +260,8 @@
 
     <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
+        
+        <!-- HERO HEADER -->
         <section class="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest shadow-sm">
                 <span>Nhật ký online</span>
@@ -361,6 +363,9 @@
                 </button>
 
                 <div class="flex items-center gap-3">
+                    <button onclick="editor.openManageModal()" class="px-3 py-1.5 rounded text-xs font-mono-meta border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-list-check text-[11px] text-[var(--accent-orange)]"></i> Quản lý bài viết
+                    </button>
                     <button onclick="editor.clearDraft()" class="px-3 py-1.5 rounded text-xs font-mono-meta text-gray-500 hover:text-red-500 transition">
                         Xóa bản nháp
                     </button>
@@ -481,6 +486,25 @@
         </div>
     </div>
 
+    <!-- MODAL QUẢN LÝ BÀI VIẾT (XEM / SỬA / XÓA BÀI VIẾT TẬP TRUNG) -->
+    <div id="managePostsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--bg-surface)] max-w-xl w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
+                <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-[var(--accent-orange)]"></i> Danh Sách Bài Đang Lưu
+                </h3>
+                <button onclick="editor.closeManageModal()" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="managePostsList" class="max-h-80 overflow-y-auto space-y-3 pr-1"></div>
+
+            <div class="pt-3 border-t border-[var(--border-light)] flex justify-between items-center text-xs font-mono-meta">
+                <button onclick="app.clearAllPostsDirect()" class="text-red-500 hover:underline">Xóa tất cả bài viết (về trang trắng)</button>
+                <button onclick="editor.closeManageModal()" class="px-4 py-2 rounded bg-[var(--accent-orange)] text-white hover:opacity-90">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL CHÈN HÌNH ẢNH -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
@@ -521,7 +545,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE (ĐÃ SỬA LỖI TẠO MẬT KHẨU HOẠT ĐỘNG 100%) -->
+    <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -623,7 +647,7 @@
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- AUTH SERVICE (AN TOÀN TRÊN CẢ HTTP LẪN HTTPS) ---
+        // --- AUTH SERVICE ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
@@ -634,7 +658,6 @@
                 this.updateUI();
             }
 
-            // Hàm băm an toàn: Tự động chạy thuật toán thuần nếu Crypto API bị chặn trên HTTP
             async secureHash(str) {
                 try {
                     if (window.crypto && window.crypto.subtle) {
@@ -647,7 +670,6 @@
                     console.warn('Crypto API không khả dụng, dùng bộ băm dự phòng');
                 }
                 
-                // Thuật toán băm dự phòng không phụ thuộc SSL
                 let hash = 0;
                 for (let i = 0; i < str.length; i++) {
                     const char = str.charCodeAt(i);
@@ -1061,6 +1083,62 @@
                 }
             }
 
+            openManageModal() {
+                const list = document.getElementById('managePostsList');
+                list.innerHTML = '';
+
+                if (app.posts.length === 0) {
+                    list.innerHTML = `<div class="text-center py-8 text-[var(--text-muted)] font-mono-meta text-xs">Hiện chưa có bài viết nào trong hệ thống.</div>`;
+                } else {
+                    app.posts.forEach((post, index) => {
+                        const item = document.createElement('div');
+                        item.className = 'flex items-center justify-between p-3 rounded-xl border border-[var(--border-light)] bg-[var(--bg-canvas)]';
+                        item.innerHTML = `
+                            <div class="flex items-center gap-3 truncate">
+                                <span class="font-mono-meta text-xs text-[var(--accent-orange)] font-bold">#${index + 1}</span>
+                                <div class="truncate">
+                                    <div class="font-serif-title text-base font-semibold text-[var(--text-primary)] truncate">${post.title}</div>
+                                    <div class="font-mono-meta text-[10px] text-[var(--text-muted)]">${post.category === 'tho' ? 'Thơ' : 'Tản văn'} • ${post.date}</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <button onclick="editor.loadPostToEdit('${post.id}')" class="px-2.5 py-1 rounded text-xs font-mono-meta border border-[var(--border-light)] hover:bg-[var(--accent-soft)] transition">
+                                    Sửa
+                                </button>
+                                <button onclick="editor.deletePostDirect('${post.id}')" class="px-2.5 py-1 rounded text-xs font-mono-meta text-red-500 border border-red-200 hover:bg-red-50 transition">
+                                    Xóa
+                                </button>
+                            </div>
+                        `;
+                        list.appendChild(item);
+                    });
+                }
+
+                document.getElementById('managePostsModal').classList.remove('hidden');
+            }
+
+            closeManageModal() {
+                document.getElementById('managePostsModal').classList.add('hidden');
+            }
+
+            loadPostToEdit(id) {
+                this.closeManageModal();
+                app.editPostById(id);
+            }
+
+            async deletePostDirect(id) {
+                if (!confirm('Bạn có chắc muốn xóa vĩnh viễn bài này?')) return;
+                app.posts = app.posts.filter(p => p.id !== id);
+                app.savePosts(app.posts);
+                app.renderPosts();
+                this.openManageModal();
+
+                app.notify('Đang đồng bộ xóa trên GitHub...');
+                const synced = await githubSync.commitPosts(app.posts);
+                if (synced) app.notify('Đã xóa bài viết trên GitHub!');
+                else app.notify('Đã xóa khỏi bộ nhớ máy.');
+            }
+
             clearDraft() {
                 if (confirm('Làm sạch ô soạn thảo để viết bài mới?')) {
                     document.getElementById('postTitleInput').value = '';
@@ -1130,8 +1208,18 @@
         // --- MAIN APPLICATION ---
         class BlogApp {
             constructor() {
+                // LOGIC CHỐNG TỰ ĐỘNG NẠP LẠI BÀI MẪU SAU KHI ĐÃ XÓA
+                const isInitialized = localStorage.getItem('posts_initialized');
                 const local = localStorage.getItem('my_blog_posts');
-                this.posts = (local && JSON.parse(local).length > 0) ? JSON.parse(local) : DEFAULT_POSTS;
+
+                if (!isInitialized) {
+                    this.posts = DEFAULT_POSTS;
+                    this.savePosts(DEFAULT_POSTS);
+                    localStorage.setItem('posts_initialized', 'true');
+                } else {
+                    this.posts = local ? JSON.parse(local) : [];
+                }
+
                 this.activeCategory = 'all';
                 this.currentPostId = null;
                 
@@ -1146,7 +1234,7 @@
                     const res = await fetch('posts.json?t=' + Date.now());
                     if (res.ok) {
                         const data = await res.json();
-                        if (Array.isArray(data) && data.length > 0) {
+                        if (Array.isArray(data)) {
                             this.posts = data;
                             this.savePosts(data);
                         }
@@ -1241,7 +1329,7 @@
                     : this.posts.filter(p => p.category === this.activeCategory);
 
                 if (filtered.length === 0) {
-                    list.innerHTML = `<div class="col-span-full text-center py-20 text-[var(--text-muted)] font-mono-meta text-sm">Chưa có bài viết nào trong mục này.</div>`;
+                    list.innerHTML = `<div class="col-span-full text-center py-20 text-[var(--text-muted)] font-mono-meta text-sm">Chưa có bài viết nào trong tuyển tập này.</div>`;
                     return;
                 }
 
@@ -1400,7 +1488,13 @@
             }
 
             editCurrentPost() {
-                const post = this.posts.find(p => p.id === this.currentPostId);
+                if (this.currentPostId) {
+                    this.editPostById(this.currentPostId);
+                }
+            }
+
+            editPostById(id) {
+                const post = this.posts.find(p => p.id === id);
                 if (!post) return;
                 editor.currentEditingId = post.id;
                 document.getElementById('postTitleInput').value = post.title;
@@ -1435,7 +1529,20 @@
                 this.notify('Đang đồng bộ xóa trên GitHub...');
                 const synced = await githubSync.commitPosts(this.posts);
                 if (synced) this.notify('Đã xóa vĩnh viễn trên GitHub!');
-                else this.notify('Đã xóa khỏi bộ nhớ cục bộ.');
+                else this.notify('Đã xóa khỏi bộ nhớ máy.');
+            }
+
+            async clearAllPostsDirect() {
+                if (!confirm('Bạn có chắc chắn muốn xóa SẠCH TOÀN BỘ bài viết để bắt đầu viết mới?')) return;
+                this.posts = [];
+                this.savePosts([]);
+                editor.closeManageModal();
+                this.renderPosts();
+
+                this.notify('Đang dọn sạch trên GitHub...');
+                const synced = await githubSync.commitPosts([]);
+                if (synced) this.notify('Đã dọn sạch blog trên GitHub!');
+                else this.notify('Đã dọn sạch bài viết trên máy.');
             }
 
             openEditor() {
