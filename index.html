@@ -100,11 +100,29 @@
             transform: scale(0.96);
         }
 
-        /* Modal Card Tác Giả Sang Trọng - Không Bị Xuyên Thấu Lem Nhem */
+        /* Modal Card Tác Giả Sang Trọng - Nền đục êm dịu */
         .author-card-modal {
             background: var(--bg-surface);
             border: 1px solid var(--border-light);
-            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.28);
+        }
+
+        /* Avatar Tròn Nghệ Thuật */
+        .author-avatar-circle {
+            width: 7.8rem;
+            height: 7.8rem;
+            border-radius: 9999px;
+            object-fit: cover;
+            object-position: center 20%; /* Căn chỉnh đúng tầm mặt */
+            border: 3px solid var(--accent-orange);
+            padding: 3px;
+            background: var(--bg-surface);
+            box-shadow: 0 10px 25px -5px rgba(217, 93, 57, 0.25);
+            transition: transform 0.4s ease;
+        }
+
+        .author-avatar-circle:hover {
+            transform: scale(1.04);
         }
 
         /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH ================= */
@@ -392,58 +410,53 @@
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ THIẾT KẾ MỚI SANG TRỌNG (EDITORIAL PORTRAIT CARD) -->
+    <!-- MODAL VỀ TÁC GIẢ (AVATAR DẠNG TRÒN TAO NHÃ - NỀN ĐỤC KHÔNG LEM NHEM) -->
     <div id="aboutModal" onclick="if(event.target === this) aboutAuthor.closeModal()" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
-        <div class="author-card-modal max-w-2xl w-full rounded-3xl overflow-hidden relative transition-all">
+        <div class="author-card-modal max-w-md w-full p-8 rounded-3xl relative text-center space-y-6">
             
-            <!-- Nút đóng 1 chạm góc trên nổi bật, không bị che -->
-            <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/10 dark:bg-white/10 hover:bg-[var(--accent-orange)] hover:text-white flex items-center justify-center text-sm text-[var(--text-secondary)] transition z-30 cursor-pointer">
+            <!-- Nút đóng 1 chạm góc trên nổi rõ -->
+            <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[var(--accent-orange)] hover:text-white flex items-center justify-center text-sm text-[var(--text-secondary)] transition z-30 cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Chế độ hiển thị: Layout Tạp Chí 2 Cột Đẹp Mắt -->
-            <div id="aboutViewMode" class="grid grid-cols-1 md:grid-cols-12 items-center">
-                
-                <!-- Cột trái: Ảnh chân dung dọc nghệ thuật không bị ép tròn cụt lủn -->
-                <div class="md:col-span-5 h-72 md:h-full relative overflow-hidden bg-neutral-900">
-                    <img id="authorAvatarImg" src="https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/images/author-avatar.jpg" alt="Tác giả" class="w-full h-full object-cover object-center filter contrast-105">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:hidden"></div>
+            <!-- Chế độ xem: Avatar dạng tròn nghệ thuật ở chính giữa -->
+            <div id="aboutViewMode" class="space-y-6">
+                <!-- Vùng ảnh Avatar Tròn -->
+                <div class="relative inline-block mx-auto">
+                    <img id="authorAvatarImg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Tác giả" class="author-avatar-circle">
+                    <span class="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-[var(--accent-orange)] border-2 border-[var(--bg-surface)]"></span>
                 </div>
 
-                <!-- Cột phải: Nội dung tự sự & Thông tin liên hệ -->
-                <div class="md:col-span-7 p-6 sm:p-8 space-y-5 text-left">
-                    <div>
-                        <span class="text-[10px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)] font-semibold">Tác giả & Chủ bút</span>
-                        <h3 id="authorNameText" class="font-serif-title text-3xl sm:text-4xl text-[var(--text-primary)] mt-1 font-semibold">Hậu</h3>
-                    </div>
-
-                    <p id="authorBioText" class="font-style-lora text-sm sm:text-base text-[var(--text-secondary)] italic leading-relaxed">
+                <div class="space-y-2">
+                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)] font-semibold">Tác giả & Chủ bút</span>
+                    <h3 id="authorNameText" class="font-serif-title text-3xl sm:text-4xl text-[var(--text-primary)] font-semibold">Hậu</h3>
+                    <p id="authorBioText" class="font-style-lora text-sm sm:text-base text-[var(--text-secondary)] italic leading-relaxed px-2">
                         "Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình."
                     </p>
+                </div>
 
-                    <!-- Kênh liên hệ chính thức -->
-                    <div class="pt-2 flex items-center gap-3">
-                        <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[#1877f2] hover:text-[#1877f2] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
-                            <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
-                            <span>Facebook</span>
-                        </a>
-                        <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" class="px-4 py-2 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
-                            <i class="fa-regular fa-envelope text-sm text-[var(--accent-orange)]"></i>
-                            <span>Gửi thư</span>
-                        </a>
-                    </div>
+                <!-- Các nút liên hệ chính thức -->
+                <div class="pt-2 flex justify-center items-center gap-4">
+                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" class="px-5 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[#1877f2] hover:text-[#1877f2] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
+                        <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" class="px-5 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
+                        <i class="fa-regular fa-envelope text-sm text-[var(--accent-orange)]"></i>
+                        <span>Gửi thư</span>
+                    </a>
+                </div>
 
-                    <!-- Nút chỉnh sửa cho Tác giả khi mở quyền -->
-                    <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
-                        <button onclick="aboutAuthor.openEditMode()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
-                            <i class="fa-solid fa-pen text-[10px]"></i> Sửa thông tin này
-                        </button>
-                    </div>
+                <!-- Nút chỉnh sửa cho Tác giả khi đã mở phiên -->
+                <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
+                    <button onclick="aboutAuthor.openEditMode()" class="px-4 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
+                        <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
+                    </button>
                 </div>
             </div>
 
             <!-- Chế độ sửa thông tin tác giả -->
-            <div id="aboutEditMode" class="hidden p-6 sm:p-8 space-y-4 text-xs font-mono-meta text-left">
+            <div id="aboutEditMode" class="hidden space-y-4 text-xs font-mono-meta text-left">
                 <div class="pb-2 border-b border-[var(--border-light)] font-bold text-sm text-[var(--text-primary)]">
                     Chỉnh Sửa Thông Tin Tác Giả
                 </div>
