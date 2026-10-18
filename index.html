@@ -217,7 +217,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN (CÓ THÊM NÚT VỀ TÁC GIẢ) -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
@@ -228,6 +228,13 @@
             </div>
 
             <div class="flex items-center gap-3 sm:gap-4">
+                <!-- NÚT VỀ TÁC GIẢ -->
+                <button onclick="aboutAuthor.openModal()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
+                    <i class="fa-regular fa-user text-[11px]"></i>
+                    <span>Tác giả</span>
+                </button>
+
+                <!-- Nút tác giả (khi đã mở khóa) -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="px-3.5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
@@ -275,7 +282,6 @@
             <p class="font-style-lora text-lg sm:text-xl text-[var(--text-secondary)] italic leading-relaxed max-w-xl mx-auto">
                 "Thả rơi vài dòng chữ giữa những ngày chông chênh, để thấy lòng mình dịu lại như một vạt nắng chiều."
             </p>
-            </div>
         </section>
 
         <!-- BỘ LỌC BÀI VIẾT -->
@@ -342,6 +348,84 @@
                 </div>
                 <div id="recommendationsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </section>
+        </div>
+    </div>
+
+    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR) -->
+    <div id="aboutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-[var(--bg-surface)] max-w-lg w-full p-8 rounded-3xl border border-[var(--border-light)] shadow-2xl space-y-6 relative">
+            <button onclick="aboutAuthor.closeModal()" class="absolute top-6 right-6 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Chế độ hiển thị thông tin -->
+            <div id="aboutViewMode" class="space-y-6 text-center">
+                <div class="relative w-28 h-28 mx-auto">
+                    <img id="authorAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Tác giả" class="w-full h-full object-cover rounded-full border-2 border-[var(--accent-orange)] shadow-md">
+                    <span class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-[var(--accent-orange)] border-2 border-[var(--bg-surface)]"></span>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)]">Người ghi lại những khoảng lặng</span>
+                    <h3 id="authorNameText" class="font-serif-title text-3xl text-[var(--text-primary)]">Hậu</h3>
+                    <p id="authorBioText" class="font-style-lora text-base text-[var(--text-secondary)] italic leading-relaxed px-2">
+                        "Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình."
+                    </p>
+                </div>
+
+                <!-- Các liên kết liên hệ -->
+                <div class="pt-2 flex justify-center items-center gap-4 text-[var(--text-secondary)]">
+                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="w-9 h-9 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition">
+                        <i class="fa-regular fa-envelope text-sm"></i>
+                    </a>
+                    <a id="authorSocialFacebook" href="#" target="_blank" title="Facebook" class="w-9 h-9 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition">
+                        <i class="fa-brands fa-facebook-f text-sm"></i>
+                    </a>
+                    <a id="authorSocialGithub" href="https://github.com/HauDevOpslearn" target="_blank" title="GitHub" class="w-9 h-9 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition">
+                        <i class="fa-brands fa-github text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Nút chỉnh sửa cho Tác giả khi đã đăng nhập -->
+                <div id="aboutAuthorEditBtnWrap" class="hidden pt-2 border-t border-[var(--border-light)]">
+                    <button onclick="aboutAuthor.openEditMode()" class="px-4 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
+                        <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chế độ sửa thông tin tác giả -->
+            <div id="aboutEditMode" class="hidden space-y-4 text-xs font-mono-meta">
+                <div class="pb-2 border-b border-[var(--border-light)] font-bold text-sm text-[var(--text-primary)]">
+                    Chỉnh Sửa Thông Tin Tác Giả
+                </div>
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1">Bút danh / Tên hiển thị:</label>
+                    <input id="editAuthorNameInput" type="text" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                </div>
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1">Link ảnh đại diện (Avatar):</label>
+                    <input id="editAuthorAvatarInput" type="text" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                </div>
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1">Lời tự bạch / Giới thiệu:</label>
+                    <textarea id="editAuthorBioInput" rows="3" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)] font-style-lora text-sm"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[var(--text-secondary)] mb-1">Email:</label>
+                        <input id="editAuthorEmailInput" type="text" class="w-full px-3 py-1.5 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[var(--text-secondary)] mb-1">Link Facebook:</label>
+                        <input id="editAuthorFbInput" type="text" class="w-full px-3 py-1.5 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    </div>
+                </div>
+                <div class="pt-3 flex justify-end gap-2">
+                    <button onclick="aboutAuthor.cancelEdit()" type="button" class="px-3 py-1.5 rounded border border-[var(--border-light)] hover:bg-[var(--accent-soft)]">Hủy</button>
+                    <button onclick="aboutAuthor.saveAuthorInfo()" type="button" class="px-4 py-1.5 rounded bg-[var(--accent-orange)] text-white hover:opacity-90">Lưu Thông Tin</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -477,7 +561,7 @@
         </div>
     </div>
 
-    <!-- MODAL QUẢN LÝ BÀI VIẾT (XEM / SỬA / XÓA BÀI VIẾT TẬP TRUNG) -->
+    <!-- MODAL QUẢN LÝ BÀI VIẾT -->
     <div id="managePostsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-xl w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
@@ -630,13 +714,80 @@
             }
         ];
 
-        const POETIC_QUOTES = [
-            "Tôi thích được tự do như những ngày xưa cũ...",
-            "Nơi ngọn đèn không ngủ, nơi tủ bếp không thưa.",
-            "Muốn được làm bướm trắng, thỏa sức được tung tăng.",
-            "Gió qua hiên vắng, lòng người nhẹ như mây trôi.",
-            "Có những ngày bình yên chỉ gói gọn trong một tách trà."
-        ];
+        // --- ABOUT AUTHOR SERVICE (QUẢN LÝ THÔNG TIN TÁC GIẢ) ---
+        class AboutAuthorService {
+            constructor() {
+                const defaultInfo = {
+                    name: 'Hậu',
+                    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
+                    bio: 'Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình.',
+                    email: 'contact@hauhuynh.io.vn',
+                    facebook: 'https://facebook.com',
+                    github: 'https://github.com/HauDevOpslearn'
+                };
+                const saved = localStorage.getItem('author_profile_info');
+                this.info = saved ? JSON.parse(saved) : defaultInfo;
+            }
+
+            openModal() {
+                this.renderInfo();
+                document.getElementById('aboutViewMode').classList.remove('hidden');
+                document.getElementById('aboutEditMode').classList.add('hidden');
+                
+                // Hiển thị nút sửa nếu đã ở phiên tác giả
+                const editBtnWrap = document.getElementById('aboutAuthorEditBtnWrap');
+                if (auth.isAuthor) {
+                    editBtnWrap.classList.remove('hidden');
+                } else {
+                    editBtnWrap.classList.add('hidden');
+                }
+
+                document.getElementById('aboutModal').classList.remove('hidden');
+            }
+
+            closeModal() {
+                document.getElementById('aboutModal').classList.add('hidden');
+            }
+
+            renderInfo() {
+                document.getElementById('authorNameText').innerText = this.info.name;
+                document.getElementById('authorAvatarImg').src = this.info.avatar;
+                document.getElementById('authorBioText').innerText = `"${this.info.bio}"`;
+                
+                document.getElementById('authorSocialEmail').href = `mailto:${this.info.email}`;
+                document.getElementById('authorSocialFacebook').href = this.info.facebook || '#';
+                document.getElementById('authorSocialGithub').href = this.info.github || '#';
+            }
+
+            openEditMode() {
+                document.getElementById('editAuthorNameInput').value = this.info.name;
+                document.getElementById('editAuthorAvatarInput').value = this.info.avatar;
+                document.getElementById('editAuthorBioInput').value = this.info.bio;
+                document.getElementById('editAuthorEmailInput').value = this.info.email;
+                document.getElementById('editAuthorFbInput').value = this.info.facebook;
+
+                document.getElementById('aboutViewMode').classList.add('hidden');
+                document.getElementById('aboutEditMode').classList.remove('hidden');
+            }
+
+            cancelEdit() {
+                document.getElementById('aboutViewMode').classList.remove('hidden');
+                document.getElementById('aboutEditMode').classList.add('hidden');
+            }
+
+            saveAuthorInfo() {
+                this.info.name = document.getElementById('editAuthorNameInput').value.trim() || 'Hậu';
+                this.info.avatar = document.getElementById('editAuthorAvatarInput').value.trim() || this.info.avatar;
+                this.info.bio = document.getElementById('editAuthorBioInput').value.trim() || this.info.bio;
+                this.info.email = document.getElementById('editAuthorEmailInput').value.trim() || this.info.email;
+                this.info.facebook = document.getElementById('editAuthorFbInput').value.trim() || this.info.facebook;
+
+                localStorage.setItem('author_profile_info', JSON.stringify(this.info));
+                this.renderInfo();
+                this.cancelEdit();
+                app.notify('Đã cập nhật thông tin tác giả!');
+            }
+        }
 
         // --- AUTH SERVICE ---
         class AuthService {
@@ -1199,7 +1350,6 @@
         // --- MAIN APPLICATION ---
         class BlogApp {
             constructor() {
-                // LOGIC CHỐNG TỰ ĐỘNG NẠP LẠI BÀI MẪU SAU KHI ĐÃ XÓA
                 const isInitialized = localStorage.getItem('posts_initialized');
                 const local = localStorage.getItem('my_blog_posts');
 
@@ -1303,12 +1453,6 @@
             savePosts(posts) {
                 this.posts = posts;
                 localStorage.setItem('my_blog_posts', JSON.stringify(posts));
-            }
-
-            rollDailyPoem() {
-                const quote = POETIC_QUOTES[Math.floor(Math.random() * POETIC_QUOTES.length)];
-                document.getElementById('dailyPoemText').innerText = quote;
-                this.notify('Đã rút một câu thơ ngẫu hứng!');
             }
 
             renderPosts() {
@@ -1564,6 +1708,7 @@
         const auth = new AuthService();
         const githubSync = new GitHubSyncService();
         const editor = new EditorService();
+        const aboutAuthor = new AboutAuthorService();
         const app = new BlogApp();
     </script>
 </body>
