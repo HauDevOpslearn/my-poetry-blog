@@ -440,9 +440,9 @@
     <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - ĐÃ LOẠI BỎ LIÊN KẾT GITHUB) -->
     <div id="aboutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="ios-glass max-w-lg w-full p-8 rounded-3xl space-y-6 relative border-none">
-            <button onclick="aboutAuthor.closeModal()" class="absolute top-6 right-6 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+            <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-base text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-black/5 dark:hover:bg-white/10 transition z-30 cursor-pointer pointer-events-auto">
+    <i class="fa-solid fa-xmark pointer-events-none"></i>
+</button>
 
             <!-- Chế độ xem thông tin tác giả -->
             <div id="aboutViewMode" class="space-y-6 text-center">
