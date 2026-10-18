@@ -63,6 +63,94 @@
         .font-style-dancing { font-family: 'Dancing Script', cursive; font-size: 1.45rem !important; }
         .font-style-sans { font-family: 'Plus Jakarta Sans', sans-serif; }
 
+        /* ================= HIỆU ỨNG TRÁNG GƯƠNG & PHÁT SÁNG THEO CHUỘT KIỂU APPLE iOS ================= */
+        .ios-glass {
+            position: relative;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(24px) saturate(190%);
+            -webkit-backdrop-filter: blur(24px) saturate(190%);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 
+                0 4px 20px rgba(0, 0, 0, 0.03),
+                inset 0 1px 1.5px rgba(255, 255, 255, 0.9),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .theme-dark .ios-glass {
+            background: rgba(30, 29, 26, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 8px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1.5px rgba(255, 255, 255, 0.22),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Vệt hào quang phát sáng hội tụ bám theo con trỏ chuột */
+        .ios-glass::before {
+            content: '';
+            position: absolute;
+            top: var(--glow-y, -150%);
+            left: var(--glow-x, -150%);
+            transform: translate(-50%, -50%);
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(
+                circle, 
+                rgba(255, 255, 255, 0.85) 0%, 
+                rgba(217, 93, 57, 0.28) 40%, 
+                transparent 70%
+            );
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            mix-blend-mode: overlay;
+            z-index: 1;
+        }
+
+        .theme-dark .ios-glass::before {
+            background: radial-gradient(
+                circle, 
+                rgba(255, 126, 90, 0.5) 0%, 
+                rgba(255, 255, 255, 0.18) 45%, 
+                transparent 70%
+            );
+            mix-blend-mode: screen;
+        }
+
+        .ios-glass:hover {
+            transform: translateY(-2px) scale(1.015);
+            border-color: rgba(217, 93, 57, 0.45);
+            box-shadow: 
+                0 10px 28px rgba(217, 93, 57, 0.12),
+                inset 0 1px 2px rgba(255, 255, 255, 0.95);
+        }
+
+        .theme-dark .ios-glass:hover {
+            border-color: rgba(255, 126, 90, 0.48);
+            box-shadow: 
+                0 12px 32px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(255, 126, 90, 0.2),
+                inset 0 1px 2px rgba(255, 255, 255, 0.35);
+        }
+
+        .ios-glass:hover::before {
+            opacity: 1;
+        }
+
+        .ios-glass:active {
+            transform: scale(0.965);
+            transition: transform 0.1s ease;
+        }
+
+        /* Đảm bảo nội dung nút nổi lên trên lớp hào quang phát sáng */
+        .ios-glass > * {
+            position: relative;
+            z-index: 2;
+        }
+
         /* ================= CÁC KIỂU KÝ TỰ ĐẦU ĐỈNH ================= */
         .initial-classic {
             float: left;
@@ -217,8 +305,8 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
-    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/92 backdrop-blur-md border-b border-[var(--border-light)] transition-colors">
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN CHUẨN IOS GLASS -->
+    <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/85 backdrop-blur-xl border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
                 <span class="font-cinzel text-xl tracking-[0.25em] font-semibold text-[var(--text-primary)] group-hover:text-[var(--accent-orange)] transition-colors">
@@ -229,36 +317,36 @@
 
             <div class="flex items-center gap-3 sm:gap-4">
                 <!-- NÚT VỀ TÁC GIẢ -->
-                <button onclick="aboutAuthor.openModal()" class="px-3.5 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[var(--accent-orange)] transition shadow-sm">
-                    <i class="fa-regular fa-user text-[11px]"></i>
+                <button onclick="aboutAuthor.openModal()" class="ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)]">
+                    <i class="fa-regular fa-user text-[11px] text-[var(--accent-orange)]"></i>
                     <span>Tác giả</span>
                 </button>
 
-                <!-- Nút tác giả -->
+                <!-- Nút tác giả (khi đã mở khóa) -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
-                    <button onclick="app.openEditor()" class="px-3.5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 hover:opacity-90 transition shadow-sm">
+                    <button onclick="app.openEditor()" class="ios-glass px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 shadow-sm border-none">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
                     </button>
-                    <button onclick="auth.logout()" title="Đăng xuất tác giả" class="w-8 h-8 rounded-full border border-[var(--border-light)] text-[var(--text-secondary)] hover:text-red-500 hover:border-red-400 flex items-center justify-center transition">
+                    <button onclick="auth.logout()" title="Đăng xuất tác giả" class="ios-glass w-8 h-8 rounded-full text-[var(--text-secondary)] hover:text-red-500 flex items-center justify-center">
                         <i class="fa-solid fa-lock text-xs"></i>
                     </button>
                 </div>
 
-                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ -->
-                <div class="flex items-center border border-[var(--border-light)] rounded-full bg-[var(--bg-surface)] p-0.5 shadow-sm">
-                    <button onclick="app.adjustFontSize(-0.08)" title="Giảm cỡ chữ" class="w-8 h-8 rounded-full text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] transition flex items-center justify-center">
+                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ CHUẨN GLASS -->
+                <div class="ios-glass flex items-center rounded-full p-0.5">
+                    <button onclick="app.adjustFontSize(-0.08)" title="Giảm cỡ chữ" class="w-8 h-8 rounded-full text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] flex items-center justify-center">
                         A⁻
                     </button>
                     <button onclick="app.resetFontSize()" title="Đặt lại cỡ chữ chuẩn" class="px-1 text-[10px] font-mono-meta text-[var(--text-muted)] hover:text-[var(--accent-orange)]">
                         <span id="fontScaleDisplay">100%</span>
                     </button>
-                    <button onclick="app.adjustFontSize(0.08)" title="Tăng cỡ chữ" class="w-8 h-8 rounded-full text-sm font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] transition flex items-center justify-center">
+                    <button onclick="app.adjustFontSize(0.08)" title="Tăng cỡ chữ" class="w-8 h-8 rounded-full text-sm font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] flex items-center justify-center">
                         A⁺
                     </button>
                 </div>
 
                 <!-- Nút chuyển đổi Ngày / Đêm -->
-                <button onclick="app.toggleTheme()" title="Chuyển chế độ ngày/đêm" class="w-9 h-9 rounded-full border border-[var(--border-light)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition bg-[var(--bg-surface)] shadow-sm">
+                <button onclick="app.toggleTheme()" title="Chuyển chế độ ngày/đêm" class="ios-glass w-9 h-9 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                     <i id="themeIcon" class="fa-regular fa-moon text-sm"></i>
                 </button>
             </div>
@@ -284,7 +372,7 @@
             </p>
         </section>
 
-        <!-- BỘ LỌC BÀI VIẾT -->
+        <!-- BỘ LỌC BÀI VIẾT (GẮN HIỆU ỨNG IOS GLASS) -->
         <section class="space-y-8 pt-6 border-t border-[var(--border-light)]">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
@@ -293,13 +381,13 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <button onclick="app.filterCategory('all')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--accent-orange)] bg-[var(--accent-orange)] text-white transition" data-cat="all">Tất cả</button>
-                    <button onclick="app.filterCategory('tho')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tho">Thơ</button>
-                    <button onclick="app.filterCategory('tan-van')" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition" data-cat="tan-van">Tản văn</button>
+                    <button onclick="app.filterCategory('all')" class="cat-filter-btn ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta border-transparent bg-[var(--accent-orange)] text-white" data-cat="all">Tất cả</button>
+                    <button onclick="app.filterCategory('tho')" class="cat-filter-btn ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--text-secondary)]" data-cat="tho">Thơ</button>
+                    <button onclick="app.filterCategory('tan-van')" class="cat-filter-btn ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--text-secondary)]" data-cat="tan-van">Tản văn</button>
                 </div>
             </div>
 
-            <!-- DANH SÁCH BÀI VIẾT -->
+            <!-- DANH SÁCH BÀI VIẾT (CARD TRÁNG GƯƠNG TỰ ĐỘNG BẮT SÁNG) -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
@@ -310,14 +398,14 @@
 
         <div class="max-w-3xl mx-auto px-6 py-14">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-8 mb-10 border-b border-[var(--border-light)]">
-                <button onclick="app.closeReader()" class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
+                <button onclick="app.closeReader()" class="ios-glass px-3.5 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                     <i class="fa-solid fa-arrow-left"></i> Quay lại tuyển tập
                 </button>
                 
                 <div class="flex items-center gap-3">
                     <div class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)]">
                         <i class="fa-solid fa-font text-[10px]"></i>
-                        <select id="readerFontSwitcher" onchange="app.switchReaderFont(this.value)" class="bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1 text-[var(--text-primary)] outline-none text-xs">
+                        <select id="readerFontSwitcher" onchange="app.switchReaderFont(this.value)" class="ios-glass rounded-full px-3 py-1 text-[var(--text-primary)] outline-none text-xs">
                             <option value="font-style-lora">Lora (Hoài niệm, êm dịu)</option>
                             <option value="font-style-playfair">Playfair Display (Tạp chí sang trọng)</option>
                             <option value="font-style-dancing">Dancing Script (Viết tay thi vị)</option>
@@ -326,10 +414,10 @@
                     </div>
 
                     <div id="readerAuthorActions" class="hidden items-center gap-2">
-                        <button onclick="app.editCurrentPost()" class="text-xs font-mono-meta px-3 py-1 rounded border border-[var(--border-light)] hover:bg-[var(--accent-soft)] transition">
+                        <button onclick="app.editCurrentPost()" class="ios-glass text-xs font-mono-meta px-3 py-1 rounded-full">
                             <i class="fa-solid fa-pen text-[10px]"></i> Sửa
                         </button>
-                        <button onclick="app.deleteCurrentPost()" class="text-xs font-mono-meta px-3 py-1 rounded text-red-500 border border-red-200 hover:bg-red-50 transition">
+                        <button onclick="app.deleteCurrentPost()" class="ios-glass text-xs font-mono-meta px-3 py-1 rounded-full text-red-500">
                             <i class="fa-solid fa-trash text-[10px]"></i> Xóa
                         </button>
                     </div>
@@ -351,9 +439,9 @@
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - AVATAR & FACEBOOK CHÍNH THỨC) -->
+    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - CÓ LINK FACEBOOK & AVATAR) -->
     <div id="aboutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[var(--bg-surface)] max-w-lg w-full p-8 rounded-3xl border border-[var(--border-light)] shadow-2xl space-y-6 relative">
+        <div class="ios-glass max-w-lg w-full p-8 rounded-3xl space-y-6 relative border-none">
             <button onclick="aboutAuthor.closeModal()" class="absolute top-6 right-6 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -366,7 +454,7 @@
                 </div>
 
                 <div class="space-y-2">
-                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)]">Tôi và bạn, chúng ta đều không cô đơn</span>
+                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)]">Người ghi lại những khoảng lặng</span>
                     <h3 id="authorNameText" class="font-serif-title text-3xl text-[var(--text-primary)]">Hậu</h3>
                     <p id="authorBioText" class="font-style-lora text-base text-[var(--text-secondary)] italic leading-relaxed px-2">
                         "Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình."
@@ -375,33 +463,33 @@
 
                 <!-- Các liên kết mạng xã hội chính thức -->
                 <div class="pt-2 flex justify-center items-center gap-4 text-[var(--text-secondary)]">
-                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook cá nhân" class="w-10 h-10 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition shadow-sm">
-                        <i class="fa-brands fa-facebook-f text-sm"></i>
+                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook cá nhân" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
                     </a>
-                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="w-10 h-10 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition shadow-sm">
-                        <i class="fa-regular fa-envelope text-sm"></i>
+                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
+                        <i class="fa-regular fa-envelope text-sm text-[var(--accent-orange)]"></i>
                     </a>
-                    <a id="authorSocialGithub" href="https://github.com/HauDevOpslearn" target="_blank" title="GitHub" class="w-10 h-10 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] hover:text-[var(--accent-orange)] flex items-center justify-center transition shadow-sm">
+                    <a id="authorSocialGithub" href="https://github.com/HauDevOpslearn" target="_blank" title="GitHub" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
                         <i class="fa-brands fa-github text-sm"></i>
                     </a>
                 </div>
 
                 <!-- Nút chỉnh sửa cho Tác giả khi đã đăng nhập -->
                 <div id="aboutAuthorEditBtnWrap" class="hidden pt-2 border-t border-[var(--border-light)]">
-                    <button onclick="aboutAuthor.openEditMode()" class="px-4 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
+                    <button onclick="aboutAuthor.openEditMode()" class="ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--accent-orange)]">
                         <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
                     </button>
                 </div>
             </div>
 
             <!-- Chế độ sửa thông tin tác giả -->
-            <div id="aboutEditMode" class="hidden space-y-4 text-xs font-mono-meta">
+            <div id="aboutEditMode" class="hidden space-y-4 text-xs font-mono-meta text-left">
                 <div class="pb-2 border-b border-[var(--border-light)] font-bold text-sm text-[var(--text-primary)]">
                     Chỉnh Sửa Thông Tin Tác Giả
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Bút danh / Tên hiển thị:</label>
-                    <input id="editAuthorNameInput" type="text" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                    <input id="editAuthorNameInput" type="text" class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Tải ảnh đại diện mới từ máy tính:</label>
@@ -409,25 +497,25 @@
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Hoặc dán Link ảnh đại diện (Avatar URL):</label>
-                    <input id="editAuthorAvatarInput" type="text" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                    <input id="editAuthorAvatarInput" type="text" class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Lời tự bạch / Giới thiệu:</label>
-                    <textarea id="editAuthorBioInput" rows="3" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)] font-style-lora text-sm"></textarea>
+                    <textarea id="editAuthorBioInput" rows="3" class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)] font-style-lora text-sm"></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-[var(--text-secondary)] mb-1">Email:</label>
-                        <input id="editAuthorEmailInput" type="text" class="w-full px-3 py-1.5 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                        <input id="editAuthorEmailInput" type="text" class="w-full px-3 py-1.5 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                     </div>
                     <div>
                         <label class="block text-[var(--text-secondary)] mb-1">Link Facebook:</label>
-                        <input id="editAuthorFbInput" type="text" class="w-full px-3 py-1.5 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                        <input id="editAuthorFbInput" type="text" class="w-full px-3 py-1.5 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                     </div>
                 </div>
                 <div class="pt-3 flex justify-end gap-2">
-                    <button onclick="aboutAuthor.cancelEdit()" type="button" class="px-3 py-1.5 rounded border border-[var(--border-light)] hover:bg-[var(--accent-soft)]">Hủy</button>
-                    <button onclick="aboutAuthor.saveAuthorInfo()" type="button" class="px-4 py-1.5 rounded bg-[var(--accent-orange)] text-white hover:opacity-90">Lưu Thông Tin</button>
+                    <button onclick="aboutAuthor.cancelEdit()" type="button" class="ios-glass px-3.5 py-1.5 rounded-full">Hủy</button>
+                    <button onclick="aboutAuthor.saveAuthorInfo()" type="button" class="ios-glass px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white border-none">Lưu Thông Tin</button>
                 </div>
             </div>
         </div>
@@ -437,21 +525,21 @@
     <div id="editorView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto hidden">
         <div class="max-w-4xl mx-auto px-6 py-10">
             <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-[var(--border-light)]">
-                <button onclick="app.closeEditor()" class="flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition">
+                <button onclick="app.closeEditor()" class="ios-glass px-3.5 py-1.5 rounded-full flex items-center gap-2 text-xs font-mono-meta text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                     <i class="fa-solid fa-xmark"></i> Đóng Xưởng Viết
                 </button>
 
                 <div class="flex items-center gap-3">
-                    <button onclick="editor.openManageModal()" class="px-3 py-1.5 rounded text-xs font-mono-meta border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition flex items-center gap-1.5">
+                    <button onclick="editor.openManageModal()" class="ios-glass px-3.5 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5">
                         <i class="fa-solid fa-list-check text-[11px] text-[var(--accent-orange)]"></i> Quản lý bài viết
                     </button>
-                    <button onclick="editor.clearDraft()" class="px-3 py-1.5 rounded text-xs font-mono-meta text-gray-500 hover:text-red-500 transition">
+                    <button onclick="editor.clearDraft()" class="ios-glass px-3.5 py-1.5 rounded-full text-xs font-mono-meta text-gray-500 hover:text-red-500">
                         Xóa bản nháp
                     </button>
-                    <button onclick="githubSync.openModal()" class="px-3.5 py-1.5 rounded text-xs font-mono-meta border border-[var(--border-light)] hover:border-[var(--text-secondary)] transition flex items-center gap-1.5">
+                    <button onclick="githubSync.openModal()" class="ios-glass px-3.5 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5">
                         <i class="fa-brands fa-github"></i> Cấu hình GitHub DB
                     </button>
-                    <button onclick="editor.publish()" class="px-5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta font-medium hover:opacity-90 transition shadow-sm">
+                    <button onclick="editor.publish()" class="ios-glass px-5 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta font-medium border-none shadow-sm">
                         Lưu & Đăng bài
                     </button>
                 </div>
@@ -465,7 +553,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4 text-xs font-mono-meta pb-4 border-b border-[var(--border-light)] items-center">
                     <div class="md:col-span-3 flex items-center gap-2">
                         <span class="text-[var(--text-secondary)] whitespace-nowrap">Thể loại:</span>
-                        <select id="postCatInput" class="w-full bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
+                        <select id="postCatInput" class="w-full bg-transparent border border-[var(--border-light)] rounded-lg px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
                             <option value="tho">Thơ</option>
                             <option value="tan-van">Tản văn</option>
                         </select>
@@ -473,22 +561,22 @@
 
                     <div class="md:col-span-3 flex items-center gap-2">
                         <span class="text-[var(--text-secondary)] whitespace-nowrap">Tác giả:</span>
-                        <input id="postAuthorInput" type="text" value="Hậu" class="w-full bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
+                        <input id="postAuthorInput" type="text" value="Hậu" class="w-full bg-transparent border border-[var(--border-light)] rounded-lg px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
                     </div>
 
                     <!-- Upload ảnh bìa từ máy / Link -->
                     <div class="md:col-span-6 flex items-center gap-2">
                         <span class="text-[var(--text-secondary)] whitespace-nowrap">Ảnh bìa:</span>
-                        <input id="postCoverInput" type="text" placeholder="Dán link ảnh bìa..." oninput="editor.onCoverUrlChange(this.value)" class="w-full bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
+                        <input id="postCoverInput" type="text" placeholder="Dán link ảnh bìa..." oninput="editor.onCoverUrlChange(this.value)" class="w-full bg-transparent border border-[var(--border-light)] rounded-lg px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
                         
-                        <label title="Tải ảnh bìa từ máy tính" class="cursor-pointer px-3 py-1.5 rounded border border-[var(--accent-orange)] text-[var(--accent-orange)] hover:bg-[var(--accent-soft)] transition flex items-center gap-1.5 whitespace-nowrap">
+                        <label title="Tải ảnh bìa từ máy tính" class="ios-glass cursor-pointer px-3.5 py-1.5 rounded-full text-[var(--accent-orange)] flex items-center gap-1.5 whitespace-nowrap">
                             <i class="fa-solid fa-arrow-up-from-bracket text-[11px]"></i>
                             <span>Từ máy</span>
                             <input id="postCoverFileInput" type="file" accept="image/*" class="hidden" onchange="editor.uploadCoverFromDevice(event)">
                         </label>
 
                         <div id="coverPreviewWrap" class="hidden items-center gap-1.5 relative shrink-0">
-                            <img id="coverPreviewImg" src="" alt="Cover" class="w-8 h-8 rounded object-cover border border-[var(--border-light)]">
+                            <img id="coverPreviewImg" src="" alt="Cover" class="w-8 h-8 rounded-lg object-cover border border-[var(--border-light)]">
                             <button onclick="editor.removeCover()" title="Xóa ảnh bìa" class="w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[10px] hover:bg-red-600 transition">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
@@ -497,7 +585,7 @@
                 </div>
 
                 <!-- THANH CÔNG CỤ SOẠN THẢO -->
-                <div class="sticky top-4 z-20 flex flex-wrap items-center gap-2 p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
+                <div class="sticky top-4 z-20 flex flex-wrap items-center gap-2 p-2.5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-sm">
                     
                     <div class="flex items-center gap-1.5 bg-[var(--bg-canvas)] border border-[var(--border-light)] rounded-lg px-2 py-1">
                         <i class="fa-solid fa-font text-[11px] text-[var(--accent-orange)]"></i>
@@ -523,38 +611,38 @@
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
                     <div class="flex items-center gap-1">
-                        <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-7 h-7 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
-                        <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-7 h-7 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
-                        <button onclick="editor.format('underline')" title="Gạch chân" class="w-7 h-7 rounded hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
+                        <button onclick="editor.format('bold')" title="In đậm (Ctrl+B)" class="w-7 h-7 rounded-lg hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center font-bold">B</button>
+                        <button onclick="editor.format('italic')" title="In nghiêng (Ctrl+I)" class="w-7 h-7 rounded-lg hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center italic font-serif">I</button>
+                        <button onclick="editor.format('underline')" title="Gạch chân" class="w-7 h-7 rounded-lg hover:bg-[var(--accent-soft)] text-xs flex items-center justify-center underline">U</button>
                     </div>
 
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
                     <!-- KHỔ THƠ ĐỐI XỨNG -->
-                    <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="px-2.5 h-7 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
+                    <button onclick="editor.insertStanzaLeft()" title="Khổ 1: Thanh màu cam bên trái" class="ios-glass px-2.5 h-7 rounded-lg text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)]">
                         <i class="fa-solid fa-align-left text-[10px]"></i> Khổ Trái
                     </button>
-                    <button onclick="editor.insertStanzaRight()" title="Khổ 2: Thanh màu cam bên phải đối xứng" class="px-2.5 h-7 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)] border border-[var(--accent-orange)]/30">
+                    <button onclick="editor.insertStanzaRight()" title="Khổ 2: Thanh màu cam bên phải đối xứng" class="ios-glass px-2.5 h-7 rounded-lg text-xs font-mono-meta flex items-center gap-1 text-[var(--accent-orange)]">
                         <i class="fa-solid fa-align-right text-[10px]"></i> Khổ Phải
                     </button>
-                    <button onclick="editor.insertPoetryBlock()" title="Khổ thơ tự do căn giữa" class="px-2.5 h-7 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1">
+                    <button onclick="editor.insertPoetryBlock()" title="Khổ thơ tự do căn giữa" class="ios-glass px-2.5 h-7 rounded-lg text-xs font-mono-meta flex items-center gap-1">
                         <i class="fa-solid fa-align-center text-[10px]"></i> Khổ Giữa
                     </button>
 
                     <div class="w-[1px] h-5 bg-[var(--border-light)] hidden sm:block"></div>
 
                     <!-- CHÈN ẢNH VÀO NỘI DUNG -->
-                    <button onclick="editor.openImageModal()" title="Chèn hình ảnh vào nội dung" class="px-2.5 h-7 rounded hover:bg-[var(--accent-soft)] text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)] border border-[var(--border-light)]">
+                    <button onclick="editor.openImageModal()" title="Chèn hình ảnh vào nội dung" class="ios-glass px-2.5 h-7 rounded-lg text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)]">
                         <i class="fa-regular fa-image text-[11px] text-[var(--accent-orange)]"></i> Chèn Ảnh
                     </button>
 
-                    <button onclick="editor.removeFormat()" title="Xóa định dạng" class="w-7 h-7 rounded hover:bg-red-50 hover:text-red-500 text-xs flex items-center justify-center">
+                    <button onclick="editor.removeFormat()" title="Xóa định dạng" class="w-7 h-7 rounded-lg hover:bg-red-50 hover:text-red-500 text-xs flex items-center justify-center">
                         <i class="fa-solid fa-eraser text-[10px]"></i>
                     </button>
                 </div>
 
                 <!-- KHUNG SOẠN NỘI DUNG CHÍNH -->
-                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen ký tự đầu tiên để thử các kiểu Ký tự đầu đỉnh bên trên..." class="min-h-[450px] p-6 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-style-lora text-[var(--text-primary)] leading-[2] space-y-4">
+                <div id="editorContent" contenteditable="true" data-placeholder="Bắt đầu gõ những dòng suy tưởng, hoặc bôi đen ký tự đầu tiên để thử các kiểu Ký tự đầu đỉnh bên trên..." class="min-h-[450px] p-6 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-light)] outline-none text-lg font-style-lora text-[var(--text-primary)] leading-[2] space-y-4">
                 </div>
                 
                 <div class="text-[11px] font-mono-meta text-[var(--text-muted)] flex items-center gap-2">
@@ -567,7 +655,7 @@
 
     <!-- MODAL QUẢN LÝ BÀI VIẾT -->
     <div id="managePostsModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[var(--bg-surface)] max-w-xl w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
+        <div class="ios-glass max-w-xl w-full p-6 rounded-3xl space-y-5 border-none">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-solid fa-list-check text-[var(--accent-orange)]"></i> Danh Sách Bài Đang Lưu
@@ -579,14 +667,14 @@
 
             <div class="pt-3 border-t border-[var(--border-light)] flex justify-between items-center text-xs font-mono-meta">
                 <button onclick="app.clearAllPostsDirect()" class="text-red-500 hover:underline">Xóa tất cả bài viết (về trang trắng)</button>
-                <button onclick="editor.closeManageModal()" class="px-4 py-2 rounded bg-[var(--accent-orange)] text-white hover:opacity-90">Đóng</button>
+                <button onclick="editor.closeManageModal()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white border-none">Đóng</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL CHÈN HÌNH ẢNH -->
     <div id="imageModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
+        <div class="ios-glass max-w-md w-full p-6 rounded-3xl space-y-5 border-none">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-regular fa-image text-[var(--accent-orange)]"></i> Chèn Ảnh Vào Bài
@@ -608,25 +696,25 @@
 
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1.5 font-medium">2. Dán link URL hình ảnh:</label>
-                    <input id="imageUrlInput" type="text" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+                    <input id="imageUrlInput" type="text" placeholder="https://images.unsplash.com/..." class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 </div>
 
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1.5">Chú thích ảnh (không bắt buộc):</label>
-                    <input id="imageCaptionInput" type="text" placeholder="Vạt nắng chiều trên hiên..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    <input id="imageCaptionInput" type="text" placeholder="Vạt nắng chiều trên hiên..." class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                 </div>
             </div>
 
             <div class="pt-2 flex justify-end gap-2">
-                <button type="button" onclick="editor.closeImageModal()" class="px-3.5 py-2 rounded border border-[var(--border-light)] text-xs font-mono-meta hover:bg-[var(--accent-soft)]">Hủy</button>
-                <button type="button" onclick="editor.insertImageToContent()" class="px-4 py-2 rounded bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90">Chèn Vào Bài</button>
+                <button type="button" onclick="editor.closeImageModal()" class="ios-glass px-3.5 py-2 rounded-full">Hủy</button>
+                <button type="button" onclick="editor.insertImageToContent()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white border-none">Chèn Vào Bài</button>
             </div>
         </div>
     </div>
 
     <!-- MODAL AUTHOR GATE -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
+        <div class="ios-glass max-w-sm w-full p-8 rounded-3xl space-y-6 text-center border-none">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
                 <i class="fa-solid fa-feather-pointed"></i>
             </div>
@@ -638,8 +726,8 @@
             <form id="authForm" onsubmit="auth.handleFormSubmit(event)" class="space-y-4">
                 <input id="authPasswordInput" type="password" placeholder="Nhập mật khẩu..." autocomplete="current-password" class="w-full px-4 py-2.5 rounded-lg border border-[var(--border-light)] bg-transparent text-center font-mono-meta text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 <div class="flex gap-2">
-                    <button type="button" onclick="auth.closeModal()" class="flex-1 py-2 rounded-lg border border-[var(--border-light)] text-xs font-mono-meta text-[var(--text-secondary)] hover:bg-[var(--accent-soft)] transition">Đóng</button>
-                    <button id="authSubmitBtn" type="submit" class="flex-1 py-2 rounded-lg bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90 transition">Mở Khóa</button>
+                    <button type="button" onclick="auth.closeModal()" class="ios-glass flex-1 py-2 rounded-full text-xs font-mono-meta">Đóng</button>
+                    <button id="authSubmitBtn" type="submit" class="ios-glass flex-1 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta border-none">Mở Khóa</button>
                 </div>
             </form>
             
@@ -653,36 +741,36 @@
 
     <!-- MODAL GITHUB CONFIG -->
     <div id="githubModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-        <div class="bg-[var(--bg-surface)] max-w-md w-full p-6 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-5">
+        <div class="ios-glass max-w-md w-full p-6 rounded-3xl space-y-5 border-none">
             <div class="flex items-center justify-between pb-3 border-b border-[var(--border-light)]">
                 <h3 class="font-serif-title text-xl text-[var(--text-primary)] flex items-center gap-2">
                     <i class="fa-brands fa-github"></i> Kết Nối GitHub Database
                 </h3>
                 <button onclick="githubSync.closeModal()" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="space-y-3 text-xs font-mono-meta">
+            <div class="space-y-3 text-xs font-mono-meta text-left">
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Repository:</label>
-                    <input id="ghRepo" type="text" placeholder="HauDevOpslearn/my-poetry-blog" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    <input id="ghRepo" type="text" placeholder="HauDevOpslearn/my-poetry-blog" class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Branch:</label>
-                    <input id="ghBranch" type="text" value="main" class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    <input id="ghBranch" type="text" value="main" class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Personal Access Token (PAT):</label>
-                    <input id="ghToken" type="password" placeholder="ghp_... hoặc github_pat_..." class="w-full px-3 py-2 rounded border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
+                    <input id="ghToken" type="password" placeholder="ghp_... hoặc github_pat_..." class="w-full px-3 py-2 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                 </div>
             </div>
             <div class="pt-2 flex justify-end gap-2">
-                <button onclick="githubSync.testConnection()" class="px-3 py-2 rounded border border-[var(--border-light)] text-xs font-mono-meta hover:bg-[var(--accent-soft)]">Kiểm Tra</button>
-                <button onclick="githubSync.save()" class="px-4 py-2 rounded bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90">Lưu Cấu Hình</button>
+                <button onclick="githubSync.testConnection()" class="ios-glass px-3 py-2 rounded-full text-xs font-mono-meta">Kiểm Tra</button>
+                <button onclick="githubSync.save()" class="ios-glass px-4 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta border-none">Lưu Cấu Hình</button>
             </div>
         </div>
     </div>
 
     <!-- TOAST -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-light)] shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-2xl ios-glass shadow-lg text-xs font-mono-meta text-[var(--text-primary)] flex items-center gap-2"></div>
 
     <script>
         const DEFAULT_POSTS = [
@@ -718,10 +806,9 @@
             }
         ];
 
-        // --- ABOUT AUTHOR SERVICE (ĐÃ CẬP NHẬT AVATAR MỚI & FACEBOOK) ---
+        // --- ABOUT AUTHOR SERVICE ---
         class AboutAuthorService {
             constructor() {
-                // Đặt ảnh đại diện và link Facebook của bạn làm mặc định
                 const defaultInfo = {
                     name: 'Hậu',
                     avatar: 'https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/images/author-avatar.jpg',
@@ -733,7 +820,6 @@
                 const saved = localStorage.getItem('author_profile_info');
                 this.info = saved ? JSON.parse(saved) : defaultInfo;
                 
-                // Đồng bộ cập nhật link Facebook nếu bản ghi cũ chưa có
                 if (!this.info.facebook || this.info.facebook === 'https://facebook.com') {
                     this.info.facebook = 'https://www.facebook.com/KrisMao20';
                 }
@@ -761,7 +847,6 @@
             renderInfo() {
                 document.getElementById('authorNameText').innerText = this.info.name;
                 
-                // Nạp avatar, nếu ảnh link gốc lỗi sẽ tự fallback sang placeholder đẹp
                 const avatarEl = document.getElementById('authorAvatarImg');
                 avatarEl.onerror = () => {
                     avatarEl.src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80';
@@ -1267,20 +1352,20 @@
                 } else {
                     app.posts.forEach((post, index) => {
                         const item = document.createElement('div');
-                        item.className = 'flex items-center justify-between p-3 rounded-xl border border-[var(--border-light)] bg-[var(--bg-canvas)]';
+                        item.className = 'ios-glass flex items-center justify-between p-3.5 rounded-2xl';
                         item.innerHTML = `
                             <div class="flex items-center gap-3 truncate">
                                 <span class="font-mono-meta text-xs text-[var(--accent-orange)] font-bold">#${index + 1}</span>
-                                <div class="truncate">
+                                <div class="truncate text-left">
                                     <div class="font-serif-title text-base font-semibold text-[var(--text-primary)] truncate">${post.title}</div>
                                     <div class="font-mono-meta text-[10px] text-[var(--text-muted)]">${post.category === 'tho' ? 'Thơ' : 'Tản văn'} • ${post.date}</div>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 shrink-0">
-                                <button onclick="editor.loadPostToEdit('${post.id}')" class="px-2.5 py-1 rounded text-xs font-mono-meta border border-[var(--border-light)] hover:bg-[var(--accent-soft)] transition">
+                                <button onclick="editor.loadPostToEdit('${post.id}')" class="ios-glass px-3 py-1 rounded-full text-xs font-mono-meta">
                                     Sửa
                                 </button>
-                                <button onclick="editor.deletePostDirect('${post.id}')" class="px-2.5 py-1 rounded text-xs font-mono-meta text-red-500 border border-red-200 hover:bg-red-50 transition">
+                                <button onclick="editor.deletePostDirect('${post.id}')" class="ios-glass px-3 py-1 rounded-full text-xs font-mono-meta text-red-500">
                                     Xóa
                                 </button>
                             </div>
@@ -1503,12 +1588,12 @@
 
                 filtered.forEach((post, index) => {
                     const el = document.createElement('article');
-                    el.className = 'group p-7 rounded-2xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] bg-[var(--bg-surface)] hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between';
+                    el.className = 'group ios-glass p-7 rounded-3xl cursor-pointer flex flex-col justify-between';
                     el.onclick = () => this.openReader(post.id);
 
                     const plainText = this.getCleanPreviewText(post.content, 120);
                     const issueNumber = String(index + 1).padStart(2, '0');
-                    const coverHtml = post.cover ? `<div class="mb-4 h-44 rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"><img src="${post.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>` : '';
+                    const coverHtml = post.cover ? `<div class="mb-4 h-44 rounded-2xl overflow-hidden bg-neutral-100 dark:bg-neutral-800"><img src="${post.cover}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500"></div>` : '';
 
                     el.innerHTML = `
                         <div class="space-y-4">
@@ -1542,9 +1627,9 @@
                 this.activeCategory = cat;
                 document.querySelectorAll('.cat-filter-btn').forEach(btn => {
                     if (btn.dataset.cat === cat) {
-                        btn.className = 'cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--accent-orange)] bg-[var(--accent-orange)] text-white transition';
+                        btn.className = 'cat-filter-btn ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta border-transparent bg-[var(--accent-orange)] text-white';
                     } else {
-                        btn.className = 'cat-filter-btn px-4 py-1.5 rounded-full text-xs font-mono-meta border border-[var(--border-light)] text-[var(--text-secondary)] hover:border-[var(--text-secondary)] transition';
+                        btn.className = 'cat-filter-btn ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--text-secondary)]';
                     }
                 });
                 this.renderPosts();
@@ -1572,7 +1657,7 @@
 
                 suggested.forEach(post => {
                     const card = document.createElement('div');
-                    card.className = 'group p-6 rounded-xl border border-[var(--border-light)] hover:border-[var(--accent-orange)] transition-all cursor-pointer bg-[var(--bg-surface)] flex flex-col justify-between';
+                    card.className = 'group ios-glass p-6 rounded-2xl cursor-pointer flex flex-col justify-between';
                     card.onclick = () => {
                         this.openReader(post.id);
                     };
@@ -1736,6 +1821,25 @@
                 }, 3500);
             }
         }
+
+        // --- BẮT TỌA ĐỘ CON TRỎ CHUỘT CHO HIỆU ỨNG PHÁT SÁNG TRÁNG GƯƠNG APPLE IOS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const bindGlassGlow = () => {
+                document.querySelectorAll('.ios-glass').forEach(btn => {
+                    btn.addEventListener('mousemove', (e) => {
+                        const rect = btn.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        btn.style.setProperty('--glow-x', `${x}px`);
+                        btn.style.setProperty('--glow-y', `${y}px`);
+                    });
+                });
+            };
+
+            bindGlassGlow();
+            const observer = new MutationObserver(bindGlassGlow);
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
 
         // Khởi tạo toàn bộ ứng dụng
         const auth = new AuthService();
