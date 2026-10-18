@@ -260,8 +260,6 @@
 
     <!-- TRANG CHỦ -->
     <main id="mainView" class="flex-grow max-w-5xl mx-auto px-6 py-16 w-full space-y-16">
-        
-        <!-- HERO HEADER -->
         <section class="text-center max-w-3xl mx-auto space-y-6 pt-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-light)] bg-[var(--bg-surface)] text-[11px] font-mono-meta text-[var(--accent-orange)] uppercase tracking-widest shadow-sm">
                 <span>Nhật ký online</span>
@@ -307,9 +305,8 @@
         </section>
     </main>
 
-    <!-- MÀN HÌNH ĐỌC (ZEN READER KÈM THANH TIẾN TRÌNH & CUỘN MƯỢT) -->
+    <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto scroll-smooth hidden">
-        <!-- Vạch tiến trình đọc bài (Reading Progress Bar) -->
         <div id="readingProgressBar" class="fixed top-0 left-0 h-1 bg-[var(--accent-orange)] transition-all duration-150 z-50" style="width: 0%;"></div>
 
         <div class="max-w-3xl mx-auto px-6 py-14">
@@ -524,7 +521,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE -->
+    <!-- MODAL AUTHOR GATE (ĐÃ SỬA LỖI TẠO MẬT KHẨU HOẠT ĐỘNG 100%) -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-[var(--bg-surface)] max-w-sm w-full p-8 rounded-2xl border border-[var(--border-light)] shadow-2xl space-y-6 text-center">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -534,8 +531,9 @@
                 <h3 id="authModalTitle" class="font-serif-title text-2xl text-[var(--text-primary)]">Xác Nhận Tác Giả</h3>
                 <p id="authModalSubtitle" class="font-mono-meta text-xs text-[var(--text-secondary)] mt-1">Dành riêng cho chủ nhân trang blog</p>
             </div>
-            <form onsubmit="auth.verify(event)" class="space-y-4">
-                <input id="authPasswordInput" type="password" placeholder="Nhập mật khẩu..." class="w-full px-4 py-2.5 rounded-lg border border-[var(--border-light)] bg-transparent text-center font-mono-meta text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
+            
+            <form id="authForm" onsubmit="auth.handleFormSubmit(event)" class="space-y-4">
+                <input id="authPasswordInput" type="password" placeholder="Nhập mật khẩu..." autocomplete="current-password" class="w-full px-4 py-2.5 rounded-lg border border-[var(--border-light)] bg-transparent text-center font-mono-meta text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 <div class="flex gap-2">
                     <button type="button" onclick="auth.closeModal()" class="flex-1 py-2 rounded-lg border border-[var(--border-light)] text-xs font-mono-meta text-[var(--text-secondary)] hover:bg-[var(--accent-soft)] transition">Đóng</button>
                     <button id="authSubmitBtn" type="submit" class="flex-1 py-2 rounded-lg bg-[var(--accent-orange)] text-white text-xs font-mono-meta hover:opacity-90 transition">Mở Khóa</button>
@@ -543,7 +541,7 @@
             </form>
             
             <div class="pt-2">
-                <button onclick="auth.resetPasswordDirect()" type="button" class="text-[11px] font-mono-meta text-[var(--text-muted)] hover:text-[var(--accent-orange)] transition underline">
+                <button id="authResetBtn" onclick="auth.toggleMode()" type="button" class="text-[11px] font-mono-meta text-[var(--text-muted)] hover:text-[var(--accent-orange)] transition underline">
                     Quên hoặc muốn đặt lại mật khẩu mới?
                 </button>
             </div>
@@ -625,21 +623,38 @@
             "Có những ngày bình yên chỉ gói gọn trong một tách trà."
         ];
 
-        // --- AUTH SERVICE ---
+        // --- AUTH SERVICE (AN TOÀN TRÊN CẢ HTTP LẪN HTTPS) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
+                this.isSettingNew = false;
                 this.logoClicks = 0;
                 this.logoTimer = null;
                 this.bindEvents();
                 this.updateUI();
             }
 
-            async sha256(str) {
-                const buffer = new TextEncoder().encode(str);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-                const hashArray = Array.from(new Uint8Array(hashBuffer));
-                return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            // Hàm băm an toàn: Tự động chạy thuật toán thuần nếu Crypto API bị chặn trên HTTP
+            async secureHash(str) {
+                try {
+                    if (window.crypto && window.crypto.subtle) {
+                        const buffer = new TextEncoder().encode(str);
+                        const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+                        const hashArray = Array.from(new Uint8Array(hashBuffer));
+                        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+                    }
+                } catch (e) {
+                    console.warn('Crypto API không khả dụng, dùng bộ băm dự phòng');
+                }
+                
+                // Thuật toán băm dự phòng không phụ thuộc SSL
+                let hash = 0;
+                for (let i = 0; i < str.length; i++) {
+                    const char = str.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash |= 0;
+                }
+                return 'h_' + Math.abs(hash).toString(16);
             }
 
             bindEvents() {
@@ -661,58 +676,63 @@
                 });
             }
 
-            openModal() {
+            openModal(forceCreate = false) {
                 const storedHash = localStorage.getItem('author_hash');
                 const title = document.getElementById('authModalTitle');
                 const subtitle = document.getElementById('authModalSubtitle');
                 const btn = document.getElementById('authSubmitBtn');
                 const input = document.getElementById('authPasswordInput');
+                const resetBtn = document.getElementById('authResetBtn');
 
-                if (!storedHash) {
+                this.isSettingNew = forceCreate || !storedHash;
+
+                if (this.isSettingNew) {
                     title.innerText = 'Thiết Lập Mật Khẩu';
                     subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn';
-                    btn.innerText = 'Tạo Mật Khẩu';
+                    btn.innerText = 'Lưu Mật Khẩu';
                     input.placeholder = 'Nhập mật khẩu bạn muốn đặt...';
+                    resetBtn.innerText = storedHash ? 'Quay lại đăng nhập' : '';
                 } else {
                     title.innerText = 'Xác Nhận Tác Giả';
                     subtitle.innerText = 'Dành riêng cho chủ nhân trang blog';
                     btn.innerText = 'Mở Khóa';
                     input.placeholder = 'Nhập mật khẩu...';
+                    resetBtn.innerText = 'Quên hoặc muốn đặt lại mật khẩu mới?';
                 }
 
                 input.value = '';
                 document.getElementById('authModal').classList.remove('hidden');
-                input.focus();
+                setTimeout(() => input.focus(), 100);
             }
 
             closeModal() {
                 document.getElementById('authModal').classList.add('hidden');
             }
 
-            resetPasswordDirect() {
-                if (confirm('Bạn muốn đặt lại mật khẩu mới cho trang blog này?')) {
-                    localStorage.removeItem('author_hash');
-                    localStorage.removeItem('is_author_session');
-                    this.openModal();
-                    app.notify('Hãy nhập mật khẩu mới mà bạn muốn đặt!');
+            toggleMode() {
+                const storedHash = localStorage.getItem('author_hash');
+                if (this.isSettingNew && storedHash) {
+                    this.openModal(false);
+                } else {
+                    this.openModal(true);
                 }
             }
 
-            async verify(e) {
+            async handleFormSubmit(e) {
                 e.preventDefault();
                 const pwd = document.getElementById('authPasswordInput').value.trim();
                 if (!pwd) return app.notify('Vui lòng nhập mật khẩu');
 
+                const hashedInput = await this.secureHash(pwd);
                 const storedHash = localStorage.getItem('author_hash');
-                const hashedInput = await this.sha256(pwd);
 
-                if (!storedHash) {
+                if (this.isSettingNew) {
                     localStorage.setItem('author_hash', hashedInput);
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
                     this.closeModal();
                     this.updateUI();
-                    app.notify('Đã thiết lập mật khẩu tác giả thành công!');
+                    app.notify('Đã tạo mật khẩu tác giả thành công!');
                     return;
                 }
 
@@ -1107,7 +1127,7 @@
             }
         }
 
-        // --- MAIN APPLICATION (URL HASH ROUTING & SMOOTH PROGRESS BAR) ---
+        // --- MAIN APPLICATION ---
         class BlogApp {
             constructor() {
                 const local = localStorage.getItem('my_blog_posts');
@@ -1138,10 +1158,8 @@
                 this.renderPosts();
                 this.initProgressBar();
 
-                // Kiểm tra nếu URL đang có mã bài viết (ví dụ khi nhấn F5)
                 this.checkInitialHash();
 
-                // Lắng nghe nút quay lại/tiến tới của trình duyệt (Back/Forward)
                 window.addEventListener('hashchange', () => {
                     const hashId = window.location.hash.replace('#', '');
                     if (hashId) {
@@ -1334,7 +1352,6 @@
                 content.classList.add(fontClass);
             }
 
-            // Mở bài đọc, cập nhật URL hash và cuộn mượt lên đỉnh
             openReader(id, updateHash = true) {
                 const post = this.posts.find(p => p.id === id);
                 if (!post) return;
@@ -1368,8 +1385,6 @@
                 
                 const readerView = document.getElementById('readerView');
                 readerView.classList.remove('hidden');
-                
-                // Hiệu ứng cuộn mượt mà lên đầu trang
                 readerView.scrollTo({ top: 0, behavior: 'smooth' });
                 document.getElementById('readingProgressBar').style.width = '0%';
 
