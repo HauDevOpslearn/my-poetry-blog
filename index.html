@@ -103,20 +103,25 @@
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.28);
         }
 
-        /* Avatar Tròn Tối Ưu Mọi Màn Hình Điện Thoại */
+        /* Avatar Tròn Tối Ưu Tỷ Lệ Chuẩn */
         .author-avatar-circle {
-            width: 6.5rem;
-            height: 6.5rem;
+            width: 6.8rem;
+            height: 6.8rem;
             aspect-ratio: 1 / 1;
             border-radius: 9999px;
             object-fit: cover;
-            object-position: center 20%;
+            object-position: center 18%; /* Căn chuẩn vị trí khuôn mặt */
             border: 3px solid var(--accent-orange);
             padding: 3px;
             background: var(--bg-surface);
-            box-shadow: 0 8px 20px -4px rgba(217, 93, 57, 0.3);
+            box-shadow: 0 8px 22px -4px rgba(217, 93, 57, 0.3);
             display: block;
             margin: 0 auto;
+            transition: transform 0.4s ease;
+        }
+
+        .author-avatar-circle:hover {
+            transform: scale(1.04);
         }
 
         @media (min-width: 640px) {
@@ -297,7 +302,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI ƯU MOBILE -->
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/90 backdrop-blur-xl border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-2 sm:gap-3 shrink-0">
@@ -309,7 +314,7 @@
 
             <div class="flex items-center gap-2 sm:gap-4 shrink-0">
                 <!-- NÚT VỀ TÁC GIẢ -->
-                <button onclick="aboutAuthor.openModal()" class="ios-glass px-3 sm:px-4 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)]">
+                <button onclick="aboutAuthor.openModal()" class="ios-glass px-3.5 sm:px-4 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-primary)]">
                     <i class="fa-regular fa-user text-[11px] text-[var(--accent-orange)]"></i>
                     <span>Tác giả</span>
                 </button>
@@ -324,7 +329,7 @@
                     </button>
                 </div>
 
-                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ GỌN CHO MOBILE -->
+                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ -->
                 <div class="ios-glass flex items-center rounded-full p-0.5">
                     <button onclick="app.adjustFontSize(-0.08)" title="Giảm cỡ chữ" class="w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] flex items-center justify-center">
                         A⁻
@@ -395,7 +400,7 @@
             <div class="flex items-center gap-3">
                 <span>© 2026 Bản quyền thuộc về chủ thể.</span>
                 <div class="flex items-center gap-1.5 ml-1">
-                    <a id="footerFbLink" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook" class="w-6 h-6 rounded-full border border-[var(--border-light)] hover:text-[#1877f2] flex items-center justify-center transition">
+                    <a href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook" class="w-6 h-6 rounded-full border border-[var(--border-light)] hover:text-[#1877f2] flex items-center justify-center transition">
                         <i class="fa-brands fa-facebook-f text-[10px]"></i>
                     </a>
                     <a href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="w-6 h-6 rounded-full border border-[var(--border-light)] hover:text-[var(--accent-orange)] flex items-center justify-center transition">
@@ -455,19 +460,18 @@
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ: TỐI ƯU HOÀN HẢO CHO MOBILE -->
+    <!-- MODAL VỀ TÁC GIẢ (SỬ DỤNG CHÍNH XÁC FILE ẢNH VỪA UPLOAD) -->
     <div id="aboutModal" onclick="if(event.target === this) aboutAuthor.closeModal()" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="author-card-modal max-w-sm sm:max-w-md w-full p-6 sm:p-8 rounded-3xl relative text-center space-y-5">
             
-            <!-- Nút đóng 1 chạm -->
             <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[var(--accent-orange)] hover:text-white flex items-center justify-center text-sm text-[var(--text-secondary)] transition z-30 cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Chế độ xem: Avatar tròn nghệ thuật chuẩn tỷ lệ -->
+            <!-- Chế độ xem: Avatar tròn nghệ thuật -->
             <div id="aboutViewMode" class="space-y-5">
                 <div class="relative inline-block mx-auto">
-                    <img id="authorAvatarImg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Tác giả" class="author-avatar-circle">
+                    <img id="authorAvatarImg" src="f61d2e54464bc6159f5a.jpg" alt="Huỳnh Phúc Hậu" class="author-avatar-circle">
                     <span class="absolute bottom-1 right-1 w-3.5 h-3.5 rounded-full bg-[var(--accent-orange)] border-2 border-[var(--bg-surface)]"></span>
                 </div>
 
@@ -507,8 +511,12 @@
                     <input id="editAuthorNameInput" type="text" class="w-full px-3 py-1.5 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none focus:border-[var(--accent-orange)]">
                 </div>
                 <div>
-                    <label class="block text-[var(--text-secondary)] mb-1">Chọn ảnh đại diện từ điện thoại:</label>
+                    <label class="block text-[var(--text-secondary)] mb-1">Chọn ảnh đại diện từ điện thoại/máy tính:</label>
                     <input id="editAuthorAvatarFileInput" type="file" accept="image/*" onchange="aboutAuthor.handleAvatarUpload(event)" class="w-full text-xs text-[var(--text-secondary)] file:mr-2 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-xs file:font-mono-meta file:bg-[var(--accent-orange)] file:text-white hover:file:opacity-90 cursor-pointer">
+                </div>
+                <div>
+                    <label class="block text-[var(--text-secondary)] mb-1">Hoặc dán Link ảnh đại diện (URL):</label>
+                    <input id="editAuthorAvatarInput" type="text" class="w-full px-3 py-1.5 rounded-lg border border-[var(--border-light)] bg-transparent text-[var(--text-primary)] outline-none">
                 </div>
                 <div>
                     <label class="block text-[var(--text-secondary)] mb-1">Lời tự bạch:</label>
@@ -565,7 +573,7 @@
 
                     <div class="sm:col-span-3 flex items-center gap-2">
                         <span class="text-[var(--text-secondary)]">Tác giả:</span>
-                        <input id="postAuthorInput" type="text" value="Hậu" class="w-full bg-transparent border border-[var(--border-light)] rounded-lg px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
+                        <input id="postAuthorInput" type="text" value="Hậu" class="w-full bg-transparent border border-[var(--border-light)] rounded px-2.5 py-1.5 text-[var(--text-primary)] outline-none">
                     </div>
 
                     <div class="sm:col-span-6 flex items-center gap-2">
@@ -757,21 +765,26 @@
             }
         ];
 
-        // --- ABOUT AUTHOR SERVICE (AVATAR ĐỒNG BỘ 100% CẢ TRÊN MOBILE) ---
+        // --- ABOUT AUTHOR SERVICE (TRỎ CHUẨN XÁC VÀO FILE ẢNH VỪA TẢI LÊN REPOSITORY) ---
         class AboutAuthorService {
             constructor() {
+                const OFFICIAL_AVATAR = 'f61d2e54464bc6159f5a.jpg';
                 const defaultInfo = {
                     name: 'Huỳnh Phúc Hậu',
-                    avatar: 'https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/images/avatar.jpg',
+                    avatar: OFFICIAL_AVATAR,
                     bio: 'Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình.',
                     email: 'contact@hauhuynh.io.vn',
                     facebook: 'https://www.facebook.com/KrisMao20'
                 };
-                const saved = localStorage.getItem('author_profile_info');
-                this.info = saved ? JSON.parse(saved) : defaultInfo;
-                
-                if (!this.info.facebook || this.info.facebook === 'https://facebook.com') {
-                    this.info.facebook = 'https://www.facebook.com/KrisMao20';
+
+                const saved = localStorage.getItem('author_profile_info_v2');
+                if (saved) {
+                    this.info = JSON.parse(saved);
+                } else {
+                    // Dọn dẹp cache phiên bản cũ để luôn ưu tiên hiển thị ảnh chân dung thật
+                    localStorage.removeItem('author_profile_info');
+                    this.info = defaultInfo;
+                    localStorage.setItem('author_profile_info_v2', JSON.stringify(defaultInfo));
                 }
             }
 
@@ -799,7 +812,8 @@
                 
                 const avatarEl = document.getElementById('authorAvatarImg');
                 avatarEl.onerror = () => {
-                    avatarEl.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80';
+                    // Nếu đường link tương đối chưa nhận trên một số route, tự thử đường link raw github trực tiếp
+                    avatarEl.src = 'https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/f61d2e54464bc6159f5a.jpg';
                 };
                 avatarEl.src = this.info.avatar;
 
@@ -810,6 +824,7 @@
 
             openEditMode() {
                 document.getElementById('editAuthorNameInput').value = this.info.name;
+                document.getElementById('editAuthorAvatarInput').value = this.info.avatar;
                 document.getElementById('editAuthorBioInput').value = this.info.bio;
                 document.getElementById('editAuthorEmailInput').value = this.info.email;
                 document.getElementById('editAuthorFbInput').value = this.info.facebook;
@@ -830,17 +845,21 @@
                 const base64 = await editor.compressImage(file, 600, 0.85);
                 this.info.avatar = base64;
                 document.getElementById('authorAvatarImg').src = base64;
-                localStorage.setItem('author_profile_info', JSON.stringify(this.info));
+                localStorage.setItem('author_profile_info_v2', JSON.stringify(this.info));
                 app.notify('Đã tải ảnh đại diện thành công!');
             }
 
             saveAuthorInfo() {
                 this.info.name = document.getElementById('editAuthorNameInput').value.trim() || 'Huỳnh Phúc Hậu';
+                const avatarUrl = document.getElementById('editAuthorAvatarInput').value.trim();
+                if (avatarUrl) {
+                    this.info.avatar = avatarUrl;
+                }
                 this.info.bio = document.getElementById('editAuthorBioInput').value.trim() || this.info.bio;
                 this.info.email = document.getElementById('editAuthorEmailInput').value.trim() || this.info.email;
                 this.info.facebook = document.getElementById('editAuthorFbInput').value.trim() || 'https://www.facebook.com/KrisMao20';
 
-                localStorage.setItem('author_profile_info', JSON.stringify(this.info));
+                localStorage.setItem('author_profile_info_v2', JSON.stringify(this.info));
                 this.renderInfo();
                 this.cancelEdit();
                 app.notify('Đã cập nhật thông tin tác giả!');
