@@ -100,20 +100,19 @@
             transform: scale(0.96);
         }
 
-        /* Modal Card Tác Giả Sang Trọng - Nền đục êm dịu */
+        /* Modal Card Tác Giả */
         .author-card-modal {
             background: var(--bg-surface);
             border: 1px solid var(--border-light);
             box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.28);
         }
 
-        /* Avatar Tròn Nghệ Thuật */
         .author-avatar-circle {
             width: 7.8rem;
             height: 7.8rem;
             border-radius: 9999px;
             object-fit: cover;
-            object-position: center 20%; /* Căn chỉnh đúng tầm mặt */
+            object-position: center 20%;
             border: 3px solid var(--accent-orange);
             padding: 3px;
             background: var(--bg-surface);
@@ -363,6 +362,58 @@
         </section>
     </main>
 
+    <!-- CHÂN TRANG: THÔNG TIN CHỦ THỂ TÊN MIỀN & BẢN QUYỀN (FOOTER TRANG CHỦ) -->
+    <footer class="mt-20 border-t border-[var(--border-light)] bg-[var(--bg-surface)] py-12 transition-colors">
+        <div class="max-w-5xl mx-auto px-6 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                
+                <!-- Cột thông tin thương hiệu & Chủ thể tên miền -->
+                <div class="md:col-span-7 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <span class="font-cinzel text-lg tracking-widest font-semibold text-[var(--text-primary)]">HIÊN VẮNG</span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-orange)]"></span>
+                    </div>
+                    <p class="font-style-lora text-sm text-[var(--text-secondary)] italic max-w-md">
+                        Nơi gom góp những dòng suy tưởng, câu thơ tự do và tản văn những ngày chông chênh.
+                    </p>
+                    
+                    <div class="pt-2 font-mono-meta text-xs text-[var(--text-secondary)] space-y-1">
+                        <div>
+                            <span class="text-[var(--text-muted)]">Chủ thể tên miền:</span> 
+                            <span class="font-semibold text-[var(--text-primary)]">Hậu</span> 
+                            <span class="text-[var(--text-muted)]">(hauhuynh.io.vn)</span>
+                        </div>
+                        <div>
+                            <span class="text-[var(--text-muted)]">Tên miền hoạt động:</span> 
+                            <a href="https://hauhuynh.io.vn" class="text-[var(--accent-orange)] hover:underline">hauhuynh.io.vn</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cột liên kết & Trở lên đầu trang -->
+                <div class="md:col-span-5 flex flex-col md:items-end justify-between space-y-4">
+                    <div class="flex items-center gap-3">
+                        <a href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook tác giả" class="ios-glass w-9 h-9 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-[#1877f2]">
+                            <i class="fa-brands fa-facebook-f text-xs"></i>
+                        </a>
+                        <a href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="ios-glass w-9 h-9 rounded-full flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--accent-orange)]">
+                            <i class="fa-regular fa-envelope text-xs"></i>
+                        </a>
+                        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Về đầu trang" class="ios-glass px-3.5 py-1.5 rounded-full text-xs font-mono-meta flex items-center gap-1.5 text-[var(--text-secondary)]">
+                            <i class="fa-solid fa-arrow-up text-[10px]"></i>
+                            <span>Đầu trang</span>
+                        </button>
+                    </div>
+
+                    <div class="font-mono-meta text-[11px] text-[var(--text-muted)] text-left md:text-right">
+                        © 2026 Hiên Vắng. Bản quyền tác phẩm thuộc về chủ thể tên miền.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
     <!-- MÀN HÌNH ĐỌC (ZEN READER) -->
     <div id="readerView" class="fixed inset-0 z-50 bg-[var(--bg-canvas)] overflow-y-auto scroll-smooth hidden">
         <div id="readingProgressBar" class="fixed top-0 left-0 h-1 bg-[var(--accent-orange)] transition-all duration-150 z-50" style="width: 0%;"></div>
@@ -407,35 +458,48 @@
                 </div>
                 <div id="recommendationsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
             </section>
+
+            <!-- CHÂN TRANG MÀN HÌNH ĐỌC (CHỦ THỂ TÊN MIỀN & BẢN QUYỀN) -->
+            <div class="mt-20 pt-8 border-t border-[var(--border-light)] text-center space-y-3 font-mono-meta text-xs text-[var(--text-muted)]">
+                <p class="font-style-lora italic text-[var(--text-secondary)]">
+                    "Tác phẩm thuộc quyền sở hữu trí tuệ của chủ thể tên miền <b>hauhuynh.io.vn</b>."
+                </p>
+                <div class="flex items-center justify-center gap-4 text-[11px] pt-1">
+                    <span>Chủ thể: <b>Hậu</b></span>
+                    <span>•</span>
+                    <a href="https://hauhuynh.io.vn" class="text-[var(--accent-orange)] hover:underline">hauhuynh.io.vn</a>
+                    <span>•</span>
+                    <button onclick="document.getElementById('readerView').scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-[var(--text-primary)] transition">
+                        Lên đầu bài <i class="fa-solid fa-arrow-up text-[10px] ml-0.5"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ (AVATAR DẠNG TRÒN TAO NHÃ - NỀN ĐỤC KHÔNG LEM NHEM) -->
+    <!-- MODAL VỀ TÁC GIẢ -->
     <div id="aboutModal" onclick="if(event.target === this) aboutAuthor.closeModal()" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="author-card-modal max-w-md w-full p-8 rounded-3xl relative text-center space-y-6">
             
-            <!-- Nút đóng 1 chạm góc trên nổi rõ -->
             <button onclick="aboutAuthor.closeModal()" type="button" aria-label="Đóng" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/5 dark:bg-white/10 hover:bg-[var(--accent-orange)] hover:text-white flex items-center justify-center text-sm text-[var(--text-secondary)] transition z-30 cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
-            <!-- Chế độ xem: Avatar dạng tròn nghệ thuật ở chính giữa -->
+            <!-- Chế độ xem: Avatar tròn nghệ thuật -->
             <div id="aboutViewMode" class="space-y-6">
-                <!-- Vùng ảnh Avatar Tròn -->
                 <div class="relative inline-block mx-auto">
                     <img id="authorAvatarImg" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Tác giả" class="author-avatar-circle">
                     <span class="absolute bottom-1 right-2 w-4 h-4 rounded-full bg-[var(--accent-orange)] border-2 border-[var(--bg-surface)]"></span>
                 </div>
 
                 <div class="space-y-2">
-                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)] font-semibold">Tác giả & Chủ bút</span>
+                    <span class="text-[11px] font-mono-meta uppercase tracking-widest text-[var(--accent-orange)] font-semibold">Tác giả & Chủ thể tên miền</span>
                     <h3 id="authorNameText" class="font-serif-title text-3xl sm:text-4xl text-[var(--text-primary)] font-semibold">Hậu</h3>
                     <p id="authorBioText" class="font-style-lora text-sm sm:text-base text-[var(--text-secondary)] italic leading-relaxed px-2">
                         "Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình."
                     </p>
                 </div>
 
-                <!-- Các nút liên hệ chính thức -->
                 <div class="pt-2 flex justify-center items-center gap-4">
                     <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" class="px-5 py-2.5 rounded-full border border-[var(--border-light)] hover:border-[#1877f2] hover:text-[#1877f2] bg-[var(--bg-canvas)] text-xs font-mono-meta flex items-center gap-2 text-[var(--text-primary)] transition shadow-sm">
                         <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
@@ -447,7 +511,6 @@
                     </a>
                 </div>
 
-                <!-- Nút chỉnh sửa cho Tác giả khi đã mở phiên -->
                 <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
                     <button onclick="aboutAuthor.openEditMode()" class="px-4 py-1.5 rounded-full border border-[var(--border-light)] hover:border-[var(--accent-orange)] text-xs font-mono-meta text-[var(--accent-orange)] transition">
                         <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
