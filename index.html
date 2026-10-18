@@ -87,7 +87,6 @@
                 inset 0 -1px 2px rgba(0, 0, 0, 0.35);
         }
 
-        /* Vệt hào quang phát sáng hội tụ bám theo con trỏ chuột */
         .ios-glass::before {
             content: '';
             position: absolute;
@@ -145,7 +144,6 @@
             transition: transform 0.1s ease;
         }
 
-        /* Đảm bảo nội dung nút nổi lên trên lớp hào quang phát sáng */
         .ios-glass > * {
             position: relative;
             z-index: 2;
@@ -305,7 +303,7 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#d95d39]/20 selection:text-[#d95d39]">
 
-    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN CHUẨN IOS GLASS -->
+    <!-- THANH ĐIỀU HƯỚNG TỐI GIẢN -->
     <header class="sticky top-0 z-40 bg-[var(--bg-canvas)]/85 backdrop-blur-xl border-b border-[var(--border-light)] transition-colors">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div id="authorTriggerLogo" class="cursor-pointer select-none group flex items-center gap-3">
@@ -322,7 +320,7 @@
                     <span>Tác giả</span>
                 </button>
 
-                <!-- Nút tác giả (khi đã mở khóa) -->
+                <!-- Nút tác giả -->
                 <div id="authorNavControls" class="hidden items-center gap-2">
                     <button onclick="app.openEditor()" class="ios-glass px-4 py-1.5 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta flex items-center gap-2 shadow-sm border-none">
                         <i class="fa-solid fa-pen-nib text-[10px]"></i> Xưởng Viết
@@ -332,7 +330,7 @@
                     </button>
                 </div>
 
-                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ CHUẨN GLASS -->
+                <!-- BỘ ĐIỀU CHỈNH CỠ CHỮ -->
                 <div class="ios-glass flex items-center rounded-full p-0.5">
                     <button onclick="app.adjustFontSize(-0.08)" title="Giảm cỡ chữ" class="w-8 h-8 rounded-full text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-orange)] flex items-center justify-center">
                         A⁻
@@ -372,7 +370,7 @@
             </p>
         </section>
 
-        <!-- BỘ LỌC BÀI VIẾT (GẮN HIỆU ỨNG IOS GLASS) -->
+        <!-- BỘ LỌC BÀI VIẾT -->
         <section class="space-y-8 pt-6 border-t border-[var(--border-light)]">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
@@ -387,7 +385,7 @@
                 </div>
             </div>
 
-            <!-- DANH SÁCH BÀI VIẾT (CARD TRÁNG GƯƠNG TỰ ĐỘNG BẮT SÁNG) -->
+            <!-- DANH SÁCH BÀI VIẾT -->
             <div id="postsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </section>
     </main>
@@ -439,7 +437,7 @@
         </div>
     </div>
 
-    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - CÓ LINK FACEBOOK & AVATAR) -->
+    <!-- MODAL VỀ TÁC GIẢ (ABOUT AUTHOR - ĐÃ LOẠI BỎ LIÊN KẾT GITHUB) -->
     <div id="aboutModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="ios-glass max-w-lg w-full p-8 rounded-3xl space-y-6 relative border-none">
             <button onclick="aboutAuthor.closeModal()" class="absolute top-6 right-6 text-sm text-[var(--text-muted)] hover:text-[var(--text-primary)] transition">
@@ -461,21 +459,18 @@
                     </p>
                 </div>
 
-                <!-- Các liên kết mạng xã hội chính thức -->
-                <div class="pt-2 flex justify-center items-center gap-4 text-[var(--text-secondary)]">
-                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook cá nhân" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
-                        <i class="fa-brands fa-facebook-f text-sm text-[#1877f2]"></i>
+                <!-- Các liên kết mạng xã hội chính thức (Chỉ giữ lại Facebook và Email) -->
+                <div class="pt-2 flex justify-center items-center gap-5 text-[var(--text-secondary)]">
+                    <a id="authorSocialFacebook" href="https://www.facebook.com/KrisMao20" target="_blank" title="Facebook cá nhân" class="ios-glass w-11 h-11 rounded-full flex items-center justify-center">
+                        <i class="fa-brands fa-facebook-f text-base text-[#1877f2]"></i>
                     </a>
-                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
-                        <i class="fa-regular fa-envelope text-sm text-[var(--accent-orange)]"></i>
-                    </a>
-                    <a id="authorSocialGithub" href="https://github.com/HauDevOpslearn" target="_blank" title="GitHub" class="ios-glass w-10 h-10 rounded-full flex items-center justify-center">
-                        <i class="fa-brands fa-github text-sm"></i>
+                    <a id="authorSocialEmail" href="mailto:contact@hauhuynh.io.vn" title="Gửi thư liên hệ" class="ios-glass w-11 h-11 rounded-full flex items-center justify-center">
+                        <i class="fa-regular fa-envelope text-base text-[var(--accent-orange)]"></i>
                     </a>
                 </div>
 
                 <!-- Nút chỉnh sửa cho Tác giả khi đã đăng nhập -->
-                <div id="aboutAuthorEditBtnWrap" class="hidden pt-2 border-t border-[var(--border-light)]">
+                <div id="aboutAuthorEditBtnWrap" class="hidden pt-3 border-t border-[var(--border-light)]">
                     <button onclick="aboutAuthor.openEditMode()" class="ios-glass px-4 py-1.5 rounded-full text-xs font-mono-meta text-[var(--accent-orange)]">
                         <i class="fa-solid fa-pen text-[10px]"></i> Chỉnh sửa thông tin tác giả
                     </button>
@@ -712,7 +707,7 @@
         </div>
     </div>
 
-    <!-- MODAL AUTHOR GATE -->
+    <!-- MODAL AUTHOR GATE (ĐÃ XÓA NÚT RESET MẬT KHẨU CÔNG KHAI ĐỂ BẢO VỆ BÀI VIẾT) -->
     <div id="authModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="ios-glass max-w-sm w-full p-8 rounded-3xl space-y-6 text-center border-none">
             <div class="w-12 h-12 rounded-full bg-[var(--accent-soft)] text-[var(--accent-orange)] flex items-center justify-center mx-auto text-lg">
@@ -730,12 +725,6 @@
                     <button id="authSubmitBtn" type="submit" class="ios-glass flex-1 py-2 rounded-full bg-[var(--accent-orange)] text-white text-xs font-mono-meta border-none">Mở Khóa</button>
                 </div>
             </form>
-            
-            <div class="pt-2">
-                <button id="authResetBtn" onclick="auth.toggleMode()" type="button" class="text-[11px] font-mono-meta text-[var(--text-muted)] hover:text-[var(--accent-orange)] transition underline">
-                    Quên hoặc muốn đặt lại mật khẩu mới?
-                </button>
-            </div>
         </div>
     </div>
 
@@ -811,11 +800,10 @@
             constructor() {
                 const defaultInfo = {
                     name: 'Hậu',
-                    avatar: 'https://raw.githubusercontent.com/HauDevOpslearn/my-poetry-blog/main/images/author-avatar.jpg',
+                    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80',
                     bio: 'Viết để lưu giữ những điều dịu dàng giữa những ngày vội vã. Nơi góc hiên vắng này, hy vọng bạn tìm thấy một chốn bình yên cho riêng mình.',
                     email: 'contact@hauhuynh.io.vn',
-                    facebook: 'https://www.facebook.com/KrisMao20',
-                    github: 'https://github.com/HauDevOpslearn'
+                    facebook: 'https://www.facebook.com/KrisMao20'
                 };
                 const saved = localStorage.getItem('author_profile_info');
                 this.info = saved ? JSON.parse(saved) : defaultInfo;
@@ -856,7 +844,6 @@
                 document.getElementById('authorBioText').innerText = `"${this.info.bio}"`;
                 document.getElementById('authorSocialEmail').href = `mailto:${this.info.email}`;
                 document.getElementById('authorSocialFacebook').href = this.info.facebook || 'https://www.facebook.com/KrisMao20';
-                document.getElementById('authorSocialGithub').href = this.info.github || 'https://github.com/HauDevOpslearn';
             }
 
             openEditMode() {
@@ -903,11 +890,10 @@
             }
         }
 
-        // --- AUTH SERVICE ---
+        // --- AUTH SERVICE (BẢO VỆ CHẶT CHẼ, KHÔNG CÓ NÚT RESET LỘ LIỄU) ---
         class AuthService {
             constructor() {
                 this.isAuthor = localStorage.getItem('is_author_session') === 'true';
-                this.isSettingNew = false;
                 this.logoClicks = 0;
                 this.logoTimer = null;
                 this.bindEvents();
@@ -954,28 +940,23 @@
                 });
             }
 
-            openModal(forceCreate = false) {
+            openModal() {
                 const storedHash = localStorage.getItem('author_hash');
                 const title = document.getElementById('authModalTitle');
                 const subtitle = document.getElementById('authModalSubtitle');
                 const btn = document.getElementById('authSubmitBtn');
                 const input = document.getElementById('authPasswordInput');
-                const resetBtn = document.getElementById('authResetBtn');
 
-                this.isSettingNew = forceCreate || !storedHash;
-
-                if (this.isSettingNew) {
+                if (!storedHash) {
                     title.innerText = 'Thiết Lập Mật Khẩu';
-                    subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn';
+                    subtitle.innerText = 'Tạo mật khẩu bí mật của riêng bạn cho lần đầu';
                     btn.innerText = 'Lưu Mật Khẩu';
                     input.placeholder = 'Nhập mật khẩu bạn muốn đặt...';
-                    resetBtn.innerText = storedHash ? 'Quay lại đăng nhập' : '';
                 } else {
                     title.innerText = 'Xác Nhận Tác Giả';
                     subtitle.innerText = 'Dành riêng cho chủ nhân trang blog';
                     btn.innerText = 'Mở Khóa';
                     input.placeholder = 'Nhập mật khẩu...';
-                    resetBtn.innerText = 'Quên hoặc muốn đặt lại mật khẩu mới?';
                 }
 
                 input.value = '';
@@ -987,15 +968,6 @@
                 document.getElementById('authModal').classList.add('hidden');
             }
 
-            toggleMode() {
-                const storedHash = localStorage.getItem('author_hash');
-                if (this.isSettingNew && storedHash) {
-                    this.openModal(false);
-                } else {
-                    this.openModal(true);
-                }
-            }
-
             async handleFormSubmit(e) {
                 e.preventDefault();
                 const pwd = document.getElementById('authPasswordInput').value.trim();
@@ -1004,16 +976,18 @@
                 const hashedInput = await this.secureHash(pwd);
                 const storedHash = localStorage.getItem('author_hash');
 
-                if (this.isSettingNew) {
+                // Lần đầu thiết lập mật khẩu
+                if (!storedHash) {
                     localStorage.setItem('author_hash', hashedInput);
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
                     this.closeModal();
                     this.updateUI();
-                    app.notify('Đã tạo mật khẩu tác giả thành công!');
+                    app.notify('Đã thiết lập mật khẩu tác giả thành công!');
                     return;
                 }
 
+                // Kiểm tra mật khẩu các lần sau
                 if (hashedInput === storedHash) {
                     this.isAuthor = true;
                     localStorage.setItem('is_author_session', 'true');
